@@ -9,6 +9,11 @@ namespace Hazel
 {
 	class Input
 	{
+	protected:
+		Input() = default;
+	public:
+		Input(const Input&) = delete;
+		Input& operator=(const Input&) = delete;
 	public:
 		static bool IsKeyPressed(KeyCode key);
 

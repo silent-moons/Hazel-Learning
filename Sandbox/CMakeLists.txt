@@ -1,3 +1,7 @@
+file(GLOB ASSETS "./assets" )
+
+file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR}/Sandbox)
+
 add_executable(HazelEngine 
 	"src/SandboxApp.cpp" 
 	"${CMAKE_SOURCE_DIR}/ThirdParty/src/glad.c"

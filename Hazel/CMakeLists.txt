@@ -5,13 +5,15 @@ add_subdirectory(vendor/imgui)
 add_definitions(-DGLFW_INCLUDE_NONE)
 
 add_library(libHazel STATIC 
-	${Hazel} 
+	${Hazel}
+	${CMAKE_SOURCE_DIR}/Hazel/vendor/stb_image/stb_image.cpp
 )
 
 target_include_directories(libHazel PRIVATE
 	${CMAKE_SOURCE_DIR}/ThirdParty/include
 	${CMAKE_SOURCE_DIR}/Hazel/vendor/spdlog/include
 	${CMAKE_SOURCE_DIR}/Hazel/vendor/imgui
+	${CMAKE_SOURCE_DIR}/Hazel/vendor/stb_image
 	${CMAKE_SOURCE_DIR}/Hazel/vendor
 	${CMAKE_SOURCE_DIR}/Hazel/src
 )

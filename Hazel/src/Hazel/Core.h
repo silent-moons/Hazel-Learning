@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #ifdef HZ_PLATFORM_WINDOWS
 #else
 	#error Hazel only supports windows
@@ -12,12 +14,12 @@
 #ifdef HZ_ENABLE_ASSERTS
 //断言（如果x表示错误则语句运行，{0}占位的"__VA_ARGS__"代表"..."所输入的语句）
 #define HZ_CORE_ASSERT(x, ...) \
-		{if(!x){\
+		{if(!(x)){\
 			HZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);\
 			__debugbreak();}\
 		}
 #define HZ_ASSERT(x, ...)\
-		{if(!x){\
+		{if(!(x)){\
 			HZ_ERROR("Assertion Failed: {0}", __VA_ARGS__);\
 			__debugbreak();}\
 		}
@@ -27,3 +29,15 @@
 #endif // HZ_ENABLE_ASSERTS
 
 #define BIT(x) (1 << x)
+
+#define HZ_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace Hazel
+{
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+}
