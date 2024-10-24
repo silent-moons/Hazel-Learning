@@ -1,6 +1,6 @@
 #include "hzpch.h"
 #include "OpenGLShader.h"
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>

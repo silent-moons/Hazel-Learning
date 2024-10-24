@@ -27,10 +27,16 @@ namespace Hazel
 			s_RendererAPI->Clear();
 		}
 
-		static void DrawIndexed(const Ref<VertexArray>& vertexArray)
+		static void DrawIndexed(const Ref<VertexArray>& vertexArray) //GL_STATIC_DRAW
 		{
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
+
+		static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount) //GL_DYNAMIC_DRAW	//GL_DYNAMIC_DRAW(with batch rendering)
+		{
+			s_RendererAPI->DrawIndexed(vertexArray, indexCount);
+		}
+
 	private:
 		static Scope<RendererAPI> s_RendererAPI;
 	};
