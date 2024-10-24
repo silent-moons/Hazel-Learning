@@ -2,8 +2,8 @@
 
 #include <glm/glm.hpp>
 
-#include "Hazel/KeyCodes.h"
-#include "Hazel/MouseCodes.h"
+#include "Hazel/Core/KeyCodes.h"
+#include "Hazel/Core/MouseCodes.h"
 
 namespace Hazel 
 {

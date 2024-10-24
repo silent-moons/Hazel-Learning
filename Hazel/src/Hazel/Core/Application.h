@@ -1,12 +1,14 @@
 #pragma once
 
-#include "Core.h"
+#include "Hazel/Core/Core.h"
 
-#include "Window.h"
-#include "LayerStack.h"
+#include "Hazel/Core/Window.h"
+#include "Hazel/Core/LayerStack.h"
 
 #include "Hazel/ImGui/ImGuiLayer.h"
 #include "Hazel/Events/ApplicationEvent.h"
+
+int main(int argc, char** argv);
 
 namespace Hazel
 {
@@ -14,9 +16,7 @@ namespace Hazel
 	{
 	public:
 		Application();
-		virtual ~Application() = default;
-
-		void Run();
+		virtual ~Application();
 
 		void OnEvent(Event& e);
 
@@ -27,6 +27,8 @@ namespace Hazel
 		static Application& Get() { return *s_Instance; }
 
 	private:
+		void Run();
+
 		bool OnWindowClose(WindowCloseEvent& event);
 		bool OnWindowResize(WindowResizeEvent& event);
 
@@ -41,6 +43,7 @@ namespace Hazel
 		bool m_Minimized = false;
 	private:
 		static Application* s_Instance;
+		friend int ::main(int argc, char** argv);
 	};
 
 	Application* CreateApplication(); // 让客户端使用

@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "Hazel/Core.h"
+#include "Hazel/Core/Core.h"
 #include "OpenGLVertexArray.h"
 
 #include <glad/glad.h>
@@ -62,7 +62,7 @@ namespace Hazel
 				ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.Normalized ? GL_TRUE : GL_FALSE, 
 				layout.GetStride(), 
-				(const void*)(intptr_t)element.Offset);
+				(const void*)element.Offset);
 			m_VertexBufferIndex++;
 		}
 

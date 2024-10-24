@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
 
-if(WIN32)
-	add_definitions(-DHZ_PLATFORM_WINDOWS)
-endif()
-
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	add_definitions(-DHZ_DEBUG)
 endif()

@@ -4,6 +4,8 @@ file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR}/Sandbox)
 
 add_executable(HazelEngine 
 	"src/SandboxApp.cpp" 
+	"src/Sandbox2D.cpp" 
+	"src/ExampleLayer.cpp" 
 	"${CMAKE_SOURCE_DIR}/ThirdParty/src/glad.c"
 )
 

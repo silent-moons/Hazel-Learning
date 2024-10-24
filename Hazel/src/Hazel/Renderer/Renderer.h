@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hazel/Core.h"
+#include "Hazel/Core/Core.h"
 
 #include "RenderCommand.h"
 #include "OrthoGraphicCamera.h"
@@ -12,6 +12,7 @@ namespace Hazel
 	{
 	public:
 		static void Init();
+		static void Shutdown();
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
 		static void BeginScene(OrthographicCamera& camera);
@@ -28,6 +29,6 @@ namespace Hazel
 		{
 			glm::mat4 ViewProjectionMatrix;
 		};
-		static SceneData* s_SceneData;
+		static Scope<SceneData> s_SceneData;
 	};
 }

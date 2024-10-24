@@ -2,7 +2,7 @@
 
 #include "hzpch.h"
 
-#include "Hazel/Core.h"
+#include "Hazel/Core/Core.h"
 #include "Hazel/Events/Event.h"
 
 namespace Hazel 
@@ -38,6 +38,6 @@ namespace Hazel
 
 		virtual void* GetNativeWindow() const = 0;
 
-		static Window* Create(const WindowProps& props = WindowProps());
+		static Scope<Window> Create(const WindowProps& props = WindowProps());
 	};
 }

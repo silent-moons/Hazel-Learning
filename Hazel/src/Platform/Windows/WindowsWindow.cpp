@@ -5,20 +5,17 @@
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 
+#include "Hazel/Renderer/Renderer.h"
+
 #include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Hazel 
 {
-	static bool s_GLFWInitialized = false;
+	static uint8_t s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
-	}
-
-	Window* Window::Create(const WindowProps& props)
-	{
-		return new WindowsWindow(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -39,20 +36,24 @@ namespace Hazel
 
 		HZ_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 		
-		if (!s_GLFWInitialized)
+		if (s_GLFWWindowCount == 0)
 		{
-			//TODO: glfwTerminate on system shutdown
+			HZ_CORE_INFO("Initializing GLFW window..");
 			int success = glfwInit();
 			HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
+
+			//If Initalized successfully but get the wrong on run time
 			glfwSetErrorCallback(GLFWErrorCallback);
-			s_GLFWInitialized = true;
 		}
 
+#ifdef HZ_DEBUG
+		// 启用调试上下文（以便在渲染的过程中通过MessageCallback监测）
+		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
+
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		//glfwMakeContextCurrent(m_Window);
-		//int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		//HZ_CORE_ASSERT(status, "Failed to initialize Glad!");
-		m_Context = new OpenGLContext(m_Window);
+		s_GLFWWindowCount++;
+		m_Context = GraphicsContext::Create(m_Window);
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
@@ -152,6 +153,13 @@ namespace Hazel
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
+
+		s_GLFWWindowCount--;
+		if (s_GLFWWindowCount == 0) 
+		{
+			HZ_CORE_INFO("Terminating GLFW..");
+			glfwTerminate();
+		}
 	}
 
 	void WindowsWindow::OnUpdate()

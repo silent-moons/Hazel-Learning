@@ -2,18 +2,15 @@
 #include "Application.h"
 
 #include "Hazel/Events/Event.h"
-#include "Hazel/Log.h"
-#include "Input.h"
-
+#include "Hazel/Core/Log.h"
+#include "Hazel/Core/Input.h"
 #include "Hazel/Renderer/Renderer.h"
 
 #include <GLFW/glfw3.h>
-
 #include <stb_image.h>
 
 namespace Hazel
 {
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
@@ -23,13 +20,18 @@ namespace Hazel
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists! (The class Application is a Singleton, it just support one instance!)");
 		s_Instance = this;
 
-		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		m_Window = Window::Create();
+		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(true);
 		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+	}
+
+	Application::~Application()
+	{
+		Renderer::Shutdown();
 	}
 
 	void Application::PushLayer(Layer* layer)
@@ -45,14 +47,14 @@ namespace Hazel
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResize));
+		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
 		//HZ_CORE_TRACE("{0}", e);
 
 		//图层的事件处理是反向的（从尾到头）
-		for (auto iter = m_LayerStack.end(); iter != m_LayerStack.begin(); )				
+		for (auto iter = m_LayerStack.rbegin(); iter != m_LayerStack.rend(); ++iter)
 		{
-			(*--iter)->OnEvent(e); //从最后一个迭代器所指的元素开始，逐个逆向相应事件
+			(*iter)->OnEvent(e); //从最后一个迭代器所指的元素开始，逐个逆向相应事件
 			if (e.Handled) //如果在OnEvent中成功进行处理并将Handled变为true，则跳出循环
 			{
 				break;
