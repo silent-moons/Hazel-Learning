@@ -1,58 +1,98 @@
 #include "hzpch.h"
 
 #include "Scene.h"
+#include "Entity.h"
 #include "Components.h"
 #include "Hazel/Renderer/Renderer2D.h"
+
 #include <glm/glm.hpp>
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
 
 namespace Hazel 
 {
-	static void DoMath(const glm::mat4& transform)
-	{
-	}
-
-	static void OnTransformConstruct(entt::registry& registry, entt::entity entity)
-	{
-	}
-
 	Scene::Scene()
 	{
-#if ENTT_EXAMPLE_CODE
-		entt::entity entity = m_Registry.create();
-		m_Registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
-		m_Registry.on_construct<TransformComponent>().connect<&OnTransformConstruct>();
-		if (m_Registry.has<TransformComponent>(entity))
-			TransformComponent& transform = m_Registry.get<TransformComponent>(entity);
-		auto view = m_Registry.view<TransformComponent>();
-		for (auto entity : view)
-		{
-			TransformComponent& transform = view.get<TransformComponent>(entity);
-		}
-		auto group = m_Registry.group<TransformComponent>(entt::get<MeshComponent>);
-		for (auto entity : group)
-		{
-			auto& [transform, mesh] = group.get<TransformComponent, MeshComponent>(entity);
-		}
-#endif
 	}
 
 	Scene::~Scene()
 	{
 	}
 
-	entt::entity Scene::CreateEntity()
+	Entity Scene::CreateEntity(const std::string& name)
 	{
-		return m_Registry.create();
+		Entity entity = { m_Registry.create(), this };
+		entity.AddComponent<TransformComponent>();
+		auto& tag = entity.AddComponent<TagComponent>();
+		tag.Tag = name.empty() ? "Entity" : name;
+
+		return entity;
 	}
 
 	void Scene::OnUpdate(Timestep ts)
 	{
-		// 在所有含有 TransformComponent 的实体中搜集含有 sprite 的实体，group 返回一个类似注册表的实体集合
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group)
+		// Update scripts
 		{
-			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer2D::DrawQuad(transform, sprite.Color);
+			// each 函数会遍历视图中的所有实体和它们的组件，并对每个实体及其组件执行回调函数
+			// 回调函数中指定两个参数：实体 ID 和对应的组件引用。
+			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
+				{
+					if (!nsc.Instance)
+					{
+						nsc.Instance = nsc.InstantiateScript();
+						nsc.Instance->m_Entity = Entity{ entity, this };
+						nsc.Instance->OnCreate();
+					}
+					nsc.Instance->OnUpdate(ts);
+				});
+		}
+
+		Camera* mainCamera = nullptr;
+		glm::mat4* cameraTransform = nullptr;
+		{
+			// 在所有实体中搜集含有Transform和Camera组件的实体，返回实体集合
+			auto view = m_Registry.view<TransformComponent, CameraComponent>();
+			for (auto entity : view)
+			{
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+
+				if (camera.Primary)
+				{
+					mainCamera = &camera.Camera;
+					cameraTransform = &transform.Transform;
+					break;
+				}
+			}
+		}
+
+		if (mainCamera)
+		{
+			Renderer2D::BeginScene(*mainCamera, *cameraTransform);
+
+			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto entity : group)
+			{
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				Renderer2D::DrawQuad(transform, sprite.Color);
+			}
+
+			Renderer2D::EndScene();
+		}
+	}
+
+	void Scene::OnViewportResize(uint32_t width, uint32_t height)
+	{
+		m_ViewportWidth = width;
+		m_ViewportHeight = height;
+
+		// Resize our non-FixedAspectRatio cameras
+		auto view = m_Registry.view<CameraComponent>();
+		for (auto entity : view)
+		{
+			auto& cameraComponent = view.get<CameraComponent>(entity);
+			if (!cameraComponent.FixedAspectRatio)
+				cameraComponent.Camera.SetViewportSize(width, height);
 		}
 	}
 }

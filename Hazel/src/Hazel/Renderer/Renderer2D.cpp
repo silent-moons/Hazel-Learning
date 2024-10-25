@@ -113,6 +113,18 @@ namespace Hazel {
 		delete[] s_Data.QuadVertexBufferBase;
 	}
 
+	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+	{
+		glm::mat4 viewProj = camera.GetProjection() * glm::inverse(transform);
+
+		s_Data.TextureShader->Bind();
+		s_Data.TextureShader->SetMat4("u_ViewProjection", viewProj);
+
+		s_Data.QuadIndexCount = 0; //每结束（刷新）一次批渲染，需要绘制的索引数要从零重新开始
+		s_Data.TextureSlotIndex = 1; //每结束（刷新）一次批渲染，需要绘制的纹理索引要从一重新开始，0号固定位白色纹理
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase; // 顶点数据指针置于起点
+	}
+
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
 		s_Data.TextureShader->Bind();
@@ -175,7 +187,7 @@ namespace Hazel {
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		DrawQuad(transform, texture, tilingFactor);
+		DrawQuad(transform, texture, tilingFactor, tintColor);
 	}
 
 	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)

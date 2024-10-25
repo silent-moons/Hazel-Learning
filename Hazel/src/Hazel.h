@@ -13,7 +13,9 @@
 #include "Hazel/ImGui/ImGuiLayer.h"
 
 #include "Hazel/Scene/Scene.h"
+#include "Hazel/Scene/Entity.h"
 #include "Hazel/Scene/Components.h"
+#include "Hazel/Scene/ScriptableEntity.h"
 
 //--------------- Renderer -------------------------
 #include "Hazel/Renderer/Renderer.h"
