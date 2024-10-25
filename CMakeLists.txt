@@ -10,3 +10,4 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(Sandbox)
 add_subdirectory(Hazel)
+add_subdirectory(Hazel-Editor)

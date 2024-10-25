@@ -9,8 +9,9 @@ add_library(libHazel STATIC
 	${CMAKE_SOURCE_DIR}/Hazel/vendor/stb_image/stb_image.cpp
 )
 
-target_include_directories(libHazel PRIVATE
+target_include_directories(libHazel PUBLIC
 	${CMAKE_SOURCE_DIR}/ThirdParty/include
+	${CMAKE_SOURCE_DIR}/Hazel/vendor/entt/include
 	${CMAKE_SOURCE_DIR}/Hazel/vendor/spdlog/include
 	${CMAKE_SOURCE_DIR}/Hazel/vendor/imgui
 	${CMAKE_SOURCE_DIR}/Hazel/vendor/stb_image

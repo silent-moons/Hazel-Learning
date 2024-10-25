@@ -14,6 +14,8 @@ namespace Hazel
 			None = 0, OpenGL = 1, DirectX = 2
 		};
 	public:
+		virtual ~RendererAPI() = default;
+
 		static Scope<RendererAPI> Create();
 
 		virtual void Init() = 0;

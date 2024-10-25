@@ -13,14 +13,14 @@ namespace Hazel
 {
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
 		stbi_set_flip_vertically_on_load(1);
 
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists! (The class Application is a Singleton, it just support one instance!)");
 		s_Instance = this;
 
-		m_Window = Window::Create();
+		m_Window = Window::Create(WindowProps(name));
 		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(true);
 		Renderer::Init();
@@ -59,11 +59,10 @@ namespace Hazel
 		//图层的事件处理是反向的（从尾到头）
 		for (auto iter = m_LayerStack.rbegin(); iter != m_LayerStack.rend(); ++iter)
 		{
-			(*iter)->OnEvent(e); //从最后一个迭代器所指的元素开始，逐个逆向相应事件
 			if (e.Handled) //如果在OnEvent中成功进行处理并将Handled变为true，则跳出循环
-			{
 				break;
-			}
+			
+			(*iter)->OnEvent(e); //从最后一个迭代器所指的元素开始，逐个逆向相应事件
 		}
 	}
 

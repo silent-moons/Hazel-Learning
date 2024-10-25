@@ -49,7 +49,7 @@ namespace Hazel
 		ImGui_ImplOpenGL3_Init("#version 460");
 	}
 
-void ImGuiLayer::OnDetach()
+	void ImGuiLayer::OnDetach()
 	{
 		// Cleanup
 		ImGui_ImplOpenGL3_Shutdown();
@@ -60,15 +60,20 @@ void ImGuiLayer::OnDetach()
 	void ImGuiLayer::Begin()
 	{
 		// Start the Dear ImGui frame
-		ImGui_ImplOpenGL3_NewFrame();						//每一帧开始时准备 OpenGL 渲染环境以供 Dear ImGui 绘制 UI 元素
+		ImGui_ImplOpenGL3_NewFrame();//每一帧开始时准备 OpenGL 渲染环境以供 Dear ImGui 绘制 UI 元素
 		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();									//清除之前的 UI 数据，准备接受新的 UI 绘制指令（准备新帧），并更新输入状态
+		ImGui::NewFrame();//清除之前的 UI 数据，准备接受新的 UI 绘制指令（准备新帧），并更新输入状态
 	}
 
-	void ImGuiLayer::OnImGuiRender()						//此函数将会被设置在 Begin 和 End 之间，并且可以由任何层编写
+	void ImGuiLayer::OnEvent(Event& e)
 	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		if (m_BlockEvents) 
+		{
+			ImGuiIO& io = ImGui::GetIO();
+
+			e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+			e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+		}
 	}
 
 	void ImGuiLayer::End()
