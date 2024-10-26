@@ -16,7 +16,6 @@ namespace Hazel
 		static void BeginScene(const OrthographicCamera& camera); // TODO: Remove
 		static void EndScene();
 		static void Flush();
-		static void FlushAndReset();
 
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
@@ -35,10 +34,14 @@ namespace Hazel
 			uint32_t DrawCalls;
 			uint32_t QuadCount;
 			// 函数被调用时再计算Vertex或Index，节省性能
-			uint32_t GetTotalVertexCount() { return QuadCount * 4; }
-			uint32_t GetTotalIndexCount() { return QuadCount * 6; }
+			uint32_t GetTotalVertexCount() const { return QuadCount * 4; }
+			uint32_t GetTotalIndexCount() const { return QuadCount * 6; }
 		};
 		static void ResetStats();
 		static Statistics GetStats();
+
+	private:
+		static void StartBatch();
+		static void NextBatch();
 	};
 }

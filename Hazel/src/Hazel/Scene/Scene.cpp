@@ -30,6 +30,11 @@ namespace Hazel
 		return entity;
 	}
 
+	void Scene::DestroyEntity(Entity entity)
+	{
+		m_Registry.destroy(entity);
+	}
+
 	void Scene::OnUpdate(Timestep ts)
 	{
 		// Update scripts
@@ -49,7 +54,7 @@ namespace Hazel
 		}
 
 		Camera* mainCamera = nullptr;
-		glm::mat4* cameraTransform = nullptr;
+		glm::mat4 cameraTransform;
 		{
 			// 在所有实体中搜集含有Transform和Camera组件的实体，返回实体集合
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
@@ -60,7 +65,7 @@ namespace Hazel
 				if (camera.Primary)
 				{
 					mainCamera = &camera.Camera;
-					cameraTransform = &transform.Transform;
+					cameraTransform = transform.GetTransform();
 					break;
 				}
 			}
@@ -68,13 +73,13 @@ namespace Hazel
 
 		if (mainCamera)
 		{
-			Renderer2D::BeginScene(*mainCamera, *cameraTransform);
+			Renderer2D::BeginScene(*mainCamera, cameraTransform);
 
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group)
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Renderer2D::DrawQuad(transform, sprite.Color);
+				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
 			}
 
 			Renderer2D::EndScene();
@@ -94,5 +99,34 @@ namespace Hazel
 			if (!cameraComponent.FixedAspectRatio)
 				cameraComponent.Camera.SetViewportSize(width, height);
 		}
+	}
+
+	template<typename T>
+	void Scene::OnComponentAdded(Entity entity, T& component)
+	{
+		static_assert(false);
+	}
+	template<>
+	void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component)
+	{
+	}
+
+	// 当场景中不存在相机时，若添加CameraComponent，需要第一时间设置视口，否则在视口改变之前都无法渲染
+	template<>
+	void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
+	{
+		component.Camera.SetViewportSize(m_ViewportWidth, m_ViewportHeight);
+	}
+	template<>
+	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
+	{
+	}
+	template<>
+	void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component)
+	{
+	}
+	template<>
+	void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component)
+	{
 	}
 }

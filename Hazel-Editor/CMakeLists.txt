@@ -5,6 +5,7 @@ file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR}/Hazel-Editor)
 add_executable(HazelEditor 
 	"src/EditorLayer.cpp" 
 	"src/HazelEditorApp.cpp" 
+	"src/Panels/SceneHierarchyPanel.cpp" 
 	"${CMAKE_SOURCE_DIR}/ThirdParty/src/glad.c"
 )
 
