@@ -2,17 +2,19 @@
 #include "ImGuiLayer.h"
 
 #include <imgui.h>
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
+//#include <backends/imgui_impl_glfw.h>
+//#include <backends/imgui_impl_opengl3.h>
 
-//#include <examples/imgui_impl_glfw.h>
-//#include <examples/imgui_impl_opengl3.h>
+#include <examples/imgui_impl_glfw.h>
+#include <examples/imgui_impl_opengl3.h>
 
 #include "Hazel/Core/Application.h"
 
 // TEMPORARY
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+
+#include "ImGuizmo.h"
 
 namespace Hazel 
 {
@@ -71,6 +73,7 @@ namespace Hazel
 		ImGui_ImplOpenGL3_NewFrame();//每一帧开始时准备 OpenGL 渲染环境以供 Dear ImGui 绘制 UI 元素
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();//清除之前的 UI 数据，准备接受新的 UI 绘制指令（准备新帧），并更新输入状态
+		ImGuizmo::BeginFrame();
 	}
 
 	void ImGuiLayer::OnEvent(Event& e)
