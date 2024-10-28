@@ -21,6 +21,8 @@ namespace Hazel
 
 		void Bind(uint32_t slot = 0) const override;
 
+		bool IsLoaded() const override { return m_IsLoaded; }
+
 		bool operator==(const Texture& other) const override
 		{
 			return (this->m_RendererID == ((OpenGLTexture2D&)other).m_RendererID);
@@ -28,6 +30,7 @@ namespace Hazel
 
 	private:
 		std::string m_Path;
+		bool m_IsLoaded = false;
 
 		uint32_t m_Width;
 		uint32_t m_Height;

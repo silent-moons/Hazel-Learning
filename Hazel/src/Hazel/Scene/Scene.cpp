@@ -5,6 +5,12 @@
 #include "Components.h"
 #include "Hazel/Renderer/Renderer2D.h"
 
+// Box2D
+#include "box2d/b2_world.h"
+#include "box2d/b2_body.h"
+#include "box2d/b2_fixture.h"
+#include "box2d/b2_polygon_shape.h"
+
 #include <glm/glm.hpp>
 
 #define GLM_ENABLE_EXPERIMENTAL
