@@ -17,12 +17,14 @@ namespace Hazel
 		void OnImGuiRender();
 
 		Entity GetSelectedEntity() const { return m_SelectionContext; }
+		void SetSelectedEntity(Entity entity);
+
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
 
 	private:
 		Ref<Scene> m_Context;
-		Entity m_SelectionContext;
+		Entity m_SelectionContext; // 当前选中的实体
 	};
 }
