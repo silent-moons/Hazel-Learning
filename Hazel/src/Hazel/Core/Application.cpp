@@ -54,7 +54,6 @@ namespace Hazel
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
-		//HZ_CORE_TRACE("{0}", e);
 
 		//图层的事件处理是反向的（从尾到头）
 		for (auto iter = m_LayerStack.rbegin(); iter != m_LayerStack.rend(); ++iter)
