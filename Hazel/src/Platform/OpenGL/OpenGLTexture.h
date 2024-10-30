@@ -15,7 +15,8 @@ namespace Hazel
 
 		uint32_t GetWidth() const override { return m_Width; }
 		uint32_t GetHeight() const override { return m_Height; }
-		virtual uint32_t GetRendererID() const override { return m_RendererID; }
+		uint32_t GetRendererID() const override { return m_RendererID; }
+		const std::string& GetPath() const override { return m_Path; }
 
 		void SetData(void* data, uint32_t size) override;
 
@@ -25,7 +26,7 @@ namespace Hazel
 
 		bool operator==(const Texture& other) const override
 		{
-			return (this->m_RendererID == ((OpenGLTexture2D&)other).m_RendererID);
+			return m_RendererID == other.GetRendererID();
 		}
 
 	private:

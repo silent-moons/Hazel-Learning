@@ -58,7 +58,7 @@ namespace Hazel {
 	{
 		// 申请画一批四边形需要的最大存储空间，返回其指针
 		s_Data.QuadVB = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
-		
+
 		BufferLayout squareLayout =
 		{
 			{ShaderDataType::Float3, "a_Position"},
@@ -100,7 +100,7 @@ namespace Hazel {
 			samplers[i] = i;
 
 		// Shader
-		s_Data.TextureShader = Shader::Create("assets/shaders/Texture.glsl");	
+		s_Data.TextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_Data.TextureShader->Bind();
 		//上传所有采样器到对应纹理单元
 		s_Data.TextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
@@ -240,6 +240,7 @@ namespace Hazel {
 
 		// 遍历纹理，查看现有纹理是否已经存入
 		float textureIndex = 0.0f;
+		
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
 		{
 			if (*s_Data.TextureSlots[i].get() == *texture.get())
@@ -259,7 +260,7 @@ namespace Hazel {
 			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
 			s_Data.TextureSlotIndex++;
 		}
-
+		
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];

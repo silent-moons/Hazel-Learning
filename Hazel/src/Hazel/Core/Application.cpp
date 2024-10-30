@@ -6,7 +6,7 @@
 #include "Hazel/Core/Input.h"
 #include "Hazel/Renderer/Renderer.h"
 
-#include <GLFW/glfw3.h>
+#include "Hazel/Utils/PlatformUtils.h"
 #include <stb_image.h>
 
 namespace Hazel
@@ -69,7 +69,7 @@ namespace Hazel
 	{
 		while (m_Running)
 		{
-			float time = (float)glfwGetTime();
+			float time = Time::GetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 

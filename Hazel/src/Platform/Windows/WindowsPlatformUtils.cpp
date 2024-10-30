@@ -10,6 +10,11 @@
 
 namespace Hazel 
 {
+	float Time::GetTime()
+	{
+		return glfwGetTime();
+	}
+
 	std::string FileDialogs::OpenFile(const char* filter) // filter为定文件类型过滤器
 	{
 		OPENFILENAMEA ofn; // 存储文件对话框的各种信息
