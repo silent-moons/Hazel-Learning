@@ -1,6 +1,5 @@
 #pragma once
 
-//#include "Hazel/Core/Base.h"
 #include "Hazel/Renderer/Framebuffer.h"
 
 namespace Hazel 

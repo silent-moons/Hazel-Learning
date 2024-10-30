@@ -21,12 +21,20 @@ target_include_directories(libHazel PUBLIC
 	${CMAKE_SOURCE_DIR}/Hazel/vendor/yaml-cpp/include
 	${CMAKE_SOURCE_DIR}/Hazel/vendor/ImGuizmo
 	${CMAKE_SOURCE_DIR}/Hazel/vendor/box2d/include
+	${CMAKE_SOURCE_DIR}/Hazel/vendor/mono/include
 	${CMAKE_SOURCE_DIR}/Hazel/vendor
 	${CMAKE_SOURCE_DIR}/Hazel/src
 )
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(mono_type "Debug")
+else()
+	set(mono_type "Release")
+endif()
+
 target_link_directories(libHazel PUBLIC
 	SYSTEM ${CMAKE_SOURCE_DIR}/ThirdParty/lib
+	${CMAKE_CURRENT_SOURCE_DIR}/vendor/mono/lib/${mono_type}
 )
 
 # 设置预编译头文件
@@ -44,4 +52,9 @@ target_link_libraries(libHazel PRIVATE
 	imguilib
 	yamlcpplib
 	box2dlib
+	libmono-static-sgen
+	Ws2_32.lib
+	Winmm.lib
+	Version.lib
+	Bcrypt.lib
 )

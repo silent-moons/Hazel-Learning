@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Hazel/Core/Base.h"
 #include "Hazel/Core/Log.h"
 #include "Hazel/Core/UUID.h"
 #include "Scene.h"

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Hazel/Core/Base.h"
-
 #include "RenderCommand.h"
 #include "OrthoGraphicCamera.h"
 #include "Shader.h"

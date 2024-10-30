@@ -1,5 +1,4 @@
 #include "hzpch.h"
-#include "Hazel/Core/Base.h"
 #include "OpenGLContext.h"
 
 #include <GLFW/glfw3.h>

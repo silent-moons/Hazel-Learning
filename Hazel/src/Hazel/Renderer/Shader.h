@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Hazel/Core/Base.h"
 #include <string>
 
 #include <glm/glm.hpp>

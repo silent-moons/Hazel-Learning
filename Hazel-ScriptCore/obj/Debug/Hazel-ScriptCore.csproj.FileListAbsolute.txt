@@ -1,0 +1,6 @@
+D:\C++\HazelEngine\Hazel-ScriptCore\bin\Debug\Hazel-ScriptCore.dll
+D:\C++\HazelEngine\Hazel-ScriptCore\bin\Debug\Hazel-ScriptCore.pdb
+D:\C++\HazelEngine\Hazel-ScriptCore\obj\Debug\Hazel-ScriptCore.csproj.AssemblyReference.cache
+D:\C++\HazelEngine\Hazel-ScriptCore\obj\Debug\Hazel-ScriptCore.csproj.CoreCompileInputs.cache
+D:\C++\HazelEngine\Hazel-ScriptCore\obj\Debug\Hazel-ScriptCore.dll
+D:\C++\HazelEngine\Hazel-ScriptCore\obj\Debug\Hazel-ScriptCore.pdb

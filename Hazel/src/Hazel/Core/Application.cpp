@@ -5,6 +5,7 @@
 #include "Hazel/Core/Log.h"
 #include "Hazel/Core/Input.h"
 #include "Hazel/Renderer/Renderer.h"
+#include "Hazel/Scripting/ScriptEngine.h"
 
 #include "Hazel/Utils/PlatformUtils.h"
 #include <stb_image.h>
@@ -23,7 +24,9 @@ namespace Hazel
 		m_Window = Window::Create(WindowProps(name));
 		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(true);
+
 		Renderer::Init();
+		ScriptEngine::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -31,6 +34,7 @@ namespace Hazel
 
 	Application::~Application()
 	{
+		ScriptEngine::Shutdown();
 		Renderer::Shutdown();
 	}
 

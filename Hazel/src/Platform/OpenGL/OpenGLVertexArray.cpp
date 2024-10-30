@@ -1,5 +1,4 @@
 #include "hzpch.h"
-#include "Hazel/Core/Base.h"
 #include "OpenGLVertexArray.h"
 
 #include <glad/glad.h>
