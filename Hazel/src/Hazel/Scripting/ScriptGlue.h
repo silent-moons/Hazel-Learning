@@ -1,10 +1,11 @@
 #pragma once
 
-namespace Hazel 
-{
+namespace Hazel {
+
 	class ScriptGlue
 	{
 	public:
+		static void RegisterComponents();
 		static void RegisterFunctions();
 	};
 }

@@ -41,8 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Camera.cs" />
+    <Compile Include="Source\Hazel\Input.cs" />
+    <Compile Include="Source\Hazel\InternalCalls.cs" />
+    <Compile Include="Source\Hazel\KeyCode.cs" />
+    <Compile Include="Source\Hazel\Scene\Components.cs" />
+    <Compile Include="Source\Hazel\Scene\Entity.cs" />
+    <Compile Include="Source\Hazel\Vector2.cs" />
+    <Compile Include="Source\Hazel\Vector3.cs" />
+    <Compile Include="Source\Player.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

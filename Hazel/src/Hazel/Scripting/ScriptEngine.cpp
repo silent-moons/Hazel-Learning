@@ -9,10 +9,10 @@
 #include "mono/metadata/assembly.h"
 #include "mono/metadata/object.h"
 
-namespace Hazel 
-{
-	namespace Utils 
-	{
+namespace Hazel {
+
+	namespace Utils {
+
 		// TODO: move to FileSystem class
 		static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize)
 		{
@@ -81,7 +81,6 @@ namespace Hazel
 
 				const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
 				const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
-
 				HZ_CORE_TRACE("{}.{}", nameSpace, name);
 			}
 		}
@@ -97,6 +96,12 @@ namespace Hazel
 		MonoImage* CoreAssemblyImage = nullptr;
 
 		ScriptClass EntityClass;
+
+		std::unordered_map<std::string, Ref<ScriptClass>> EntityClasses;
+		std::unordered_map<UUID, Ref<ScriptInstance>> EntityInstances;
+
+		// Runtime
+		Scene* SceneContext = nullptr;
 	};
 
 	static ScriptEngineData* s_Data = nullptr;
@@ -105,13 +110,16 @@ namespace Hazel
 	{
 		s_Data = new ScriptEngineData();
 
-		InitMono();
-		LoadAssembly("Resources/Scripts/Hazel-ScriptCore.dll");
+		InitMono(); // 初始化mono
+		LoadAssembly("Resources/Scripts/Hazel-ScriptCore.dll"); // 加载C#程序集
+		LoadAssemblyClasses(s_Data->CoreAssembly); // 加载C#中所有Entity类的子类，存入map
 
-		ScriptGlue::RegisterFunctions();
+		ScriptGlue::RegisterComponents(); // 注册C#类中的所有组件
+		ScriptGlue::RegisterFunctions(); // 将C++的函数注册到C#
 
-		// Retrieve and instantiate class (with constructor)
+		// Retrieve and instantiate class
 		s_Data->EntityClass = ScriptClass("Hazel", "Entity");
+#if 0
 
 		MonoObject* instance = s_Data->EntityClass.Instantiate();
 
@@ -141,7 +149,8 @@ namespace Hazel
 		void* stringParam = monoString;
 		s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, &stringParam);
 
-		//HZ_CORE_ASSERT(false);
+		HZ_CORE_ASSERT(false);
+#endif
 	}
 
 	void ScriptEngine::Shutdown()
@@ -152,12 +161,11 @@ namespace Hazel
 
 	void ScriptEngine::InitMono()
 	{
-		mono_set_assemblies_path("mono/lib");
+		mono_set_assemblies_path("mono/lib"); // 设置程序集装配路径
 
+		// 声明根域并存储指针
 		MonoDomain* rootDomain = mono_jit_init("HazelJITRuntime");
 		HZ_CORE_ASSERT(rootDomain, "");
-
-		// Store the root domain pointer
 		s_Data->RootDomain = rootDomain;
 	}
 
@@ -174,14 +182,109 @@ namespace Hazel
 
 	void ScriptEngine::LoadAssembly(const std::filesystem::path& filepath)
 	{
-		// Create an App Domain
+		// 创建App域
 		s_Data->AppDomain = mono_domain_create_appdomain("HazelScriptRuntime", nullptr);
 		mono_domain_set(s_Data->AppDomain, true);
 
-		// Move this maybe
+		// 加载C#项目的dll程序集
 		s_Data->CoreAssembly = Utils::LoadMonoAssembly(filepath);
+		// MonoImage对象
 		s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
-		// Utils::PrintAssemblyTypes(s_Data->CoreAssembly);
+	}
+
+	void ScriptEngine::OnRuntimeStart(Scene* scene)
+	{
+		s_Data->SceneContext = scene;
+	}
+
+	bool ScriptEngine::EntityClassExists(const std::string& fullClassName)
+	{
+		return s_Data->EntityClasses.find(fullClassName) != s_Data->EntityClasses.end();
+	}
+
+	void ScriptEngine::OnCreateEntity(Entity entity)
+	{
+		const auto& sc = entity.GetComponent<ScriptComponent>();
+
+		// 组件的脚本名称是否正确
+		if (ScriptEngine::EntityClassExists(sc.ClassName))
+		{
+			// 实例化类对象，并存储OnCreate、OnUpdate函数，调用父类Entity的构造函数，传入实体的UUID
+			Ref<ScriptInstance> instance = CreateRef<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
+			// 存储mono脚本对象，即C#中的Player，Camera等
+			s_Data->EntityInstances[entity.GetUUID()] = instance;
+			instance->InvokeOnCreate(); // 调用C#的OnCreate函数
+		}
+	}
+
+	void ScriptEngine::OnUpdateEntity(Entity entity, Timestep ts)
+	{
+		UUID entityUUID = entity.GetUUID();
+		HZ_CORE_ASSERT(s_Data->EntityInstances.find(entityUUID) != s_Data->EntityInstances.end(), "");
+
+		// 根据实体UUID获取mono对象的指针
+		Ref<ScriptInstance> instance = s_Data->EntityInstances[entityUUID];
+		instance->InvokeOnUpdate((float)ts); // 调用C#的OnUpdate函数
+	}
+
+	Scene* ScriptEngine::GetSceneContext()
+	{
+		return s_Data->SceneContext;
+	}
+
+	void ScriptEngine::OnRuntimeStop()
+	{
+		s_Data->SceneContext = nullptr;
+
+		s_Data->EntityInstances.clear();
+	}
+
+	std::unordered_map<std::string, Ref<ScriptClass>> ScriptEngine::GetEntityClasses()
+	{
+		return s_Data->EntityClasses;
+	}
+
+	void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
+	{
+		s_Data->EntityClasses.clear();
+
+		MonoImage* image = mono_assembly_get_image(assembly);
+		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
+		int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
+
+		// 根据命名空间、类名、MonoImage加载C#的Mono类，这里加载Entity父类
+		MonoClass* entityClass = mono_class_from_name(image, "Hazel", "Entity");
+
+		for (int32_t i = 0; i < numTypes; i++)
+		{
+			uint32_t cols[MONO_TYPEDEF_SIZE];
+			mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
+
+			const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
+			const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
+			std::string fullName;
+			if (strlen(nameSpace) != 0)
+				fullName = fmt::format("{}.{}", nameSpace, name);
+			else
+				fullName = name;
+
+			// 加载Dll中所有C#类
+			MonoClass* monoClass = mono_class_from_name(image, nameSpace, name);
+
+			// entity父类不保存
+			if (monoClass == entityClass)
+				continue;
+
+			// 判断当前类是否为Entity的子类，是就存入脚本map中
+			bool isEntity = mono_class_is_subclass_of(monoClass, entityClass, false);
+			if (isEntity)
+				s_Data->EntityClasses[fullName] = CreateRef<ScriptClass>(nameSpace, name);
+		}
+	}
+
+	MonoImage* ScriptEngine::GetCoreAssemblyImage()
+	{
+		return s_Data->CoreAssemblyImage;
 	}
 
 	MonoObject* ScriptEngine::InstantiateClass(MonoClass* monoClass)
@@ -211,4 +314,38 @@ namespace Hazel
 	{
 		return mono_runtime_invoke(method, instance, params, nullptr);
 	}
+
+	ScriptInstance::ScriptInstance(Ref<ScriptClass> scriptClass, Entity entity)
+		: m_ScriptClass(scriptClass)
+	{
+		m_Instance = scriptClass->Instantiate(); // 实例化mono对象
+
+		// 获取父类（Entity）类的构造函数，OnCreate，OnUpdate
+		m_Constructor = s_Data->EntityClass.GetMethod(".ctor", 1);
+		m_OnCreateMethod = scriptClass->GetMethod("OnCreate", 0);
+		m_OnUpdateMethod = scriptClass->GetMethod("OnUpdate", 1);
+
+		// 调用Entity类的构造函数，传入实体ID
+		{
+			UUID entityID = entity.GetUUID();
+			void* param = &entityID;
+			m_ScriptClass->InvokeMethod(m_Instance, m_Constructor, &param);
+		}
+	}
+
+	void ScriptInstance::InvokeOnCreate()
+	{
+		if (m_OnCreateMethod)
+			m_ScriptClass->InvokeMethod(m_Instance, m_OnCreateMethod);
+	}
+
+	void ScriptInstance::InvokeOnUpdate(float ts)
+	{
+		if (m_OnUpdateMethod)
+		{
+			void* param = &ts;
+			m_ScriptClass->InvokeMethod(m_Instance, m_OnUpdateMethod, &param);
+		}
+	}
+
 }
