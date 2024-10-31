@@ -8,8 +8,28 @@
 #include "mono/jit/jit.h"
 #include "mono/metadata/assembly.h"
 #include "mono/metadata/object.h"
+#include "mono/metadata/tabledefs.h"
 
-namespace Hazel {
+namespace Hazel 
+{
+	static std::unordered_map<std::string, ScriptFieldType> s_ScriptFieldTypeMap =
+	{
+		{ "System.Single", ScriptFieldType::Float },
+		{ "System.Double", ScriptFieldType::Double },
+		{ "System.Boolean", ScriptFieldType::Bool },
+		{ "System.Char", ScriptFieldType::Char },
+		{ "System.Int16", ScriptFieldType::Short },
+		{ "System.Int32", ScriptFieldType::Int },
+		{ "System.Int64", ScriptFieldType::Long },
+		{ "System.Byte", ScriptFieldType::Byte },
+		{ "System.UInt16", ScriptFieldType::UShort },
+		{ "System.UInt32", ScriptFieldType::UInt },
+		{ "System.UInt64", ScriptFieldType::ULong },
+		{ "Hazel.Vector2", ScriptFieldType::Vector2 },
+		{ "Hazel.Vector3", ScriptFieldType::Vector3 },
+		{ "Hazel.Vector4", ScriptFieldType::Vector4 },
+		{ "Hazel.Entity", ScriptFieldType::Entity },
+	};
 
 	namespace Utils {
 
@@ -85,6 +105,42 @@ namespace Hazel {
 			}
 		}
 
+		ScriptFieldType MonoTypeToScriptFieldType(MonoType* monoType)
+		{
+			std::string typeName = mono_type_get_name(monoType);
+			auto it = s_ScriptFieldTypeMap.find(typeName);
+			if (it == s_ScriptFieldTypeMap.end())
+			{
+				HZ_CORE_ERROR("Unknown type: {}", typeName);
+				return ScriptFieldType::None;
+			}
+			return it->second;
+		}
+
+		const char* ScriptFieldTypeToString(ScriptFieldType type)
+		{
+			switch (type)
+			{
+			case ScriptFieldType::Float:   return "Float";
+			case ScriptFieldType::Double:  return "Double";
+			case ScriptFieldType::Bool:    return "Bool";
+			case ScriptFieldType::Char:    return "Char";
+			case ScriptFieldType::Byte:    return "Byte";
+			case ScriptFieldType::Short:   return "Short";
+			case ScriptFieldType::Int:     return "Int";
+			case ScriptFieldType::Long:    return "Long";
+			case ScriptFieldType::UByte:   return "UByte";
+			case ScriptFieldType::UShort:  return "UShort";
+			case ScriptFieldType::UInt:    return "UInt";
+			case ScriptFieldType::ULong:   return "ULong";
+			case ScriptFieldType::Vector2: return "Vector2";
+			case ScriptFieldType::Vector3: return "Vector3";
+			case ScriptFieldType::Vector4: return "Vector4";
+			case ScriptFieldType::Entity:  return "Entity";
+			}
+			return "<Invalid>";
+		}
+
 	}
 
 	struct ScriptEngineData
@@ -94,6 +150,9 @@ namespace Hazel {
 
 		MonoAssembly* CoreAssembly = nullptr;
 		MonoImage* CoreAssemblyImage = nullptr;
+
+		MonoAssembly* AppAssembly = nullptr;
+		MonoImage* AppAssemblyImage = nullptr;
 
 		ScriptClass EntityClass;
 
@@ -111,46 +170,15 @@ namespace Hazel {
 		s_Data = new ScriptEngineData();
 
 		InitMono(); // 初始化mono
-		LoadAssembly("Resources/Scripts/Hazel-ScriptCore.dll"); // 加载C#程序集
-		LoadAssemblyClasses(s_Data->CoreAssembly); // 加载C#中所有Entity类的子类，存入map
+		LoadAssembly("Resources/Scripts/Hazel-ScriptCore.dll"); // 加载C#核心程序集
+		LoadAppAssembly("Resources/Scripts/SandboxProject.dll"); // 加载C#用户程序集
+		LoadAssemblyClasses(); // 加载C#中所有Entity类的子类，存入map
 
 		ScriptGlue::RegisterComponents(); // 注册C#类中的所有组件
 		ScriptGlue::RegisterFunctions(); // 将C++的函数注册到C#
 
 		// Retrieve and instantiate class
-		s_Data->EntityClass = ScriptClass("Hazel", "Entity");
-#if 0
-
-		MonoObject* instance = s_Data->EntityClass.Instantiate();
-
-		// Call method
-		MonoMethod* printMessageFunc = s_Data->EntityClass.GetMethod("PrintMessage", 0);
-		s_Data->EntityClass.InvokeMethod(instance, printMessageFunc);
-
-		// Call method with param
-		MonoMethod* printIntFunc = s_Data->EntityClass.GetMethod("PrintInt", 1);
-
-		int value = 5;
-		void* param = &value;
-
-		s_Data->EntityClass.InvokeMethod(instance, printIntFunc, &param);
-
-		MonoMethod* printIntsFunc = s_Data->EntityClass.GetMethod("PrintInts", 2);
-		int value2 = 508;
-		void* params[2] =
-		{
-			&value,
-			&value2
-		};
-		s_Data->EntityClass.InvokeMethod(instance, printIntsFunc, params);
-
-		MonoString* monoString = mono_string_new(s_Data->AppDomain, "Hello World from C++!");
-		MonoMethod* printCustomMessageFunc = s_Data->EntityClass.GetMethod("PrintCustomMessage", 1);
-		void* stringParam = monoString;
-		s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, &stringParam);
-
-		HZ_CORE_ASSERT(false);
-#endif
+		s_Data->EntityClass = ScriptClass("Hazel", "Entity", true); // 核心C#脚本
 	}
 
 	void ScriptEngine::Shutdown()
@@ -186,10 +214,20 @@ namespace Hazel {
 		s_Data->AppDomain = mono_domain_create_appdomain("HazelScriptRuntime", nullptr);
 		mono_domain_set(s_Data->AppDomain, true);
 
-		// 加载C#项目的dll程序集
+		// 加载C#核心项目的dll程序集
 		s_Data->CoreAssembly = Utils::LoadMonoAssembly(filepath);
 		// MonoImage对象
 		s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
+	}
+
+	void ScriptEngine::LoadAppAssembly(const std::filesystem::path& filepath)
+	{
+		// 加载C#用户项目的dll程序集
+		s_Data->AppAssembly = Utils::LoadMonoAssembly(filepath);
+		//auto assemb = s_Data->AppAssembly;
+		s_Data->AppAssemblyImage = mono_assembly_get_image(s_Data->AppAssembly);
+		//auto assembi = s_Data->AppAssemblyImage;
+		// Utils::PrintAssemblyTypes(s_Data->AppAssembly);
 	}
 
 	void ScriptEngine::OnRuntimeStart(Scene* scene)
@@ -232,6 +270,14 @@ namespace Hazel {
 		return s_Data->SceneContext;
 	}
 
+	Ref<ScriptInstance> ScriptEngine::GetEntityScriptInstance(UUID entityID)
+	{
+		auto it = s_Data->EntityInstances.find(entityID);
+		if (it == s_Data->EntityInstances.end())
+			return nullptr;
+		return it->second;
+	}
+
 	void ScriptEngine::OnRuntimeStop()
 	{
 		s_Data->SceneContext = nullptr;
@@ -244,32 +290,31 @@ namespace Hazel {
 		return s_Data->EntityClasses;
 	}
 
-	void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
+	void ScriptEngine::LoadAssemblyClasses()
 	{
 		s_Data->EntityClasses.clear();
 
-		MonoImage* image = mono_assembly_get_image(assembly);
-		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
+		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(s_Data->AppAssemblyImage, MONO_TABLE_TYPEDEF);
 		int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
 
 		// 根据命名空间、类名、MonoImage加载C#的Mono类，这里加载Entity父类
-		MonoClass* entityClass = mono_class_from_name(image, "Hazel", "Entity");
+		MonoClass* entityClass = mono_class_from_name(s_Data->CoreAssemblyImage, "Hazel", "Entity");
 
 		for (int32_t i = 0; i < numTypes; i++)
 		{
 			uint32_t cols[MONO_TYPEDEF_SIZE];
 			mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
 
-			const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
-			const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
+			const char* nameSpace = mono_metadata_string_heap(s_Data->AppAssemblyImage, cols[MONO_TYPEDEF_NAMESPACE]);
+			const char* className = mono_metadata_string_heap(s_Data->AppAssemblyImage, cols[MONO_TYPEDEF_NAME]);
 			std::string fullName;
 			if (strlen(nameSpace) != 0)
-				fullName = fmt::format("{}.{}", nameSpace, name);
+				fullName = fmt::format("{}.{}", nameSpace, className);
 			else
-				fullName = name;
+				fullName = className;
 
-			// 加载Dll中所有C#类
-			MonoClass* monoClass = mono_class_from_name(image, nameSpace, name);
+			// 加载APP的Dll中所有C#类
+			MonoClass* monoClass = mono_class_from_name(s_Data->AppAssemblyImage, nameSpace, className);
 
 			// entity父类不保存
 			if (monoClass == entityClass)
@@ -277,9 +322,38 @@ namespace Hazel {
 
 			// 判断当前类是否为Entity的子类，是就存入脚本map中
 			bool isEntity = mono_class_is_subclass_of(monoClass, entityClass, false);
-			if (isEntity)
-				s_Data->EntityClasses[fullName] = CreateRef<ScriptClass>(nameSpace, name);
+			if (!isEntity)
+				continue;
+
+			Ref<ScriptClass> scriptClass = CreateRef<ScriptClass>(nameSpace, className);
+			s_Data->EntityClasses[fullName] = scriptClass;
+			// This routine is an iterator routine for retrieving the fields in a class.
+			// You must pass a gpointer that points to zero and is treated as an opaque handle
+			// to iterate over all of the elements. When no more values are available, the return value is NULL.
+			int fieldCount = mono_class_num_fields(monoClass); // 读取脚本类的属性
+			HZ_CORE_WARN("{} has {} fields:", className, fieldCount);
+			void* iterator = nullptr;
+
+			// 遍历所有属性
+			while (MonoClassField* field = mono_class_get_fields(monoClass, &iterator))
+			{
+				// 获取属性的名称，即C#脚本里的变量名
+				const char* fieldName = mono_field_get_name(field); 
+				uint32_t flags = mono_field_get_flags(field); // 获取属性的权限
+				if (flags & FIELD_ATTRIBUTE_PUBLIC) // 公有属性
+				{
+					MonoType* type = mono_field_get_type(field); // 获取属性的类类型
+
+					// 将MonoType类型（如System.Single）转化为更好识别的类型（如Float）
+					ScriptFieldType fieldType = Utils::MonoTypeToScriptFieldType(type);
+					HZ_CORE_WARN("  {} ({})", fieldName, Utils::ScriptFieldTypeToString(fieldType));
+					// 设置属性名对应的结构体，写入该属性的信息
+					scriptClass->m_Fields[fieldName] = { fieldType, fieldName, field };
+				}
+			}
 		}
+
+		//auto& entityClasses = s_Data->EntityClasses;
 	}
 
 	MonoImage* ScriptEngine::GetCoreAssemblyImage()
@@ -294,10 +368,10 @@ namespace Hazel {
 		return instance;
 	}
 
-	ScriptClass::ScriptClass(const std::string& classNamespace, const std::string& className)
+	ScriptClass::ScriptClass(const std::string& classNamespace, const std::string& className, bool isCore)
 		: m_ClassNamespace(classNamespace), m_ClassName(className)
 	{
-		m_MonoClass = mono_class_from_name(s_Data->CoreAssemblyImage, classNamespace.c_str(), className.c_str());
+		m_MonoClass = mono_class_from_name(isCore ? s_Data->CoreAssemblyImage : s_Data->AppAssemblyImage, classNamespace.c_str(), className.c_str());
 	}
 
 	MonoObject* ScriptClass::Instantiate()
@@ -348,4 +422,27 @@ namespace Hazel {
 		}
 	}
 
+	bool ScriptInstance::GetFieldValueInternal(const std::string& name, void* buffer)
+	{
+		const auto& fields = m_ScriptClass->GetFields(); // 存储属性信息的map
+		auto it = fields.find(name);
+		if (it == fields.end())
+			return false;
+
+		const ScriptField& field = it->second; // 属性的信息
+		mono_field_get_value(m_Instance, field.ClassField, buffer); // 将属性的值写入buffer
+		return true;
+	}
+
+	bool ScriptInstance::SetFieldValueInternal(const std::string& name, const void* value)
+	{
+		const auto& fields = m_ScriptClass->GetFields(); // 存储属性信息的map
+		auto it = fields.find(name);
+		if (it == fields.end())
+			return false;
+
+		const ScriptField& field = it->second; // 属性的信息
+		mono_field_set_value(m_Instance, field.ClassField, (void*)value); // 使用value改变属性的值
+		return true;
+	}
 }

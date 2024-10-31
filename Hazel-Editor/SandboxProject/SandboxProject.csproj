@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A28404A3-57E9-4488-8484-1D7C5783A681}</ProjectGuid>
+    <ProjectGuid>{F0DEEB4C-19C6-4169-93EF-197FC534E05C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hazel_ScriptCore</RootNamespace>
-    <AssemblyName>Hazel-ScriptCore</AssemblyName>
+    <RootNamespace>SandboxProject</RootNamespace>
+    <AssemblyName>SandboxProject</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,24 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Compile Include="Assets\Scripts\Source\Camera.cs" />
+    <Compile Include="Assets\Scripts\Source\Player.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\Hazel\Input.cs" />
-    <Compile Include="Source\Hazel\InternalCalls.cs" />
-    <Compile Include="Source\Hazel\KeyCode.cs" />
-    <Compile Include="Source\Hazel\Scene\Components.cs" />
-    <Compile Include="Source\Hazel\Scene\Entity.cs" />
-    <Compile Include="Source\Hazel\Vector2.cs" />
-    <Compile Include="Source\Hazel\Vector3.cs" />
+    <ProjectReference Include="..\..\Hazel-ScriptCore\Hazel-ScriptCore.csproj">
+      <Project>{a28404a3-57e9-4488-8484-1d7c5783a681}</Project>
+      <Name>Hazel-ScriptCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

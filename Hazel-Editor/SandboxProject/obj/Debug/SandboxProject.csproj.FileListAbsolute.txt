@@ -1,0 +1,9 @@
+D:\C++\HazelEngine\Hazel-Editor\SandboxProject\obj\Debug\SandboxProject.csproj.AssemblyReference.cache
+D:\C++\HazelEngine\Hazel-Editor\SandboxProject\obj\Debug\SandboxProject.csproj.CoreCompileInputs.cache
+D:\C++\HazelEngine\Hazel-Editor\SandboxProject\bin\Debug\SandboxProject.dll
+D:\C++\HazelEngine\Hazel-Editor\SandboxProject\bin\Debug\SandboxProject.pdb
+D:\C++\HazelEngine\Hazel-Editor\SandboxProject\bin\Debug\Hazel-ScriptCore.dll
+D:\C++\HazelEngine\Hazel-Editor\SandboxProject\bin\Debug\Hazel-ScriptCore.pdb
+D:\C++\HazelEngine\Hazel-Editor\SandboxProject\obj\Debug\SandboxProject.csproj.CopyComplete
+D:\C++\HazelEngine\Hazel-Editor\SandboxProject\obj\Debug\SandboxProject.dll
+D:\C++\HazelEngine\Hazel-Editor\SandboxProject\obj\Debug\SandboxProject.pdb

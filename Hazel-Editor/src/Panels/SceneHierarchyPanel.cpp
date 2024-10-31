@@ -314,15 +314,41 @@ namespace Hazel
 				}
 			});
 
-		DrawComponent<ScriptComponent>("Script", entity, [](auto& component)
+		// lambda捕获的变量默认为const，所以给lambda声明为mutable，把捕获的变量去除const
+		DrawComponent<ScriptComponent>("Script", entity, [entity](auto& component) mutable
 			{
 				bool scriptClassExists = ScriptEngine::EntityClassExists(component.ClassName);
 				static char buffer[64];
 				strcpy(buffer, component.ClassName.c_str());
 				if (!scriptClassExists)
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9f, 0.2f, 0.3f, 1.0f));
+				
 				if (ImGui::InputText("Class", buffer, sizeof(buffer)))
 					component.ClassName = buffer;
+
+				// 通过实体ID获取脚本实例
+				Ref<ScriptInstance> scriptInstance = ScriptEngine::GetEntityScriptInstance(entity.GetUUID());
+				
+				// 暂时只支持运行时获取属性值，因为scriptInstance只有当运行时才不为空
+				if (scriptInstance)
+				{
+					// 获取脚本中的属性名和信息
+					const auto& fields = scriptInstance->GetScriptClass()->GetFields();
+					for (const auto& [name, field] : fields)
+					{
+						// 如果是属性类型是Float，就提供一个拖动条，并允许设置属性的值，实现热更新
+						if (field.Type == ScriptFieldType::Float)
+						{
+							// 获取属性的值
+							float data = scriptInstance->GetFieldValue<float>(name);
+							if (ImGui::DragFloat(name.c_str(), &data))
+							{
+								scriptInstance->SetFieldValue(name, data);
+							}
+						}
+					}
+				}
+
 				if (!scriptClassExists)
 					ImGui::PopStyleColor();
 			});
