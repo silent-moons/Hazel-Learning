@@ -81,9 +81,6 @@ namespace Hazel
 			{
 				layer->OnUpdate(timestep);
 			}
-				
-			//glm::vec2 a = Input::GetMousePosition();
-			//HZ_CORE_TRACE("{0},{1}", a.x, a.y);
 
 			m_ImGuiLayer->Begin();
 

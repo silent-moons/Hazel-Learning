@@ -5,12 +5,10 @@
 
 namespace Hazel 
 {
-
 	class MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(const float x, const float y)
-			: m_MouseX(x), m_MouseY(y) {}
+		MouseMovedEvent(const float x, const float y) : m_MouseX(x), m_MouseY(y) {}
 
 		float GetX() const { return m_MouseX; }
 		float GetY() const { return m_MouseY; }
@@ -66,8 +64,7 @@ namespace Hazel
 	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(const MouseCode button)
-			: MouseButtonEvent(button) {}
+		MouseButtonPressedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 
 		std::string ToString() const override
 		{
@@ -82,8 +79,7 @@ namespace Hazel
 	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(const MouseCode button)
-			: MouseButtonEvent(button) {}
+		MouseButtonReleasedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 
 		std::string ToString() const override
 		{

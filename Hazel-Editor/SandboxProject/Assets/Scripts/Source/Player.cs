@@ -13,7 +13,7 @@ namespace Sandbox
 		private TransformComponent m_Transform;
 		private Rigidbody2DComponent m_Rigidbody;
 
-		public float Speed;
+		public float Speed = 5.0f;
 		public float Time = 0.0f;
 
 		void OnCreate()
@@ -27,7 +27,7 @@ namespace Sandbox
 		void OnUpdate(float ts)
 		{
 			Time += ts;
-			// Console.WriteLine($"Player.OnUpdate: {ts}");
+			Console.WriteLine($"Player.OnUpdate: {ts}");
 
 			float speed = Speed;
 			Vector3 velocity = Vector3.Zero;

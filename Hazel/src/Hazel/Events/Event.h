@@ -45,7 +45,7 @@ namespace Hazel
 		virtual int GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); }
 
-		inline bool IsInCategory(EventCategory category)
+		bool IsInCategory(EventCategory category)
 		{
 			return GetCategoryFlags() & category;
 		}
@@ -54,8 +54,7 @@ namespace Hazel
 	class EventDispatcher
 	{
 	public:
-		EventDispatcher(Event& event)
-			: m_Event(event) {}
+		EventDispatcher(Event& event) : m_Event(event) {}
 
 		template<typename T, typename F>
 		bool Dispatch(const F& func)

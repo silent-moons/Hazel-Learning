@@ -5,7 +5,7 @@
 
 namespace Hazel 
 {
-	class HazelEditor : public Hazel::Application
+	class HazelEditor : public Application
 	{
 	public:
 		HazelEditor() : Application("Hazel Editor")
@@ -18,7 +18,7 @@ namespace Hazel
 
 	};
 
-	Hazel::Application* Hazel::CreateApplication()
+	Application* CreateApplication()
 	{
 		return new HazelEditor();
 	}

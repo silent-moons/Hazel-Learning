@@ -12,7 +12,7 @@ namespace Hazel
 #ifdef HZ_PLATFORM_WINDOWS
 		return CreateScope<WindowsWindow>(props);
 #else
-		NUT_CORE_ASSERT(false, "Unknown platform!");
+		HZ_CORE_ASSERT(false, "Unknown platform!");
 		return nullptr;
 #endif
 	}
