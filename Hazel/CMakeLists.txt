@@ -53,6 +53,7 @@ target_link_libraries(libHazel PRIVATE
 	yamlcpplib
 	box2dlib
 	libmono-static-sgen
+	# 将Mono引入项目后，在Windows平台下需要以下库进行构建，否则会有链接错误
 	Ws2_32.lib
 	Winmm.lib
 	Version.lib

@@ -135,6 +135,7 @@ namespace Hazel {
 		StartBatch();
 	}
 
+	// ÒÑÆúÓÃ
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
 		s_Data.TextureShader->Bind();
