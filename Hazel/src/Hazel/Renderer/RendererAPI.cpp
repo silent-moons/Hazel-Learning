@@ -7,7 +7,8 @@ namespace Hazel
 {
 	RendererAPI::API RendererAPI::s_API = RendererAPI::API::OpenGL;
 
-	Scope<RendererAPI> RendererAPI::Create() {
+	Scope<RendererAPI> RendererAPI::Create() 
+	{
 		switch (RendererAPI::GetAPI())
 		{
 		case RendererAPI::API::None: HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported! ")

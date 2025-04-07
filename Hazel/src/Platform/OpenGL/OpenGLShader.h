@@ -6,8 +6,8 @@
 // TODO: REMOVE!
 typedef unsigned int GLenum;
 
-namespace Hazel {
-
+namespace Hazel 
+{
 	class OpenGLShader : public Shader
 	{
 	public:
