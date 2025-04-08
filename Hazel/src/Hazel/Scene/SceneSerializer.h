@@ -18,5 +18,4 @@ namespace Hazel
 	private:
 		Ref<Scene> m_Scene;
 	};
-
 }

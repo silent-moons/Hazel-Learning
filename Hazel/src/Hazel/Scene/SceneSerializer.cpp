@@ -138,6 +138,7 @@ namespace Hazel
 		out << YAML::BeginMap; // Entity
 		out << YAML::Key << "Entity" << YAML::Value << entity.GetUUID();
 
+		// TODO: 不应该使用if判断所有组件的方式来判断是否有组件
 		if (entity.HasComponent<TagComponent>())
 		{
 			out << YAML::Key << "TagComponent";
@@ -241,7 +242,7 @@ namespace Hazel
 	{
 		YAML::Emitter out;
 		out << YAML::BeginMap;
-		out << YAML::Key << "Scene" << YAML::Value << "Untitled";
+		out << YAML::Key << "Scene" << YAML::Value << "Untitled"; // TODO: 场景名自定义
 		out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
 		m_Scene->m_Registry.each([&](auto entityID)
 			{
@@ -297,7 +298,6 @@ namespace Hazel
 				HZ_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
 
 				Entity deserializedEntity = m_Scene->CreateEntityWithUUID(uuid, name);
-				//Entity deserializedEntity = m_Scene->CreateEntity(name);
 
 				auto transformComponent = entity["TransformComponent"];
 				if (transformComponent)
