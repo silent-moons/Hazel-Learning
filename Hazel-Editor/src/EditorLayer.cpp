@@ -114,10 +114,9 @@ namespace Hazel
 		{
 		case SceneState::Edit:
 		{
-			if (m_ViewportFocused)
-				m_CameraController.OnUpdate(ts);
-
-			m_EditorCamera.OnUpdate(ts);
+			if (m_ViewportHovered)
+				//m_CameraController.OnUpdate(ts);
+				m_EditorCamera.OnUpdate(ts);
 
 			m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 			break;

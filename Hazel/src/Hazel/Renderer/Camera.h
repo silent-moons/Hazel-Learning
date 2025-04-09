@@ -16,5 +16,4 @@ namespace Hazel
 	protected:
 		glm::mat4 m_Projection = glm::mat4(1.0f);
 	};
-
 }

@@ -20,7 +20,12 @@ namespace Hazel
 
 		float GetDistance() const { return m_Distance; }
 		void SetDistance(float distance) { m_Distance = distance; }
-		void SetViewportSize(float width, float height) { m_ViewportWidth = width; m_ViewportHeight = height; UpdateProjection(); }
+		void SetViewportSize(float width, float height) 
+		{ 
+			m_ViewportWidth = width; 
+			m_ViewportHeight = height; 
+			UpdateProjection(); 
+		}
 
 		const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
 		glm::mat4 GetViewProjection() const { return m_Projection * m_ViewMatrix; }
@@ -48,7 +53,7 @@ namespace Hazel
 
 		std::pair<float, float> PanSpeed() const;
 		float RotationSpeed() const;
-		float ZoomSpeed() const;
+		float ZoomSpeed() const; // 根据相机到焦点的距离来计算缩放速度
 		
 	private:
 		float m_FOV = 45.0f, m_AspectRatio = 1.778f, m_NearClip = 0.1f, m_FarClip = 1000.0f;
@@ -56,13 +61,10 @@ namespace Hazel
 		glm::mat4 m_ViewMatrix;
 		glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 m_FocalPoint = { 0.0f, 0.0f, 0.0f }; // 焦点
-
 		glm::vec2 m_InitialMousePosition = { 0.0f, 0.0f };
 
 		float m_Distance = 10.0f; // 控制摄像机的z位置，为实现缩放效果
 		float m_Pitch = 0.0f, m_Yaw = 0.0f;
-
 		float m_ViewportWidth = 1280, m_ViewportHeight = 720;
 	};
-
 }
