@@ -178,7 +178,7 @@ namespace Hazel
 		{
 			const int32_t velocityIterations = 6;
 			const int32_t positionIterations = 2;
-			// 模拟一步
+			// 模拟一步，TODO: 固定时长物理模拟，而不是使用帧率
 			m_PhysicsWorld->Step(ts, velocityIterations, positionIterations);
 
 			// 设置物体模拟之后的状态
