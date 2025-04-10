@@ -1,6 +1,7 @@
 #include "EditorLayer.h"
 
 #include <imgui/imgui.h>
+#include <ImGuizmo.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -8,7 +9,6 @@
 #include "Hazel/Utils/PlatformUtils.h"
 #include "Hazel/Math/Math.h"
 
-#include "ImGuizmo.h"
 
 namespace Hazel 
 {
@@ -34,6 +34,7 @@ namespace Hazel
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
 		m_ActiveScene = CreateRef<Scene>();
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
@@ -229,7 +230,6 @@ namespace Hazel
 				if (ImGui::MenuItem("Exit")) Application::Get().Close();
 				ImGui::EndMenu();
 			}
-
 			ImGui::EndMenuBar();
 		}
 
@@ -277,6 +277,7 @@ namespace Hazel
 			m_Framebuffer->Resize(panelSize.x, panelSize.y);
 			m_CameraController.OnResize(panelSize.x, panelSize.y);
 		}
+		// 场景已经渲染到帧缓冲中，接下来将帧缓冲中的颜色纹理渲染到imgui窗口中
 		ImTextureID textureID = (void*)m_Framebuffer->GetColorAttachmentRendererID();
 		ImGui::Image(textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 
@@ -294,7 +295,7 @@ namespace Hazel
 
 		// Gizmos
 		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
-		if (selectedEntity && m_GizmoType != -1)
+		if (selectedEntity && m_GizmoType != -1 && m_SceneState == SceneState::Edit)
 		{
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
@@ -352,6 +353,7 @@ namespace Hazel
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f));
 
 		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		//ImGui::Begin("##toolbar", nullptr);
 
 		float size = ImGui::GetWindowHeight() - 4.0f;
 		Ref<Texture2D> icon = m_SceneState == SceneState::Edit ? m_IconPlay : m_IconStop;
@@ -426,25 +428,25 @@ namespace Hazel
 		// Gizmos
 		case Key::Q:
 		{
-			if (!ImGuizmo::IsUsing())
+			if (!ImGuizmo::IsUsing() && m_SceneState == SceneState::Edit)
 				m_GizmoType = -1;
 			break;
 		}
 		case Key::W:
 		{
-			if (!ImGuizmo::IsUsing())
+			if (!ImGuizmo::IsUsing() && m_SceneState == SceneState::Edit)
 				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
 			break;
 		}
 		case Key::E:
 		{
-			if (!ImGuizmo::IsUsing())
+			if (!ImGuizmo::IsUsing() && m_SceneState == SceneState::Edit)
 				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
 			break;
 		}
 		case Key::R:
 		{
-			if (!ImGuizmo::IsUsing())
+			if (!ImGuizmo::IsUsing() && m_SceneState == SceneState::Edit)
 				m_GizmoType = ImGuizmo::OPERATION::SCALE;
 			break;
 		}
@@ -519,7 +521,7 @@ namespace Hazel
 		}
 	}
 
-	void EditorLayer::SerializeScene(Ref<Scene> scene, const std::filesystem::path& path)
+	void EditorLayer::SerializeScene(const Ref<Scene>& scene, const std::filesystem::path& path)
 	{
 		SceneSerializer serializer(scene);
 		serializer.Serialize(path.string());

@@ -50,7 +50,6 @@ namespace Hazel
 			}
 
 		}
-
 		ImGui::End();
 
 		ImGui::Begin("Properties");
@@ -58,7 +57,6 @@ namespace Hazel
 		{
 			DrawComponents(m_SelectionContext);
 		}
-
 		ImGui::End();
 	}
 
@@ -72,7 +70,8 @@ namespace Hazel
 		auto& tag = entity.GetComponent<TagComponent>().Tag;
 
 		// 节点是否被选中，节点箭头是否是打开状态
-		ImGuiTreeNodeFlags flags = ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
+		ImGuiTreeNodeFlags flags = (m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0;
+		flags |= ImGuiTreeNodeFlags_OpenOnArrow;
 		flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
 		if (ImGui::IsItemClicked())
@@ -90,6 +89,7 @@ namespace Hazel
 		if (opened)
 		{
 			ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+			// 测试树形UI的使用，无实际意义。TODO: 完善场景实体的树状关系后，再来改变层级面板UI
 			bool opened = ImGui::TreeNodeEx((void*)9817239, flags, tag.c_str());
 			if (opened)
 				ImGui::TreePop();
@@ -187,8 +187,7 @@ namespace Hazel
 			float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 			ImGui::Separator();
 			bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, name.c_str());
-			ImGui::PopStyleVar(
-			);
+			ImGui::PopStyleVar();
 			ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
 			if (ImGui::Button("+", ImVec2{ lineHeight, lineHeight }))
 			{
@@ -217,7 +216,6 @@ namespace Hazel
 		if (entity.HasComponent<TagComponent>())
 		{
 			auto& tag = entity.GetComponent<TagComponent>().Tag;
-
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
 			std::strncpy(buffer, tag.c_str(), sizeof(buffer));
@@ -229,23 +227,21 @@ namespace Hazel
 
 		ImGui::SameLine(); // 添加组件的按钮放在同一行
 		ImGui::PushItemWidth(-1);
-
 		if (ImGui::Button("Add Component"))
 			ImGui::OpenPopup("AddComponent"); // 弹出菜单
-
 		if (ImGui::BeginPopup("AddComponent")) // 允许弹出窗口
 		{
+			// TODO: 随着组件的增加，这里会不断修改，考虑更好的设计
 			DisplayAddComponentEntry<CameraComponent>("Camera");
 			DisplayAddComponentEntry<ScriptComponent>("Script");
 			DisplayAddComponentEntry<SpriteRendererComponent>("Sprite Renderer");
 			DisplayAddComponentEntry<Rigidbody2DComponent>("Rigidbody 2D");
 			DisplayAddComponentEntry<BoxCollider2DComponent>("Box Collider 2D");
-
 			ImGui::EndPopup();
 		}
-
 		ImGui::PopItemWidth();
 
+		// TODO: 与上面类似，每新定义一个组件，都要在这里添加绘制的具体逻辑
 		DrawComponent<TransformComponent>("Transform", entity, [](auto& component)
 			{
 				DrawVec3Control("Translation", component.Translation);

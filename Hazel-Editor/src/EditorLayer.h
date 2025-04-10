@@ -29,7 +29,7 @@ namespace Hazel
 		void SaveScene();
 		void SaveSceneAs();
 
-		void SerializeScene(Ref<Scene> scene, const std::filesystem::path& path);
+		void SerializeScene(const Ref<Scene>& scene, const std::filesystem::path& path);
 
 		void OnScenePlay();
 		void OnSceneStop();

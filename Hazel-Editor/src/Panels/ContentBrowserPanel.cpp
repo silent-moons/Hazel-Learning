@@ -2,11 +2,11 @@
 #include "ContentBrowserPanel.h"
 
 #include <imgui/imgui.h>
+
 namespace Hazel 
 {
 	// Once we have projects, change this
 	extern const std::filesystem::path g_AssetPath = "D:\\C++\\HazelEngine\\Hazel-Editor\\assets";
-	//extern const std::filesystem::path g_AssetPath = "assets";
 	ContentBrowserPanel::ContentBrowserPanel() : m_CurrentDirectory(g_AssetPath)
 	{
 		m_DirectoryIcon = Texture2D::Create("Resources/Icons/ContentBrowser/DirectoryIcon.png");
@@ -32,6 +32,7 @@ namespace Hazel
 		int columnCount = (int)(panelWidth / cellSize);
 		if (columnCount < 1)
 			columnCount = 1;
+		// 1、列数 2、imgui组件的id，设为0和NULL则自动生成 3、列间是否有边框
 		ImGui::Columns(columnCount, 0, false);
 
 		for (auto& directoryEntry : std::filesystem::directory_iterator(m_CurrentDirectory))
@@ -62,9 +63,7 @@ namespace Hazel
 
 			}
 			ImGui::TextWrapped(filenameString.c_str());
-
 			ImGui::NextColumn();
-
 			ImGui::PopID();
 		}
 
