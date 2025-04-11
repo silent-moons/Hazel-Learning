@@ -316,9 +316,11 @@ namespace Hazel
 				bool scriptClassExists = ScriptEngine::EntityClassExists(component.ClassName);
 				static char buffer[64];
 				strcpy(buffer, component.ClassName.c_str());
+				// 如果输入框中的脚本类不存在，就将文本颜色改为红色
 				if (!scriptClassExists)
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9f, 0.2f, 0.3f, 1.0f));
 				
+				// 将输入框中的内容赋值给脚本组件的ClassName
 				if (ImGui::InputText("Class", buffer, sizeof(buffer)))
 					component.ClassName = buffer;
 

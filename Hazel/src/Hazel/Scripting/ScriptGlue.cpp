@@ -14,8 +14,8 @@
 
 #include "box2d/b2_body.h"
 
-namespace Hazel {
-
+namespace Hazel 
+{
 	static std::unordered_map<MonoType*, std::function<bool(Entity)>> s_EntityHasComponentFuncs;
 
 #define HZ_ADD_INTERNAL_CALL(Name) mono_add_internal_call("Hazel.InternalCalls::" #Name, Name)
@@ -111,13 +111,17 @@ namespace Hazel {
 				std::string_view structName = typeName.substr(pos + 1);
 				std::string managedTypename = fmt::format("Hazel.{}", structName);
 
-				MonoType* managedType = mono_reflection_type_from_name(managedTypename.data(), ScriptEngine::GetCoreAssemblyImage());
+				MonoType* managedType = mono_reflection_type_from_name(
+					managedTypename.data(), 
+					ScriptEngine::GetCoreAssemblyImage()
+				);
 				if (!managedType)
 				{
 					HZ_CORE_ERROR("Could not find component type {}", managedTypename);
 					return;
 				}
-				s_EntityHasComponentFuncs[managedType] = [](Entity entity) { return entity.HasComponent<Component>(); };
+				s_EntityHasComponentFuncs[managedType] = [](Entity entity) 
+					{ return entity.HasComponent<Component>(); };
 			}(), ...);
 	}
 
@@ -141,11 +145,9 @@ namespace Hazel {
 		HZ_ADD_INTERNAL_CALL(Entity_HasComponent);
 		HZ_ADD_INTERNAL_CALL(TransformComponent_GetTranslation);
 		HZ_ADD_INTERNAL_CALL(TransformComponent_SetTranslation);
-
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulse);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulseToCenter);
 
 		HZ_ADD_INTERNAL_CALL(Input_IsKeyDown);
 	}
-
 }

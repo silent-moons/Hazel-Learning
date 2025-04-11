@@ -64,25 +64,25 @@ namespace Hazel
 
 		static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
 		{
+			// 读取程序集到内存
 			uint32_t fileSize = 0;
 			char* fileData = ReadBytes(assemblyPath, &fileSize);
 
-			// NOTE: We can't use this image for anything other than loading the assembly because this image doesn't have a reference to the assembly
+			// 加载程序集的视图，里面包含程序集的元数据，是MonoAssembly的构建基础
 			MonoImageOpenStatus status;
 			MonoImage* image = mono_image_open_from_data_full(fileData, fileSize, 1, &status, 0);
-
-			if (status != MONO_IMAGE_OK)
+			if (status != MONO_IMAGE_OK) // 视图加载失败，记录错误
 			{
 				const char* errorMessage = mono_image_strerror(status);
-				// Log some error message using the errorMessage data
+				HZ_CORE_ERROR("Failed to load assembly: {0}, Error: {1}", 
+					assemblyPath.string(), errorMessage);
 				return nullptr;
 			}
 
+			// 根据前面打开的MonoImage，创建一个实际的运行时MonoAssembly
 			std::string pathString = assemblyPath.string();
 			MonoAssembly* assembly = mono_assembly_load_from_full(image, pathString.c_str(), &status, 0);
 			mono_image_close(image);
-
-			// Don't forget to free the file data
 			delete[] fileData;
 
 			return assembly;
@@ -145,28 +145,35 @@ namespace Hazel
 
 	struct ScriptEngineData
 	{
+		// 运行C#脚本的上下文环境
 		MonoDomain* RootDomain = nullptr;
-		MonoDomain* AppDomain = nullptr;
+		// 当前运行的域，相当于一个沙盒，可以安全地加载和运行一组程序集，与其他域互不干扰
+		MonoDomain* AppDomain = nullptr; 
 
+		// C#项目核心程序集，提供向量，组件等操作，相当于引擎功能的C#接口
 		MonoAssembly* CoreAssembly = nullptr;
+		// C#项目核心程序集的视图，包含了程序集的元数据
 		MonoImage* CoreAssemblyImage = nullptr;
-
+		// C#项目用户程序集，是用户自定义的逻辑
 		MonoAssembly* AppAssembly = nullptr;
+		// C#项目用户程序集的视图
 		MonoImage* AppAssemblyImage = nullptr;
 
+		// C#项目核心程序集中的Entity类，提供了实体的基本操作
 		ScriptClass EntityClass;
-
+		// C#项目用户程序集中的所有Entity类的子类，{类名，ScriptClass对象}
 		std::unordered_map<std::string, Ref<ScriptClass>> EntityClasses;
+		// C#项目用户程序集中的所有Entity类的子类实例化的对象，{UUID，ScriptInstance对象}
 		std::unordered_map<UUID, Ref<ScriptInstance>> EntityInstances;
 
-		// Runtime
-		Scene* SceneContext = nullptr;
+		Scene* SceneContext = nullptr; // Runtime
 	};
 
 	static ScriptEngineData* s_Data = nullptr;
 
 	void ScriptEngine::Init()
 	{
+		HZ_CORE_WARN("Script System!");
 		s_Data = new ScriptEngineData();
 
 		InitMono(); // 初始化mono
@@ -176,9 +183,7 @@ namespace Hazel
 
 		ScriptGlue::RegisterComponents(); // 注册C#类中的所有组件
 		ScriptGlue::RegisterFunctions(); // 将C++的函数注册到C#
-
-		// Retrieve and instantiate class
-		s_Data->EntityClass = ScriptClass("Hazel", "Entity", true); // 核心C#脚本
+		s_Data->EntityClass = ScriptClass("Hazel", "Entity", true);
 	}
 
 	void ScriptEngine::Shutdown()
@@ -189,11 +194,11 @@ namespace Hazel
 
 	void ScriptEngine::InitMono()
 	{
-		mono_set_assemblies_path("mono/lib"); // 设置程序集装配路径
-
-		// 声明根域并存储指针
+		// 加载mono运行时，内含C#的内置程序集和库，类似于C++的std
+		mono_set_assemblies_path("mono/lib"); 
+		// 启动Mono的jit，创建一个根域，HazelJITRuntime是jit实例的名称，可以任意命名
 		MonoDomain* rootDomain = mono_jit_init("HazelJITRuntime");
-		HZ_CORE_ASSERT(rootDomain, "");
+		HZ_CORE_ASSERT(rootDomain, "Mono Jit Init Failed!");
 		s_Data->RootDomain = rootDomain;
 	}
 
@@ -216,7 +221,8 @@ namespace Hazel
 
 		// 加载C#核心项目的dll程序集
 		s_Data->CoreAssembly = Utils::LoadMonoAssembly(filepath);
-		// MonoImage对象
+		// 程序集的视图，程序集相当于是代码文件，视图就是代码文件的元数据
+		// 后续获取程序集的类、方法等信息都需要从视图中获取
 		s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
 	}
 
@@ -224,10 +230,7 @@ namespace Hazel
 	{
 		// 加载C#用户项目的dll程序集
 		s_Data->AppAssembly = Utils::LoadMonoAssembly(filepath);
-		//auto assemb = s_Data->AppAssembly;
 		s_Data->AppAssemblyImage = mono_assembly_get_image(s_Data->AppAssembly);
-		//auto assembi = s_Data->AppAssemblyImage;
-		// Utils::PrintAssemblyTypes(s_Data->AppAssembly);
 	}
 
 	void ScriptEngine::OnRuntimeStart(Scene* scene)
@@ -244,7 +247,7 @@ namespace Hazel
 	{
 		const auto& sc = entity.GetComponent<ScriptComponent>();
 
-		// 组件的脚本名称是否正确
+		// 组件的脚本名称是否正确，ClassName来自编辑器脚本组件的输入框
 		if (ScriptEngine::EntityClassExists(sc.ClassName))
 		{
 			// 实例化类对象，并存储OnCreate、OnUpdate函数，调用父类Entity的构造函数，传入实体的UUID
@@ -327,11 +330,8 @@ namespace Hazel
 
 			Ref<ScriptClass> scriptClass = CreateRef<ScriptClass>(nameSpace, className);
 			s_Data->EntityClasses[fullName] = scriptClass;
-			// This routine is an iterator routine for retrieving the fields in a class.
-			// You must pass a gpointer that points to zero and is treated as an opaque handle
-			// to iterate over all of the elements. When no more values are available, the return value is NULL.
 			int fieldCount = mono_class_num_fields(monoClass); // 读取脚本类的属性
-			HZ_CORE_WARN("{} has {} fields:", className, fieldCount);
+			HZ_CORE_INFO("Loading user scripts: {} has {} fields:", className, fieldCount);
 			void* iterator = nullptr;
 
 			// 遍历所有属性
@@ -346,14 +346,12 @@ namespace Hazel
 
 					// 将MonoType类型（如System.Single）转化为更好识别的类型（如Float）
 					ScriptFieldType fieldType = Utils::MonoTypeToScriptFieldType(type);
-					HZ_CORE_WARN("  {} ({})", fieldName, Utils::ScriptFieldTypeToString(fieldType));
+					HZ_CORE_INFO("public field: {} ({})", fieldName, Utils::ScriptFieldTypeToString(fieldType));
 					// 设置属性名对应的结构体，写入该属性的信息
 					scriptClass->m_Fields[fieldName] = { fieldType, fieldName, field };
 				}
 			}
 		}
-
-		//auto& entityClasses = s_Data->EntityClasses;
 	}
 
 	MonoImage* ScriptEngine::GetCoreAssemblyImage()

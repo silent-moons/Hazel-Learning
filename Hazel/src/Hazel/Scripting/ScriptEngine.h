@@ -38,7 +38,7 @@ namespace Hazel
 		MonoClassField* ClassField;
 	};
 
-	class ScriptClass // 加载C#类成Mono类
+	class ScriptClass // 加载C#类到C++中，存储C#类的数据
 	{
 	public:
 		ScriptClass() = default;
