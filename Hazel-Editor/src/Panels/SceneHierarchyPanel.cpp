@@ -48,7 +48,6 @@ namespace Hazel
 
 				ImGui::EndPopup();
 			}
-
 		}
 		ImGui::End();
 
@@ -63,6 +62,12 @@ namespace Hazel
 	void SceneHierarchyPanel::SetSelectedEntity(Entity entity)
 	{
 		m_SelectionContext = entity;
+		// 防止在视口点选实体时，组件面板没有失焦
+		// 如果没有这句代码，点选实体时，组件面板的某个控件在激活状态，例如tag输入框
+		// 那么点选后的实体tag就会变成上一个实体的tag，因为它们有相同的控件ID
+		// 所以必须保证每次点选实体时，组件面板要失焦
+		// 在层级面板中点选实体时，层级面板会自动聚焦，组件面板自动失焦，所以没有上述问题
+		ImGui::SetWindowFocus("Scene Hierarchy");
 	}
 
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
