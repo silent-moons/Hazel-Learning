@@ -1,19 +1,21 @@
 Scene: Untitled
 Entities:
-  - Entity: 12837192831273
+  - Entity: 9165461306937425228
     TagComponent:
-      Tag: Red Square
+      Tag: Cube
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [1, 0, 0, 1]
-  - Entity: 12837192831273
+      Color: [1, 1, 1, 1]
+      TexturePath: D:\C++\HazelEngine\Hazel-Editor\assets\textures\box.png
+      TilingFactor: 1
+  - Entity: 13474619771556799519
     TagComponent:
       Tag: Camera
     TransformComponent:
-      Translation: [0, 0, 7.5]
+      Translation: [0, 0, 5]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CameraComponent:
@@ -27,12 +29,3 @@ Entities:
         OrthographicFar: 1
       Primary: true
       FixedAspectRatio: false
-  - Entity: 12837192831273
-    TagComponent:
-      Tag: Green Square
-    TransformComponent:
-      Translation: [1.89999998, -1.29999995, -5.69999981]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0, 1, 0, 1]

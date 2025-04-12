@@ -8,8 +8,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-namespace Hazel {
-
+namespace Hazel 
+{
 	struct QuadVertex
 	{
 		glm::vec3 Position;
