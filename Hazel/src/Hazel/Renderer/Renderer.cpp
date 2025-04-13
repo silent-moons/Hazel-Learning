@@ -1,19 +1,21 @@
 #include "hzpch.h"
 #include "Renderer.h"
-#include "Renderer2D.h"
-#include "Renderer3D.h"
-
-#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Hazel 
 {
-	Scope<Renderer::SceneData> Renderer::s_SceneData = CreateScope<Renderer::SceneData>();
+	std::function<void(const Camera&, const glm::mat4&)> Renderer::s_BeginSceneRuntimeFn = nullptr;
+	std::function<void(const EditorCamera&)> Renderer::s_BeginSceneEditorFn = nullptr;
+	std::function<void(const glm::mat4&, SpriteRendererComponent&, int)> Renderer::s_DrawFn = nullptr;
+	std::function<void()> Renderer::s_EndSceneFn = nullptr;
+	std::function<void()> Renderer::s_ResetStatsFn = nullptr;
+	std::function<IRenderStats*()> Renderer::s_GetStatsFn = nullptr;
 
 	void Renderer::Init()
 	{
 		RenderCommand::Init();
-		Renderer2D::Init();
 		Renderer3D::Init();
+		Renderer2D::Init();
+		SetMode(Mode::Renderer3D);
 	}
 
 	void Renderer::Shutdown()
@@ -27,25 +29,81 @@ namespace Hazel
 		RenderCommand::SetViewport(0, 0, width, height);
 	}
 
-	void Renderer::BeginScene(OrthographicCamera& camera)
+	void Renderer::BeginScene(const Camera& camera, const glm::mat4& transform)
 	{
-		s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+		if (s_BeginSceneRuntimeFn)
+			s_BeginSceneRuntimeFn(camera, transform);
+		else
+			HZ_CORE_ERROR("Renderer::BeginScene: No function bound!");
+	}
+
+	void Renderer::BeginScene(const EditorCamera& camera)
+	{
+		if (s_BeginSceneEditorFn)
+			s_BeginSceneEditorFn(camera);
+		else
+			HZ_CORE_ERROR("Renderer::BeginScene: No function bound!");
 	}
 
 	void Renderer::EndScene()
 	{
+		if(s_EndSceneFn)
+			s_EndSceneFn();
+		else
+			HZ_CORE_ERROR("Renderer::EndScene: No function bound!");
 	}
 
-	void Renderer::Submit(
-		const Ref<Shader>& shader,
-		const Ref<VertexArray>& vertexArray,
-		const glm::mat4& transform)
+	void Renderer::Draw(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
 	{
-		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform);
+		if(s_DrawFn)
+			s_DrawFn(transform, src, entityID);
+		else
+			HZ_CORE_ERROR("Renderer::Draw: No function bound!");
+	}
 
-		vertexArray->Bind();
-		RenderCommand::DrawIndexed(vertexArray);
+	void Renderer::ResetStats()
+	{
+		if (s_ResetStatsFn)
+			s_ResetStatsFn();
+		else
+			HZ_CORE_ERROR("Renderer::ResetStats: No function bound!");
+	}
+
+	IRenderStats* Renderer::GetStats()
+	{
+		if (s_GetStatsFn)
+			return s_GetStatsFn();
+		HZ_CORE_ERROR("Renderer::GetStats: No function bound!");
+		return nullptr;
+	}
+
+	void Renderer::SetMode(Mode mode) 
+	{
+		switch (mode) 
+		{
+		case Mode::Renderer2D:
+			Renderer2D::Bind();
+			s_BeginSceneRuntimeFn = [](const Camera& camera, const glm::mat4& transform) { Renderer2D::BeginScene(camera, transform); };
+			s_BeginSceneEditorFn = [](const EditorCamera& camera) { Renderer2D::BeginScene(camera); };
+			s_DrawFn = Renderer2D::DrawSprite;
+			s_EndSceneFn = Renderer2D::EndScene;
+			s_ResetStatsFn = Renderer2D::ResetStats;
+			s_GetStatsFn = Renderer2D::GetStats;
+			break;
+		case Mode::Renderer3D:
+			Renderer3D::Bind();
+			s_BeginSceneRuntimeFn = [](const Camera& camera, const glm::mat4& transform) { Renderer3D::BeginScene(camera, transform); };
+			s_BeginSceneEditorFn = [](const EditorCamera& camera) { Renderer3D::BeginScene(camera); };
+			s_DrawFn = Renderer3D::DrawMesh;
+			s_EndSceneFn = Renderer3D::EndScene;
+			s_ResetStatsFn = Renderer3D::ResetStats;
+			s_GetStatsFn = Renderer3D::GetStats;
+			break;
+		}
+	}
+
+	std::string Renderer::GetModeString(Mode mode)
+	{
+		return mode == Mode::Renderer2D ? "2D" : "3D";
 	}
 }

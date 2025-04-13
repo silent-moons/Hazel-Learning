@@ -7,6 +7,7 @@
 #include "Hazel/Scripting/ScriptEngine.h"
 #include "Hazel/Renderer/Renderer2D.h"
 #include "Hazel/Renderer/Renderer3D.h"
+#include "Hazel/Renderer/Renderer.h"
 
 // Box2D
 #include "box2d/b2_world.h"
@@ -218,30 +219,29 @@ namespace Hazel
 
 		if (mainCamera)
 		{
-			Renderer2D::BeginScene(*mainCamera, cameraTransform);
+			Renderer::BeginScene(*mainCamera, cameraTransform);
 
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group)
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+				Renderer::Draw(transform.GetTransform(), sprite, (int)entity);
 			}
 
-			Renderer2D::EndScene();
+			Renderer::EndScene();
 		}
 	}
 
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 	{
-		Renderer3D::BeginScene(camera);
+		Renderer::BeginScene(camera);
 		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 		for (auto entity : group)
 		{
 			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			//Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
-			Renderer3D::DrawCube(transform.GetTransform(), sprite, (int)entity);
+			Renderer::Draw(transform.GetTransform(), sprite, (int)entity);
 		}
-		Renderer3D::EndScene();
+		Renderer::EndScene();
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)

@@ -77,5 +77,6 @@ namespace Hazel
 
 		// Editor resources
 		Ref<Texture2D> m_IconPlay, m_IconStop;
+		Renderer::Mode m_Mode = Renderer::Mode::Renderer3D;
 	};
 }

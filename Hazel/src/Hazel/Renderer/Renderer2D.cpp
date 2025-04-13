@@ -50,7 +50,7 @@ namespace Hazel
 			{ -0.5f,  0.5f, 0.0f, 1.0f }
 		};
 
-		Renderer2D::Statistics Stats;
+		RenderStats2D Stats;
 	};
 	static Renderer2DData s_Data;
 
@@ -90,6 +90,7 @@ namespace Hazel
 		s_Data.QuadVA = VertexArray::Create();
 		s_Data.QuadVA->SetIndexBuffer(s_Data.QuadIB);
 		s_Data.QuadVA->AddVertexBuffer(s_Data.QuadVB);
+		s_Data.QuadVA->Unbind();
 
 		// 顶点结构体空间
 		s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices];	//保存指针初始位置
@@ -135,15 +136,6 @@ namespace Hazel
 		StartBatch();
 	}
 
-	// 已弃用
-	void Renderer2D::BeginScene(const OrthographicCamera& camera)
-	{
-		s_Data.TextureShader->Bind();
-		s_Data.TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-
-		StartBatch();
-	}
-
 	void Renderer2D::EndScene()
 	{
 		Flush();
@@ -171,6 +163,11 @@ namespace Hazel
 
 		RenderCommand::DrawIndexed(s_Data.QuadVA, s_Data.QuadIndexCount);
 		s_Data.Stats.DrawCalls++;
+	}
+
+	void Renderer2D::Bind()
+	{
+		s_Data.QuadVA->Bind();
 	}
 
 	void Renderer2D::NextBatch()
@@ -228,7 +225,7 @@ namespace Hazel
 
 		s_Data.QuadIndexCount += 6;
 
-		s_Data.Stats.QuadCount++;
+		s_Data.Stats.GeometryCount++;
 	}
 
 	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
@@ -275,7 +272,7 @@ namespace Hazel
 
 		s_Data.QuadIndexCount += 6;
 
-		s_Data.Stats.QuadCount++;
+		s_Data.Stats.GeometryCount++;
 	}
 
 	//------------------------------------------------- Rotated Quad --------------------------------------------------------------
@@ -317,11 +314,12 @@ namespace Hazel
 
 	void Renderer2D::ResetStats()
 	{
-		memset(&s_Data.Stats, 0, sizeof(Statistics));
+		s_Data.Stats.DrawCalls = 0;
+		s_Data.Stats.GeometryCount = 0;
 	}
 
-	Renderer2D::Statistics Renderer2D::GetStats()
+	IRenderStats* Renderer2D::GetStats()
 	{
-		return s_Data.Stats;
+		return &s_Data.Stats;
 	}
 }

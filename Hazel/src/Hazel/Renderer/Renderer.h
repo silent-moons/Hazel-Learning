@@ -1,32 +1,42 @@
 #pragma once
 
 #include "RenderCommand.h"
-#include "OrthoGraphicCamera.h"
-#include "Shader.h"
+#include "Hazel/Renderer/EditorCamera.h"
+#include "Hazel/Scene/Components.h"
+#include "Renderer2D.h"
+#include "Renderer3D.h"
 
 namespace Hazel
 {
 	class Renderer
 	{
 	public:
+		enum class Mode 
+		{
+			Renderer2D, Renderer3D
+		};
+	public:
 		static void Init();
 		static void Shutdown();
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
-		static void BeginScene(OrthographicCamera& camera);
+		static void BeginScene(const Camera& camera, const glm::mat4& transform);
+		static void BeginScene(const EditorCamera& camera);
 		static void EndScene();
-		static void Submit(
-			const Ref<Shader>& shader,
-			const Ref<VertexArray>& vertexArray,
-			const glm::mat4& transform = glm::mat4(1.0f));
+		static void Draw(const glm::mat4& transform, SpriteRendererComponent& src, int entityID);
+		static void ResetStats();
+		static IRenderStats* GetStats();
 
 		static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+		static void SetMode(Mode mode);
+		static std::string GetModeString(Mode mode);
 
 	private:
-		struct SceneData
-		{
-			glm::mat4 ViewProjectionMatrix;
-		};
-		static Scope<SceneData> s_SceneData;
+		static std::function<void(const Camera&, const glm::mat4&)> s_BeginSceneRuntimeFn;
+		static std::function<void(const EditorCamera&)> s_BeginSceneEditorFn;
+		static std::function<void(const glm::mat4&, SpriteRendererComponent&, int)> s_DrawFn;
+		static std::function<void()> s_EndSceneFn;
+		static std::function<void()> s_ResetStatsFn;
+		static std::function<IRenderStats*()> s_GetStatsFn;
 	};
 }

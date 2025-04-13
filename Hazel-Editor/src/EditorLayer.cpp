@@ -9,7 +9,6 @@
 #include "Hazel/Utils/PlatformUtils.h"
 #include "Hazel/Math/Math.h"
 
-
 namespace Hazel 
 {
 	extern const std::filesystem::path g_AssetPath;
@@ -34,6 +33,7 @@ namespace Hazel
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
 		m_ActiveScene = CreateRef<Scene>();
+		m_EditorScene = m_ActiveScene;
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
@@ -81,7 +81,6 @@ namespace Hazel
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 #endif
-		//m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -103,7 +102,7 @@ namespace Hazel
 		}
 
 		// Render
-		Renderer2D::ResetStats();
+		Renderer::ResetStats();
 		m_Framebuffer->Bind();
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		RenderCommand::Clear();
@@ -244,12 +243,12 @@ namespace Hazel
 			name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
 		ImGui::Text("Hovered Entity: %s", name.c_str());
 
-		auto stats = Renderer2D::GetStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-		ImGui::Text("Quads: %d", stats.QuadCount);
-		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+		auto stats = Renderer::GetStats();
+		ImGui::Text("Renderer Stats:");
+		ImGui::Text("Draw Calls: %d", stats->DrawCalls);
+		ImGui::Text("Geometries: %d", stats->GeometryCount);
+		ImGui::Text("Vertices: %d", stats->GetTotalVertexCount());
+		ImGui::Text("Indices: %d", stats->GetTotalIndexCount());
 
 		ImGui::End();
 
@@ -353,7 +352,7 @@ namespace Hazel
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f));
 
 		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-		//ImGui::Begin("##toolbar", nullptr);
+		//ImGui::Begin("##toolbar");
 
 		float size = ImGui::GetWindowHeight() - 4.0f;
 		Ref<Texture2D> icon = m_SceneState == SceneState::Edit ? m_IconPlay : m_IconStop;
@@ -364,6 +363,21 @@ namespace Hazel
 				OnScenePlay();
 			else if (m_SceneState == SceneState::Play)
 				OnSceneStop();
+		}
+
+		//ImGui::PopStyleVar(2);
+		//ImGui::PopStyleColor(3);
+		ImGui::End();
+
+		ImGui::Begin("##modeSelectable", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		for (int i = 0; i < 2; i++) 
+		{
+			ImGui::SameLine();
+			if (ImGui::Selectable(Renderer::GetModeString((Renderer::Mode)i).c_str(), (int)m_Mode == i, 0, ImVec2(80, 30)))
+			{
+				m_Mode = (Renderer::Mode)i;
+				Renderer::SetMode(m_Mode);
+			}
 		}
 		ImGui::PopStyleVar(2);
 		ImGui::PopStyleColor(3);

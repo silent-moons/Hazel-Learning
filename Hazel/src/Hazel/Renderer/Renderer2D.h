@@ -1,23 +1,32 @@
 #pragma once
 
-#include "Hazel/Renderer/OrthographicCamera.h"
 #include "Hazel/Renderer/Texture.h"
 #include "Hazel/Renderer/EditorCamera.h"
+#include "Hazel/Renderer/IRenderStats.h"
 #include "Hazel/Scene/Components.h"
 
 namespace Hazel 
 {
-	class Renderer2D
+	class RenderStats2D : public IRenderStats
 	{
 	public:
+		RenderStats2D() = default;
+		uint32_t GetTotalVertexCount() const override { return GeometryCount * 4; }
+		uint32_t GetTotalIndexCount() const override { return GeometryCount * 6; }
+	};
+
+	class Renderer;
+	class Renderer2D
+	{
+	private:
 		static void Init();
 		static void Shutdown();
 
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		static void BeginScene(const EditorCamera& camera);
-		static void BeginScene(const OrthographicCamera& camera); // TODO: Remove
 		static void EndScene();
 		static void Flush();
+		static void Bind();
 
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
@@ -29,23 +38,14 @@ namespace Hazel
 		static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color);
 		static void DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
 		static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
-	
 		static void DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID);
 
-		// Statistics (调试时使用的统计数据，存放在Statistics结构体)
-		struct Statistics 
-		{
-			uint32_t DrawCalls;
-			uint32_t QuadCount;
-			// 函数被调用时再计算Vertex或Index，节省性能
-			uint32_t GetTotalVertexCount() const { return QuadCount * 4; }
-			uint32_t GetTotalIndexCount() const { return QuadCount * 6; }
-		};
 		static void ResetStats();
-		static Statistics GetStats();
+		static IRenderStats* GetStats();
 
-	private:
 		static void StartBatch();
 		static void NextBatch();
+
+		friend Renderer;
 	};
 }

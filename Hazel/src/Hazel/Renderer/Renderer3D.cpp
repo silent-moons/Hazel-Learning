@@ -70,7 +70,7 @@ namespace Hazel
 			{-0.5f,  0.5f,  0.5f, 1.0f}
 		};
 
-		Renderer3D::Statistics Stats;
+		RenderStats3D Stats;
 	};
 	static Renderer3DData s_Data;
 
@@ -121,6 +121,7 @@ namespace Hazel
 		s_Data.CubeVA = VertexArray::Create();
 		s_Data.CubeVA->SetIndexBuffer(s_Data.CubeIB);
 		s_Data.CubeVA->AddVertexBuffer(s_Data.CubeVB);
+		s_Data.CubeVA->Unbind();
 
 		// 顶点结构体空间
 		s_Data.CubeVertexBufferBase = new CubeVertex[s_Data.MaxVertices]; //保存指针初始位置
@@ -195,6 +196,11 @@ namespace Hazel
 		s_Data.Stats.DrawCalls++;
 	}
 
+	void Renderer3D::Bind()
+	{
+		s_Data.CubeVA->Bind();
+	}
+
 	void Renderer3D::NextBatch()
 	{
 		Flush();
@@ -249,7 +255,7 @@ namespace Hazel
 		}
 
 		s_Data.CubeIndexCount += 36;
-		s_Data.Stats.CubeCount++;
+		s_Data.Stats.GeometryCount++;
 	}
 
 	void Renderer3D::DrawCube(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
@@ -321,10 +327,10 @@ namespace Hazel
 		}
 
 		s_Data.CubeIndexCount += 36;
-		s_Data.Stats.CubeCount++;
+		s_Data.Stats.GeometryCount++;
 	}
 
-	void Renderer3D::DrawCube(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
+	void Renderer3D::DrawMesh(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
 	{
 		if (src.Texture)
 			DrawCube(transform, src.Texture, src.TilingFactor, src.Color, entityID);
@@ -334,11 +340,12 @@ namespace Hazel
 
 	void Renderer3D::ResetStats()
 	{
-		memset(&s_Data.Stats, 0, sizeof(Statistics));
+		s_Data.Stats.DrawCalls = 0;
+		s_Data.Stats.GeometryCount = 0;
 	}
 
-	Renderer3D::Statistics Renderer3D::GetStats()
+	IRenderStats* Renderer3D::GetStats()
 	{
-		return s_Data.Stats;
+		return &s_Data.Stats;
 	}
 }
