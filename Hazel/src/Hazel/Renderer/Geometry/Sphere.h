@@ -17,12 +17,13 @@ namespace Hazel
 
 	class Sphere
 	{
+	private:
+		static constexpr int numLatLines = 32;
+		static constexpr int numLongLines = 64;
 	public:
 		static const std::vector<glm::vec4>& GetVertices()
 		{
 			static std::vector<glm::vec4> vertices;
-			constexpr int numLatLines = 32;
-			constexpr int numLongLines = 64;
 			constexpr float radius = 1;
 			if (vertices.empty())
 			{
@@ -48,8 +49,6 @@ namespace Hazel
 		static const std::vector<uint32_t>& GetIndices()
 		{
 			static std::vector<uint32_t> indices;
-			constexpr int numLatLines = 32;
-			constexpr int numLongLines = 64;
 			if (indices.empty())
 			{
 				for (int i = 0; i < numLatLines; i++)
@@ -74,8 +73,6 @@ namespace Hazel
 		static const std::vector<glm::vec2>& GetTextureCoords()
 		{
 			static std::vector<glm::vec2> textureCoords;
-			constexpr int numLatLines = 32;
-			constexpr int numLongLines = 64;
 			if (textureCoords.empty())
 			{
 				for (int i = 0; i <= numLatLines; i++)
@@ -90,5 +87,7 @@ namespace Hazel
 			}
 			return textureCoords;
 		}
+		static constexpr int GetVertexCount() { return (numLatLines + 1) * (numLongLines + 1); }
+		static constexpr int GetIndexCount() { return numLatLines * numLongLines * 6; }
 	};
 }

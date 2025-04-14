@@ -5,10 +5,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Hazel/Scene/SceneSerializer.h"
-#include "Hazel/Utils/PlatformUtils.h"
-#include "Hazel/Math/Math.h"
-
 namespace Hazel 
 {
 	extern const std::filesystem::path g_AssetPath;
@@ -247,8 +243,8 @@ namespace Hazel
 		ImGui::Text("Renderer Stats:");
 		ImGui::Text("Draw Calls: %d", stats->DrawCalls);
 		ImGui::Text("Geometries: %d", stats->GeometryCount);
-		ImGui::Text("Vertices: %d", stats->GetTotalVertexCount());
-		ImGui::Text("Indices: %d", stats->GetTotalIndexCount());
+		ImGui::Text("Vertices: %d", stats->VertexCount);
+		ImGui::Text("Indices: %d", stats->IndexCount);
 
 		ImGui::End();
 

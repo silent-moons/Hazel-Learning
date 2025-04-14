@@ -2,20 +2,12 @@
 
 #include "Hazel/Renderer/Texture.h"
 #include "Hazel/Renderer/EditorCamera.h"
-#include "Hazel/Renderer/IRenderStats.h"
 #include "Hazel/Scene/Components.h"
 
 namespace Hazel
 {
-	class RenderStats3D : public IRenderStats
-	{
-	public:
-		RenderStats3D() = default;
-		uint32_t GetTotalVertexCount() const override { return GeometryCount * 24; }
-		uint32_t GetTotalIndexCount() const override { return GeometryCount * 36; }
-	};
-
 	class Renderer;
+	class RenderStats;
 	class Renderer3D
 	{
 	private:
@@ -34,7 +26,7 @@ namespace Hazel
 		static void DrawMesh(const glm::mat4& transform, MeshFilterComponent& mesh, MeshRendererComponent& mrc, int entityID);
 
 		static void ResetStats();
-		static IRenderStats* GetStats();
+		static RenderStats* GetStats();
 
 		static void StartBatch();
 		static void NextBatch();

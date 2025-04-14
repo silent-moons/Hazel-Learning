@@ -2,20 +2,13 @@
 
 #include "Hazel/Renderer/Texture.h"
 #include "Hazel/Renderer/EditorCamera.h"
-#include "Hazel/Renderer/IRenderStats.h"
+
 #include "Hazel/Scene/Components.h"
 
 namespace Hazel 
 {
-	class RenderStats2D : public IRenderStats
-	{
-	public:
-		RenderStats2D() = default;
-		uint32_t GetTotalVertexCount() const override { return GeometryCount * 4; }
-		uint32_t GetTotalIndexCount() const override { return GeometryCount * 6; }
-	};
-
 	class Renderer;
+	class RenderStats;
 	class Renderer2D
 	{
 	private:
@@ -40,7 +33,7 @@ namespace Hazel
 		static void DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID);
 
 		static void ResetStats();
-		static IRenderStats* GetStats();
+		static RenderStats* GetStats();
 
 		static void StartBatch();
 		static void NextBatch();

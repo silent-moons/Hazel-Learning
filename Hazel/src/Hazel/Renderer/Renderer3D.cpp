@@ -4,6 +4,7 @@
 #include "Hazel/Renderer/VertexArray.h"
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/RenderCommand.h"
+#include "Hazel/Renderer/RenderStats.h"
 #include "Hazel/Renderer/Geometry/Cube.h"
 #include "Hazel/Renderer/Geometry/Sphere.h"
 #include "Platform/OpenGL/OpenGLShader.h"
@@ -14,13 +15,13 @@ namespace Hazel
 {
 	struct Renderer3DData
 	{
-		static const uint32_t MaxCubes = 100;
-		static const uint32_t MaxVertices = MaxCubes * 24;
-		static const uint32_t MaxIndices = MaxCubes * 36;
-		static const uint32_t MaxSpheres = 50;
-		static const uint32_t MaxSphereVertices = MaxSpheres * 2145;
-		static const uint32_t MaxSphereIndices = MaxSpheres * 12288;
-		static const uint32_t MaxTextureSlots = 32;
+		static constexpr uint32_t MaxCubes = 100;
+		static constexpr uint32_t MaxCubeVertices = MaxCubes * Cube::GetVertexCount();
+		static constexpr uint32_t MaxCubeIndices = MaxCubes * Cube::GetIndexCount();
+		static constexpr uint32_t MaxSpheres = 50;
+		static constexpr uint32_t MaxSphereVertices = MaxSpheres * Sphere::GetVertexCount();
+		static constexpr uint32_t MaxSphereIndices = MaxSpheres * Sphere::GetIndexCount();
+		static constexpr uint32_t MaxTextureSlots = 32;
 
 		Ref<VertexArray> CubeVA;
 		Ref<VertexBuffer> CubeVB;
@@ -42,14 +43,14 @@ namespace Hazel
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 		uint32_t TextureSlotIndex = 1;
 
-		RenderStats3D Stats;
+		RenderStats Stats;
 	};
 	static Renderer3DData s_Data;
 
 	void Renderer3D::Init()
 	{
 		// 立方体合批
-		s_Data.CubeVB = VertexBuffer::Create(s_Data.MaxVertices * sizeof(CubeVertex));
+		s_Data.CubeVB = VertexBuffer::Create(s_Data.MaxCubeVertices * sizeof(CubeVertex));
 		BufferLayout cubeLayout =
 		{
 			{ShaderDataType::Float3, "a_Position"},
@@ -63,23 +64,22 @@ namespace Hazel
 		s_Data.CubeVB->SetLayout(cubeLayout);
 
 		// 制作EBO数组
-		uint32_t* cubeIndices = new uint32_t[s_Data.MaxIndices];
+		uint32_t* cubeIndices = new uint32_t[s_Data.MaxCubeIndices];
 		std::vector<uint32_t> indices = Cube::GetIndices();
-		constexpr uint32_t offset = 24;
-		for (uint32_t i = 0; i < s_Data.MaxIndices; i += 36)
+		for (uint32_t i = 0; i < s_Data.MaxCubeIndices; i += Cube::GetIndexCount())
 		{
 			memcpy(cubeIndices + i, indices.data(), indices.size() * sizeof(uint32_t));
-			for (int j = 0; j < 36; j++)
-				indices[j] += offset;
+			for (int j = 0; j < Cube::GetIndexCount(); j++)
+				indices[j] += Cube::GetVertexCount();
 		}
-		s_Data.CubeIB = IndexBuffer::Create(cubeIndices, s_Data.MaxIndices);
+		s_Data.CubeIB = IndexBuffer::Create(cubeIndices, s_Data.MaxCubeIndices);
 		delete[] cubeIndices;
 
 		s_Data.CubeVA = VertexArray::Create();
 		s_Data.CubeVA->SetIndexBuffer(s_Data.CubeIB);
 		s_Data.CubeVA->AddVertexBuffer(s_Data.CubeVB);
 		s_Data.CubeVA->Unbind();
-		s_Data.CubeVertexBufferBase = new CubeVertex[s_Data.MaxVertices]; //保存指针初始位置
+		s_Data.CubeVertexBufferBase = new CubeVertex[s_Data.MaxCubeVertices]; //保存指针初始位置
 
 		// 球体合批
 		s_Data.SphereVB = VertexBuffer::Create(s_Data.MaxSphereVertices * sizeof(SphereVertex));
@@ -88,11 +88,11 @@ namespace Hazel
 		// 制作EBO数组
 		uint32_t* sphereIndices = new uint32_t[s_Data.MaxSphereIndices];
 		indices = Sphere::GetIndices();
-		for (uint32_t i = 0; i < s_Data.MaxIndices; i += 12288)
+		for (uint32_t i = 0; i < s_Data.MaxCubeIndices; i += Sphere::GetIndexCount())
 		{
 			memcpy(sphereIndices + i, indices.data(), indices.size() * sizeof(uint32_t));
-			for (int j = 0; j < 12288; j++)
-				indices[j] += 2145;
+			for (int j = 0; j < Sphere::GetIndexCount(); j++)
+				indices[j] += Sphere::GetVertexCount();
 		}
 		s_Data.SphereIB = IndexBuffer::Create(sphereIndices, s_Data.MaxSphereIndices);
 		delete[] sphereIndices;
@@ -162,7 +162,7 @@ namespace Hazel
 	{
 		if (s_Data.CubeIndexCount)
 		{
-			// Size 等于后端指针减去前端(hind 在绘制时一直更新数据）
+			// Size 等于后端指针减去前端
 			uint32_t dataSize = uint32_t((uint8_t*)s_Data.CubeVertexBufferPtr - (uint8_t*)s_Data.CubeVertexBufferBase);
 			// 将数据送往GPU
 			s_Data.CubeVB->SetData(s_Data.CubeVertexBufferBase, dataSize);
@@ -175,7 +175,7 @@ namespace Hazel
 		}
 		if (s_Data.SphereIndexCount)
 		{
-			// Size 等于后端指针减去前端(hind 在绘制时一直更新数据）
+			// Size 等于后端指针减去前端
 			uint32_t dataSize = uint32_t((uint8_t*)s_Data.SphereVertexBufferPtr - (uint8_t*)s_Data.SphereVertexBufferBase);
 			// 将数据送往GPU
 			s_Data.SphereVB->SetData(s_Data.SphereVertexBufferBase, dataSize);
@@ -196,14 +196,13 @@ namespace Hazel
 
 	void Renderer3D::DrawCube(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
-		constexpr size_t cubeVertexCount = 24;
 		const float textureIndex = 0.0f; // White Texture
 		const float tilingFactor = 1.0f;
 
-		if (s_Data.CubeIndexCount >= Renderer3DData::MaxIndices)
+		if (s_Data.CubeIndexCount >= Renderer3DData::MaxCubeIndices)
 			NextBatch();
 
-		for (size_t i = 0; i < cubeVertexCount; i++)
+		for (size_t i = 0; i < Cube::GetVertexCount(); i++)
 		{
 			s_Data.CubeVertexBufferPtr->Position = transform * Cube::GetVertices()[i];
 			s_Data.CubeVertexBufferPtr->Color = color;
@@ -214,15 +213,15 @@ namespace Hazel
 			s_Data.CubeVertexBufferPtr++;
 		}
 
-		s_Data.CubeIndexCount += 36;
+		s_Data.CubeIndexCount += Cube::GetIndexCount();
+		s_Data.Stats.VertexCount += Cube::GetVertexCount();
+		s_Data.Stats.IndexCount += Cube::GetIndexCount();
 		s_Data.Stats.GeometryCount++;
 	}
 
 	void Renderer3D::DrawCube(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
 	{
-		constexpr size_t cubeVertexCount = 24;
-
-		if (s_Data.CubeIndexCount >= Renderer3DData::MaxIndices)
+		if (s_Data.CubeIndexCount >= Renderer3DData::MaxCubeIndices)
 			NextBatch();
 
 		// 遍历纹理，查看现有纹理是否已经存入
@@ -248,7 +247,7 @@ namespace Hazel
 			s_Data.TextureSlotIndex++;
 		}
 
-		for (size_t i = 0; i < cubeVertexCount; i++)
+		for (size_t i = 0; i < Cube::GetVertexCount(); i++)
 		{
 			s_Data.CubeVertexBufferPtr->Position = transform * Cube::GetVertices()[i];
 			s_Data.CubeVertexBufferPtr->Color = tintColor;
@@ -259,20 +258,21 @@ namespace Hazel
 			s_Data.CubeVertexBufferPtr++;
 		}
 
-		s_Data.CubeIndexCount += 36;
+		s_Data.CubeIndexCount += Cube::GetIndexCount();
+		s_Data.Stats.VertexCount += Cube::GetVertexCount();
+		s_Data.Stats.IndexCount += Cube::GetIndexCount();
 		s_Data.Stats.GeometryCount++;
 	}
 
 	void Renderer3D::DrawSphere(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
-		const size_t sphereVertexCount = Sphere::GetVertices().size();
 		const float textureIndex = 0.0f; // White Texture
 		const float tilingFactor = 1.0f;
 
 		if (s_Data.SphereIndexCount >= Renderer3DData::MaxSphereIndices)
 			NextBatch();
 
-		for (size_t i = 0; i < sphereVertexCount; i++)
+		for (size_t i = 0; i < Sphere::GetVertexCount(); i++)
 		{
 			s_Data.SphereVertexBufferPtr->Position = transform * Sphere::GetVertices()[i];
 			s_Data.SphereVertexBufferPtr->Color = color;
@@ -283,14 +283,14 @@ namespace Hazel
 			s_Data.SphereVertexBufferPtr++;
 		}
 
-		s_Data.SphereIndexCount += Sphere::GetIndices().size();
+		s_Data.SphereIndexCount += Sphere::GetIndexCount();
+		s_Data.Stats.VertexCount += Sphere::GetVertexCount();
+		s_Data.Stats.IndexCount += Sphere::GetIndexCount();
 		s_Data.Stats.GeometryCount++;
 	}
 
 	void Renderer3D::DrawSphere(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
 	{
-		const size_t sphereVertexCount = Sphere::GetVertices().size();
-
 		if (s_Data.SphereIndexCount >= Renderer3DData::MaxSphereIndices)
 			NextBatch();
 
@@ -317,7 +317,7 @@ namespace Hazel
 			s_Data.TextureSlotIndex++;
 		}
 
-		for (size_t i = 0; i < sphereVertexCount; i++)
+		for (size_t i = 0; i < Sphere::GetVertexCount(); i++)
 		{
 			s_Data.SphereVertexBufferPtr->Position = transform * Sphere::GetVertices()[i];
 			s_Data.SphereVertexBufferPtr->Color = tintColor;
@@ -328,7 +328,9 @@ namespace Hazel
 			s_Data.SphereVertexBufferPtr++;
 		}
 
-		s_Data.SphereIndexCount += Sphere::GetIndices().size();
+		s_Data.SphereIndexCount += Sphere::GetIndexCount();
+		s_Data.Stats.VertexCount += Sphere::GetVertexCount();
+		s_Data.Stats.IndexCount += Sphere::GetIndexCount();
 		s_Data.Stats.GeometryCount++;
 	}
 
@@ -354,9 +356,11 @@ namespace Hazel
 	{
 		s_Data.Stats.DrawCalls = 0;
 		s_Data.Stats.GeometryCount = 0;
+		s_Data.Stats.VertexCount = 0;
+		s_Data.Stats.IndexCount = 0;
 	}
 
-	IRenderStats* Renderer3D::GetStats()
+	RenderStats* Renderer3D::GetStats()
 	{
 		return &s_Data.Stats;
 	}

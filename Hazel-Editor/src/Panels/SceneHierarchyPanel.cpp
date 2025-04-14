@@ -11,6 +11,7 @@
 
 namespace Hazel 
 {
+
 	extern const std::filesystem::path g_AssetPath;
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
@@ -30,11 +31,27 @@ namespace Hazel
 
 		if (m_Context)
 		{
-			m_Context->m_Registry.each([&](auto entityID)
-				{
-					Entity entity{ entityID , m_Context.get() };
-					DrawEntityNode(entity);
-				});
+			ImGui::SetNextItemOpen(true, ImGuiCond_Always);
+			ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen
+										| ImGuiTreeNodeFlags_FramePadding;
+
+			if (ImGui::TreeNodeEx("##TreeNode", flags))
+			{
+				char buffer[128];
+				strncpy(buffer, m_Context->m_Name.c_str(), sizeof(buffer));
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(150);
+				if (ImGui::InputText("##NodeNameInput", buffer, 128))
+					m_Context->m_Name = buffer;
+				
+				// 在场景名树节点下绘制实体
+				m_Context->m_Registry.each([&](auto entityID)
+					{
+						Entity entity{ entityID , m_Context.get() };
+						DrawEntityNode(entity);
+					});
+				ImGui::TreePop();
+			}
 
 			// 鼠标点击窗口空白处，将当前选择的实体置为空，下方将不再渲染实体对应的组件
 			if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())

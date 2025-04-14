@@ -1,5 +1,7 @@
 #include "hzpch.h"
+
 #include "Renderer.h"
+#include "RenderStats.h"
 
 namespace Hazel 
 {
@@ -10,7 +12,7 @@ namespace Hazel
 	std::function<void(const glm::mat4&, MeshFilterComponent&, MeshRendererComponent&, int)> Renderer::s_DrawMeshFn = nullptr;
 	std::function<void()> Renderer::s_EndSceneFn = nullptr;
 	std::function<void()> Renderer::s_ResetStatsFn = nullptr;
-	std::function<IRenderStats*()> Renderer::s_GetStatsFn = nullptr;
+	std::function<RenderStats*()> Renderer::s_GetStatsFn = nullptr;
 
 	void Renderer::Init()
 	{
@@ -79,7 +81,7 @@ namespace Hazel
 			HZ_CORE_ERROR("Renderer::ResetStats: No function bound!");
 	}
 
-	IRenderStats* Renderer::GetStats()
+	RenderStats* Renderer::GetStats()
 	{
 		if (s_GetStatsFn)
 			return s_GetStatsFn();
@@ -104,7 +106,7 @@ namespace Hazel
 			s_RendererMode = Mode::Renderer3D;
 			s_BeginSceneRuntimeFn = [](const Camera& camera, const glm::mat4& transform) { Renderer3D::BeginScene(camera, transform); };
 			s_BeginSceneEditorFn = [](const EditorCamera& camera) { Renderer3D::BeginScene(camera); };
-			s_DrawMeshFn = [](const glm::mat4& transform, MeshFilterComponent& mesh, MeshRendererComponent& mrc, int entityID) { Renderer3D::DrawMesh(transform, mesh, mrc, entityID); };
+			s_DrawMeshFn = Renderer3D::DrawMesh;
 			s_EndSceneFn = Renderer3D::EndScene;
 			s_ResetStatsFn = Renderer3D::ResetStats;
 			s_GetStatsFn = Renderer3D::GetStats;

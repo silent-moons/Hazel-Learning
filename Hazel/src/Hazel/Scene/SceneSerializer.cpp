@@ -267,7 +267,7 @@ namespace Hazel
 	{
 		YAML::Emitter out;
 		out << YAML::BeginMap;
-		out << YAML::Key << "Scene" << YAML::Value << "Untitled"; // TODO: 场景名自定义
+		out << YAML::Key << "Scene" << YAML::Value << m_Scene->m_Name;
 		out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
 		m_Scene->m_Registry.each([&](auto entityID)
 			{
@@ -282,6 +282,7 @@ namespace Hazel
 
 		std::ofstream fout(filepath);
 		fout << out.c_str();
+		HZ_CORE_TRACE("Serializing scene '{0}'", filepath);
 	}
 
 	void SceneSerializer::SerializeRuntime(const std::string& filepath)
@@ -306,6 +307,7 @@ namespace Hazel
 			return false;
 
 		std::string sceneName = data["Scene"].as<std::string>();
+		m_Scene->m_Name = sceneName;
 		HZ_CORE_TRACE("Deserializing scene '{0}'", sceneName);
 
 		auto entities = data["Entities"];

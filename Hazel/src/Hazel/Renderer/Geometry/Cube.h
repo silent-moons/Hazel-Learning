@@ -99,5 +99,7 @@ namespace Hazel
 			};
 			return textureCoords;
 		}
+		static constexpr int GetVertexCount() { return 24; }
+		static constexpr int GetIndexCount() { return 36; }
 	};
 }

@@ -1,4 +1,4 @@
-Scene: Untitled
+Scene: "3DBatch\x00"
 Entities:
   - Entity: 8265586926760686749
     TagComponent:

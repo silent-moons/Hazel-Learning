@@ -8,6 +8,7 @@
 
 namespace Hazel
 {
+	class RenderStats;
 	class Renderer
 	{
 	public:
@@ -26,7 +27,7 @@ namespace Hazel
 		static void Draw(const glm::mat4& transform, SpriteRendererComponent& src, int entityID);
 		static void Draw(const glm::mat4& transform, MeshFilterComponent& mesh, MeshRendererComponent& mrc, int entityID);
 		static void ResetStats();
-		static IRenderStats* GetStats();
+		static RenderStats* GetStats();
 
 		static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 		static void SetMode(Mode mode);
@@ -40,6 +41,6 @@ namespace Hazel
 		static std::function<void(const glm::mat4&, MeshFilterComponent&, MeshRendererComponent&, int)> s_DrawMeshFn;
 		static std::function<void()> s_EndSceneFn;
 		static std::function<void()> s_ResetStatsFn;
-		static std::function<IRenderStats*()> s_GetStatsFn;
+		static std::function<RenderStats*()> s_GetStatsFn;
 	};
 }

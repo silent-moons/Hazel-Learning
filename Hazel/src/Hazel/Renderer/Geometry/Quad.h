@@ -45,5 +45,7 @@ namespace Hazel
 			};
 			return textureCoords;
 		}
+		static constexpr int GetVertexCount() { return 4; }
+		static constexpr int GetIndexCount() { return 6; }
 	};
 }

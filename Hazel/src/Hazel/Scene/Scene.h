@@ -49,7 +49,7 @@ namespace Hazel
 
 		b2World* m_PhysicsWorld = nullptr;
 		std::unordered_map<UUID, entt::entity> m_EntityMap;
-
+		std::string m_Name = "Untitled";
 		friend class Entity;
 		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
