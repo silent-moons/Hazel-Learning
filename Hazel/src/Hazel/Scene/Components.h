@@ -56,6 +56,26 @@ namespace Hazel
 		SpriteRendererComponent(const glm::vec4& color) : Color(color) {}
 	};
 
+	struct MeshFilterComponent
+	{
+		std::string Name;
+
+		MeshFilterComponent() = default;
+		MeshFilterComponent(const MeshFilterComponent&) = default;
+		MeshFilterComponent(const std::string& name) : Name(name) {}
+	};
+
+	struct MeshRendererComponent
+	{
+		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
+		Ref<Texture2D> Texture;
+		float TilingFactor = 1.0f;
+
+		MeshRendererComponent() = default;
+		MeshRendererComponent(const MeshRendererComponent&) = default;
+		MeshRendererComponent(const glm::vec4& color) : Color(color) {}
+	};
+
 	struct CameraComponent
 	{
 		SceneCamera Camera;
@@ -125,6 +145,7 @@ namespace Hazel
 
 	using AllComponents =
 		ComponentGroup<TransformComponent, SpriteRendererComponent,
+		MeshFilterComponent, MeshRendererComponent,
 		CameraComponent, ScriptComponent, NativeScriptComponent,
 		Rigidbody2DComponent, BoxCollider2DComponent>;
 }

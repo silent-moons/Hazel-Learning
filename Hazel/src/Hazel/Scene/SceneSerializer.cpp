@@ -211,6 +211,31 @@ namespace Hazel
 			out << YAML::EndMap; // SpriteRendererComponent
 		}
 
+		if (entity.HasComponent<MeshFilterComponent>())
+		{
+			out << YAML::Key << "MeshFilterComponent";
+			out << YAML::BeginMap; // TagComponent
+
+			auto& name = entity.GetComponent<MeshFilterComponent>().Name;
+			out << YAML::Key << "Name" << YAML::Value << name;
+
+			out << YAML::EndMap; // TagComponent
+		}
+
+		if (entity.HasComponent<MeshRendererComponent>())
+		{
+			out << YAML::Key << "MeshRendererComponent";
+			out << YAML::BeginMap; // MeshRendererComponent
+
+			auto& meshRendererComponent = entity.GetComponent<MeshRendererComponent>();
+			out << YAML::Key << "Color" << YAML::Value << meshRendererComponent.Color;
+			if (meshRendererComponent.Texture)
+				out << YAML::Key << "TexturePath" << YAML::Value << meshRendererComponent.Texture->GetPath();
+			out << YAML::Key << "TilingFactor" << YAML::Value << meshRendererComponent.TilingFactor;
+
+			out << YAML::EndMap; // MeshRendererComponent
+		}
+
 		if (entity.HasComponent<Rigidbody2DComponent>())
 		{
 			out << YAML::Key << "Rigidbody2DComponent";
@@ -334,6 +359,25 @@ namespace Hazel
 				{
 					auto& sc = deserializedEntity.AddComponent<ScriptComponent>();
 					sc.ClassName = scriptComponent["ClassName"].as<std::string>();
+				}
+
+				auto meshFilterComponent = entity["MeshFilterComponent"];
+				if (meshFilterComponent)
+				{
+					std::string meshName = meshFilterComponent["Name"].as<std::string>();
+					auto& mfc = deserializedEntity.AddComponent<MeshFilterComponent>();
+					mfc.Name = meshName;
+				}
+
+				auto meshRendererComponent = entity["MeshRendererComponent"];
+				if (meshRendererComponent)
+				{
+					auto& mrc = deserializedEntity.AddComponent<MeshRendererComponent>();
+					mrc.Color = meshRendererComponent["Color"].as<glm::vec4>();
+					if (meshRendererComponent["TexturePath"])
+						mrc.Texture = Texture2D::Create(meshRendererComponent["TexturePath"].as<std::string>());
+					if (meshRendererComponent["TilingFactor"])
+						mrc.TilingFactor = meshRendererComponent["TilingFactor"].as<float>();
 				}
 
 				auto spriteRendererComponent = entity["SpriteRendererComponent"];

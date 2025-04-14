@@ -122,8 +122,8 @@ namespace Hazel
 
 	void Scene::DestroyEntity(Entity entity)
 	{
-		m_Registry.destroy(entity);
 		m_EntityMap.erase(entity.GetUUID());
+		m_Registry.destroy(entity);
 	}
 
 	void Scene::OnRuntimeStart()
@@ -235,11 +235,32 @@ namespace Hazel
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 	{
 		Renderer::BeginScene(camera);
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group)
+		switch (Renderer::s_RendererMode)
 		{
-			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer::Draw(transform.GetTransform(), sprite, (int)entity);
+		case Renderer::Mode::Renderer2D:
+		{
+			//auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			auto group = m_Registry.view<TransformComponent, SpriteRendererComponent>();
+			for (auto entity : group)
+			{
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				Renderer::Draw(transform.GetTransform(), sprite, (int)entity);
+			}
+			break;
+		}
+		case Renderer::Mode::Renderer3D:
+		{
+			//auto group = m_Registry.group<TransformComponent>(entt::get<MeshRendererComponent>);
+			auto group = m_Registry.view<TransformComponent, MeshFilterComponent, MeshRendererComponent>();
+			for (auto entity : group)
+			{
+				auto [transform, mesh, sprite] = group.get<TransformComponent, MeshFilterComponent, MeshRendererComponent>(entity);
+				Renderer::Draw(transform.GetTransform(), mesh, sprite, (int)entity);
+			}
+			break;
+		}
+		default:
+			break;
 		}
 		Renderer::EndScene();
 	}
@@ -360,6 +381,10 @@ namespace Hazel
 	}
 	template<>
 	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
+	{
+	}
+	template<>
+	void Scene::OnComponentAdded<MeshRendererComponent>(Entity entity, MeshRendererComponent& component)
 	{
 	}
 	template<>

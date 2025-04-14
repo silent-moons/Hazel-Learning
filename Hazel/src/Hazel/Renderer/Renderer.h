@@ -24,6 +24,7 @@ namespace Hazel
 		static void BeginScene(const EditorCamera& camera);
 		static void EndScene();
 		static void Draw(const glm::mat4& transform, SpriteRendererComponent& src, int entityID);
+		static void Draw(const glm::mat4& transform, MeshFilterComponent& mesh, MeshRendererComponent& mrc, int entityID);
 		static void ResetStats();
 		static IRenderStats* GetStats();
 
@@ -31,10 +32,12 @@ namespace Hazel
 		static void SetMode(Mode mode);
 		static std::string GetModeString(Mode mode);
 
+		static Mode s_RendererMode;
 	private:
 		static std::function<void(const Camera&, const glm::mat4&)> s_BeginSceneRuntimeFn;
 		static std::function<void(const EditorCamera&)> s_BeginSceneEditorFn;
-		static std::function<void(const glm::mat4&, SpriteRendererComponent&, int)> s_DrawFn;
+		static std::function<void(const glm::mat4&, SpriteRendererComponent&, int)> s_DrawSpriteFn;
+		static std::function<void(const glm::mat4&, MeshFilterComponent&, MeshRendererComponent&, int)> s_DrawMeshFn;
 		static std::function<void()> s_EndSceneFn;
 		static std::function<void()> s_ResetStatsFn;
 		static std::function<IRenderStats*()> s_GetStatsFn;

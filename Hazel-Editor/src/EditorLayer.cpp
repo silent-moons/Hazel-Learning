@@ -373,10 +373,9 @@ namespace Hazel
 		for (int i = 0; i < 2; i++) 
 		{
 			ImGui::SameLine();
-			if (ImGui::Selectable(Renderer::GetModeString((Renderer::Mode)i).c_str(), (int)m_Mode == i, 0, ImVec2(80, 30)))
+			if (ImGui::Selectable(Renderer::GetModeString((Renderer::Mode)i).c_str(), (int)Renderer::s_RendererMode == i, 0, ImVec2(80, 30)))
 			{
-				m_Mode = (Renderer::Mode)i;
-				Renderer::SetMode(m_Mode);
+				Renderer::SetMode((Renderer::Mode)i);
 			}
 		}
 		ImGui::PopStyleVar(2);

@@ -4,24 +4,13 @@
 #include "Hazel/Renderer/VertexArray.h"
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/RenderCommand.h"
+#include "Hazel/Renderer/Geometry/Quad.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Hazel 
 {
-	struct QuadVertex
-	{
-		glm::vec3 Position;
-		glm::vec4 Color;
-		glm::vec2 TexCoord;
-		float TexIndex;
-		float TilingFactor;
-
-		// Editor-only
-		int EntityID;
-	};
-
 	struct Renderer2DData
 	{
 		static const uint32_t MaxQuads = 20000;
@@ -41,14 +30,6 @@ namespace Hazel
 
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 		uint32_t TextureSlotIndex = 1;
-
-		glm::vec4 QuadVertexPositions[4]
-		{
-			{ -0.5f, -0.5f, 0.0f, 1.0f },
-			{  0.5f, -0.5f, 0.0f, 1.0f },
-			{  0.5f,  0.5f, 0.0f, 1.0f },
-			{ -0.5f,  0.5f, 0.0f, 1.0f }
-		};
 
 		RenderStats2D Stats;
 	};
@@ -73,16 +54,13 @@ namespace Hazel
 
 		// 制作四边形的EBO数组
 		uint32_t* quadIndices = new uint32_t[s_Data.MaxIndices];
-		uint32_t offset = 0;
+		std::vector<uint32_t> indices = Quad::GetIndices();
+		constexpr uint32_t offset = 4;
 		for (uint32_t i = 0; i < s_Data.MaxIndices; i += 6)
 		{
-			quadIndices[i + 0] = offset + 0;
-			quadIndices[i + 1] = offset + 1;
-			quadIndices[i + 2] = offset + 2;
-			quadIndices[i + 3] = offset + 2;
-			quadIndices[i + 4] = offset + 3;
-			quadIndices[i + 5] = offset + 0;
-			offset += 4;
+			memcpy(quadIndices + i, indices.data(), indices.size() * sizeof(uint32_t));
+			for (int j = 0; j < 6; j++)
+				indices[j] += offset;
 		}
 		s_Data.QuadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
 		delete[] quadIndices;
@@ -165,11 +143,6 @@ namespace Hazel
 		s_Data.Stats.DrawCalls++;
 	}
 
-	void Renderer2D::Bind()
-	{
-		s_Data.QuadVA->Bind();
-	}
-
 	void Renderer2D::NextBatch()
 	{
 		Flush();
@@ -206,7 +179,6 @@ namespace Hazel
 	{
 		constexpr size_t quadVertexCount = 4;
 		const float textureIndex = 0.0f; // White Texture
-		constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 		const float tilingFactor = 1.0f;
 
 		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
@@ -214,9 +186,9 @@ namespace Hazel
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
-			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
+			s_Data.QuadVertexBufferPtr->Position = transform * Quad::GetVertices()[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
+			s_Data.QuadVertexBufferPtr->TexCoord = Quad::GetTextureCoords()[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 			s_Data.QuadVertexBufferPtr->EntityID = entityID;
@@ -231,8 +203,6 @@ namespace Hazel
 	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
 	{
 		constexpr size_t quadVertexCount = 4;
-		constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
-
 		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
 			NextBatch();
 
@@ -261,9 +231,9 @@ namespace Hazel
 		
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
-			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
+			s_Data.QuadVertexBufferPtr->Position = transform * Quad::GetVertices()[i];
 			s_Data.QuadVertexBufferPtr->Color = tintColor;
-			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
+			s_Data.QuadVertexBufferPtr->TexCoord = Quad::GetTextureCoords()[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 			s_Data.QuadVertexBufferPtr->EntityID = entityID;

@@ -1,0 +1,41 @@
+Scene: Untitled
+Entities:
+  - Entity: 8265586926760686749
+    TagComponent:
+      Tag: Cube
+    TransformComponent:
+      Translation: [-1, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshFilterComponent:
+      Name: Cube
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: ./assets\textures\box.png
+      TilingFactor: 1
+  - Entity: 527232773585038388
+    TagComponent:
+      Tag: Cube1
+    TransformComponent:
+      Translation: [-1, 1.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshFilterComponent:
+      Name: Cube
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: ./assets\textures\box.png
+      TilingFactor: 2
+  - Entity: 9935977319097977484
+    TagComponent:
+      Tag: Sphere
+    TransformComponent:
+      Translation: [1, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshFilterComponent:
+      Name: Sphere
+    MeshRendererComponent:
+      Color: [0, 1, 0, 1]
+      TexturePath: ./assets\textures\Checkerboard.png
+      TilingFactor: 1
