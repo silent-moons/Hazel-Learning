@@ -22,6 +22,7 @@ namespace Hazel
 		Ref<VertexArray> QuadVA;
 		Ref<VertexBuffer> QuadVB;
 		Ref<IndexBuffer> QuadIB;
+
 		Ref<Shader> TextureShader;
 		Ref<Texture2D> WhiteTexture;
 
@@ -79,7 +80,10 @@ namespace Hazel
 			samplers[i] = i;
 
 		// Shader
-		s_Data.TextureShader = Shader::Create("assets/shaders/Texture.glsl");
+		if (ShaderLibrary::Exists("Texture"))
+			s_Data.TextureShader = ShaderLibrary::Get("Texture");
+		else
+			s_Data.TextureShader = ShaderLibrary::Load("assets/shaders/Texture.glsl");
 		s_Data.TextureShader->Bind();
 		//上传所有采样器到对应纹理单元
 		s_Data.TextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);

@@ -7,12 +7,25 @@
 #include "Hazel/Renderer/RenderStats.h"
 #include "Hazel/Renderer/Geometry/Cube.h"
 #include "Hazel/Renderer/Geometry/Sphere.h"
+#include "Hazel/Renderer/Geometry/Geometry.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Hazel
 {
+	struct RendererBatchData
+	{
+		Ref<VertexArray> VAO;
+		Ref<VertexBuffer> VBO;
+		Ref<IndexBuffer> IBO;
+
+		uint32_t IndexCount = 0;
+		BatchVertex* VertexBufferBase = nullptr; // 顶点指针起始
+		BatchVertex* VertexBufferPtr = nullptr; // 用于移动的顶点指针
+	};
+
+	static std::unordered_map<MeshFilterComponent::MeshType, RendererBatchData> s_BatchDataMap;
 	struct Renderer3DData
 	{
 		static constexpr uint32_t MaxCubes = 100;
@@ -23,22 +36,8 @@ namespace Hazel
 		static constexpr uint32_t MaxSphereIndices = MaxSpheres * Sphere::GetIndexCount();
 		static constexpr uint32_t MaxTextureSlots = 32;
 
-		Ref<VertexArray> CubeVA;
-		Ref<VertexBuffer> CubeVB;
-		Ref<IndexBuffer> CubeIB;
 		Ref<Shader> TextureShader;
 		Ref<Texture2D> WhiteTexture;
-
-		Ref<VertexArray> SphereVA;
-		Ref<VertexBuffer> SphereVB;
-		Ref<IndexBuffer> SphereIB;
-
-		uint32_t CubeIndexCount = 0;
-		CubeVertex* CubeVertexBufferBase = nullptr; // 顶点指针起始
-		CubeVertex* CubeVertexBufferPtr = nullptr; // 用于移动的顶点指针
-		uint32_t SphereIndexCount = 0;
-		SphereVertex* SphereVertexBufferBase = nullptr;
-		SphereVertex* SphereVertexBufferPtr = nullptr;
 
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 		uint32_t TextureSlotIndex = 1;
@@ -50,7 +49,8 @@ namespace Hazel
 	void Renderer3D::Init()
 	{
 		// 立方体合批
-		s_Data.CubeVB = VertexBuffer::Create(s_Data.MaxCubeVertices * sizeof(CubeVertex));
+		RendererBatchData cubeData;
+		cubeData.VBO = VertexBuffer::Create(s_Data.MaxCubeVertices * sizeof(CubeVertex));
 		BufferLayout cubeLayout =
 		{
 			{ShaderDataType::Float3, "a_Position"},
@@ -60,8 +60,7 @@ namespace Hazel
 			{ShaderDataType::Float, "a_TilingFactor"},
 			{ShaderDataType::Int, "a_EntityID"}
 		};
-
-		s_Data.CubeVB->SetLayout(cubeLayout);
+		cubeData.VBO->SetLayout(cubeLayout);
 
 		// 制作EBO数组
 		uint32_t* cubeIndices = new uint32_t[s_Data.MaxCubeIndices];
@@ -72,36 +71,39 @@ namespace Hazel
 			for (int j = 0; j < Cube::GetIndexCount(); j++)
 				indices[j] += Cube::GetVertexCount();
 		}
-		s_Data.CubeIB = IndexBuffer::Create(cubeIndices, s_Data.MaxCubeIndices);
+		cubeData.IBO = IndexBuffer::Create(cubeIndices, s_Data.MaxCubeIndices);
 		delete[] cubeIndices;
 
-		s_Data.CubeVA = VertexArray::Create();
-		s_Data.CubeVA->SetIndexBuffer(s_Data.CubeIB);
-		s_Data.CubeVA->AddVertexBuffer(s_Data.CubeVB);
-		s_Data.CubeVA->Unbind();
-		s_Data.CubeVertexBufferBase = new CubeVertex[s_Data.MaxCubeVertices]; //保存指针初始位置
+		cubeData.VAO = VertexArray::Create();
+		cubeData.VAO->SetIndexBuffer(cubeData.IBO);
+		cubeData.VAO->AddVertexBuffer(cubeData.VBO);
+		cubeData.VAO->Unbind();
+		cubeData.VertexBufferBase = new BatchVertex[s_Data.MaxCubeVertices]; //保存指针初始位置
+		s_BatchDataMap[MeshFilterComponent::MeshType::Cube] = cubeData;
 
 		// 球体合批
-		s_Data.SphereVB = VertexBuffer::Create(s_Data.MaxSphereVertices * sizeof(SphereVertex));
-		s_Data.SphereVB->SetLayout(cubeLayout);
+		RendererBatchData sphereData;
+		sphereData.VBO = VertexBuffer::Create(s_Data.MaxSphereVertices * sizeof(SphereVertex));
+		sphereData.VBO->SetLayout(cubeLayout);
 
 		// 制作EBO数组
 		uint32_t* sphereIndices = new uint32_t[s_Data.MaxSphereIndices];
 		indices = Sphere::GetIndices();
-		for (uint32_t i = 0; i < s_Data.MaxCubeIndices; i += Sphere::GetIndexCount())
+		for (uint32_t i = 0; i < s_Data.MaxSphereIndices; i += Sphere::GetIndexCount())
 		{
 			memcpy(sphereIndices + i, indices.data(), indices.size() * sizeof(uint32_t));
 			for (int j = 0; j < Sphere::GetIndexCount(); j++)
 				indices[j] += Sphere::GetVertexCount();
 		}
-		s_Data.SphereIB = IndexBuffer::Create(sphereIndices, s_Data.MaxSphereIndices);
+		sphereData.IBO = IndexBuffer::Create(sphereIndices, s_Data.MaxSphereIndices);
 		delete[] sphereIndices;
 
-		s_Data.SphereVA = VertexArray::Create();
-		s_Data.SphereVA->SetIndexBuffer(s_Data.SphereIB);
-		s_Data.SphereVA->AddVertexBuffer(s_Data.SphereVB);
-		s_Data.SphereVA->Unbind();
-		s_Data.SphereVertexBufferBase = new SphereVertex[s_Data.MaxSphereVertices]; //保存指针初始位置
+		sphereData.VAO = VertexArray::Create();
+		sphereData.VAO->SetIndexBuffer(sphereData.IBO);
+		sphereData.VAO->AddVertexBuffer(sphereData.VBO);
+		sphereData.VAO->Unbind();
+		sphereData.VertexBufferBase = new BatchVertex[s_Data.MaxSphereVertices]; //保存指针初始位置
+		s_BatchDataMap[MeshFilterComponent::MeshType::Sphere] = sphereData;
 
 		// 纹理采样器
 		int32_t samplers[s_Data.MaxTextureSlots];
@@ -109,7 +111,10 @@ namespace Hazel
 			samplers[i] = i;
 
 		// Shader
-		s_Data.TextureShader = Shader::Create("assets/shaders/Texture.glsl");
+		if (ShaderLibrary::Exists("Texture"))
+			s_Data.TextureShader = ShaderLibrary::Get("Texture");
+		else
+			s_Data.TextureShader = ShaderLibrary::Load("assets/shaders/Texture.glsl");
 		s_Data.TextureShader->Bind();
 		//上传所有采样器到对应纹理单元
 		s_Data.TextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
@@ -123,8 +128,8 @@ namespace Hazel
 
 	void Renderer3D::Shutdown()
 	{
-		delete[] s_Data.CubeVertexBufferBase;
-		delete[] s_Data.SphereVertexBufferBase;
+		for (auto& [_, data] : s_BatchDataMap)
+			delete[] data.VertexBufferBase;
 	}
 
 	void Renderer3D::BeginScene(const Camera& camera, const glm::mat4& transform)
@@ -150,40 +155,28 @@ namespace Hazel
 
 	void Renderer3D::StartBatch()
 	{
-		s_Data.CubeIndexCount = 0; //每结束（刷新）一次批渲染，需要绘制的索引数要从零重新开始
-		s_Data.CubeVertexBufferPtr = s_Data.CubeVertexBufferBase; // 顶点数据指针置于起点
-		s_Data.SphereIndexCount = 0;
-		s_Data.SphereVertexBufferPtr = s_Data.SphereVertexBufferBase;
-
-		s_Data.TextureSlotIndex = 1; //每结束（刷新）一次批渲染，需要绘制的纹理索引要从一重新开始，0号固定位白色纹理
+		for (auto& [_, data] : s_BatchDataMap)
+		{
+			data.IndexCount = 0; //每结束（刷新）一次批渲染，需要绘制的索引数要从零重新开始
+			data.VertexBufferPtr = data.VertexBufferBase; // 顶点数据指针置于起点
+		}
+		s_Data.TextureSlotIndex = 1;
 	}
 
 	void Renderer3D::Flush()
 	{
-		if (s_Data.CubeIndexCount)
+		for (auto& [_, data] : s_BatchDataMap)
 		{
+			if (data.IndexCount == 0)
+				continue;
 			// Size 等于后端指针减去前端
-			uint32_t dataSize = uint32_t((uint8_t*)s_Data.CubeVertexBufferPtr - (uint8_t*)s_Data.CubeVertexBufferBase);
+			uint32_t dataSize = uint32_t((uint8_t*)data.VertexBufferPtr - (uint8_t*)data.VertexBufferBase);
 			// 将数据送往GPU
-			s_Data.CubeVB->SetData(s_Data.CubeVertexBufferBase, dataSize);
-
+			data.VBO->SetData(data.VertexBufferBase, dataSize);
 			for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
 				s_Data.TextureSlots[i]->Bind(i);
 
-			RenderCommand::DrawIndexed(s_Data.CubeVA, s_Data.CubeIndexCount);
-			s_Data.Stats.DrawCalls++;
-		}
-		if (s_Data.SphereIndexCount)
-		{
-			// Size 等于后端指针减去前端
-			uint32_t dataSize = uint32_t((uint8_t*)s_Data.SphereVertexBufferPtr - (uint8_t*)s_Data.SphereVertexBufferBase);
-			// 将数据送往GPU
-			s_Data.SphereVB->SetData(s_Data.SphereVertexBufferBase, dataSize);
-
-			for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
-				s_Data.TextureSlots[i]->Bind(i);
-
-			RenderCommand::DrawIndexed(s_Data.SphereVA, s_Data.SphereIndexCount);
+			RenderCommand::DrawIndexed(data.VAO, data.IndexCount);
 			s_Data.Stats.DrawCalls++;
 		}
 	}
@@ -194,34 +187,36 @@ namespace Hazel
 		StartBatch();
 	}
 
-	void Renderer3D::DrawCube(const glm::mat4& transform, const glm::vec4& color, int entityID)
+	void Renderer3D::DrawBatch(const glm::mat4& transform, MeshFilterComponent::MeshType meshType, const Ref<Mesh>& mesh, const glm::vec4& color, int entityID)
 	{
 		const float textureIndex = 0.0f; // White Texture
 		const float tilingFactor = 1.0f;
 
-		if (s_Data.CubeIndexCount >= Renderer3DData::MaxCubeIndices)
+		RendererBatchData& batchData = s_BatchDataMap[meshType];
+		if (batchData.IndexCount >= Renderer3DData::MaxSphereIndices)
 			NextBatch();
 
-		for (size_t i = 0; i < Cube::GetVertexCount(); i++)
+		for (size_t i = 0; i < mesh->GetVertexCount(); i++)
 		{
-			s_Data.CubeVertexBufferPtr->Position = transform * Cube::GetVertices()[i];
-			s_Data.CubeVertexBufferPtr->Color = color;
-			s_Data.CubeVertexBufferPtr->TexCoord = Cube::GetTextureCoords()[i];
-			s_Data.CubeVertexBufferPtr->TexIndex = textureIndex;
-			s_Data.CubeVertexBufferPtr->TilingFactor = tilingFactor;
-			s_Data.CubeVertexBufferPtr->EntityID = entityID;
-			s_Data.CubeVertexBufferPtr++;
+			batchData.VertexBufferPtr->Position = transform * mesh->GetVertices()[i];
+			batchData.VertexBufferPtr->Color = color;
+			batchData.VertexBufferPtr->TexCoord = mesh->GetTextureCoords()[i];
+			batchData.VertexBufferPtr->TexIndex = textureIndex;
+			batchData.VertexBufferPtr->TilingFactor = tilingFactor;
+			batchData.VertexBufferPtr->EntityID = entityID;
+			batchData.VertexBufferPtr++;
 		}
 
-		s_Data.CubeIndexCount += Cube::GetIndexCount();
-		s_Data.Stats.VertexCount += Cube::GetVertexCount();
-		s_Data.Stats.IndexCount += Cube::GetIndexCount();
+		batchData.IndexCount += mesh->GetIndexCount();
+		s_Data.Stats.VertexCount += mesh->GetVertexCount();
+		s_Data.Stats.IndexCount += mesh->GetIndexCount();
 		s_Data.Stats.GeometryCount++;
 	}
 
-	void Renderer3D::DrawCube(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
+	void Renderer3D::DrawBatch(const glm::mat4& transform, MeshFilterComponent::MeshType meshType, const Ref<Mesh>& mesh, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
 	{
-		if (s_Data.CubeIndexCount >= Renderer3DData::MaxCubeIndices)
+		RendererBatchData& batchData = s_BatchDataMap[meshType];
+		if (batchData.IndexCount >= Renderer3DData::MaxSphereIndices)
 			NextBatch();
 
 		// 遍历纹理，查看现有纹理是否已经存入
@@ -247,109 +242,29 @@ namespace Hazel
 			s_Data.TextureSlotIndex++;
 		}
 
-		for (size_t i = 0; i < Cube::GetVertexCount(); i++)
+		for (size_t i = 0; i < mesh->GetVertexCount(); i++)
 		{
-			s_Data.CubeVertexBufferPtr->Position = transform * Cube::GetVertices()[i];
-			s_Data.CubeVertexBufferPtr->Color = tintColor;
-			s_Data.CubeVertexBufferPtr->TexCoord = Cube::GetTextureCoords()[i];
-			s_Data.CubeVertexBufferPtr->TexIndex = textureIndex;
-			s_Data.CubeVertexBufferPtr->TilingFactor = tilingFactor;
-			s_Data.CubeVertexBufferPtr->EntityID = entityID;
-			s_Data.CubeVertexBufferPtr++;
+			batchData.VertexBufferPtr->Position = transform * mesh->GetVertices()[i];
+			batchData.VertexBufferPtr->Color = tintColor;
+			batchData.VertexBufferPtr->TexCoord = mesh->GetTextureCoords()[i];
+			batchData.VertexBufferPtr->TexIndex = textureIndex;
+			batchData.VertexBufferPtr->TilingFactor = tilingFactor;
+			batchData.VertexBufferPtr->EntityID = entityID;
+			batchData.VertexBufferPtr++;
 		}
 
-		s_Data.CubeIndexCount += Cube::GetIndexCount();
-		s_Data.Stats.VertexCount += Cube::GetVertexCount();
-		s_Data.Stats.IndexCount += Cube::GetIndexCount();
+		batchData.IndexCount += mesh->GetIndexCount();
+		s_Data.Stats.VertexCount += mesh->GetVertexCount();
+		s_Data.Stats.IndexCount += mesh->GetIndexCount();
 		s_Data.Stats.GeometryCount++;
 	}
 
-	void Renderer3D::DrawSphere(const glm::mat4& transform, const glm::vec4& color, int entityID)
-	{
-		const float textureIndex = 0.0f; // White Texture
-		const float tilingFactor = 1.0f;
-
-		if (s_Data.SphereIndexCount >= Renderer3DData::MaxSphereIndices)
-			NextBatch();
-
-		for (size_t i = 0; i < Sphere::GetVertexCount(); i++)
-		{
-			s_Data.SphereVertexBufferPtr->Position = transform * Sphere::GetVertices()[i];
-			s_Data.SphereVertexBufferPtr->Color = color;
-			s_Data.SphereVertexBufferPtr->TexCoord = Sphere::GetTextureCoords()[i];
-			s_Data.SphereVertexBufferPtr->TexIndex = textureIndex;
-			s_Data.SphereVertexBufferPtr->TilingFactor = tilingFactor;
-			s_Data.SphereVertexBufferPtr->EntityID = entityID;
-			s_Data.SphereVertexBufferPtr++;
-		}
-
-		s_Data.SphereIndexCount += Sphere::GetIndexCount();
-		s_Data.Stats.VertexCount += Sphere::GetVertexCount();
-		s_Data.Stats.IndexCount += Sphere::GetIndexCount();
-		s_Data.Stats.GeometryCount++;
-	}
-
-	void Renderer3D::DrawSphere(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
-	{
-		if (s_Data.SphereIndexCount >= Renderer3DData::MaxSphereIndices)
-			NextBatch();
-
-		// 遍历纹理，查看现有纹理是否已经存入
-		float textureIndex = 0.0f;
-
-		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
-		{
-			if (*s_Data.TextureSlots[i].get() == *texture.get())
-			{
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		// 若未命中，则将纹理存入最新的位置
-		if (textureIndex == 0.0f)
-		{
-			if (s_Data.TextureSlotIndex >= Renderer3DData::MaxTextureSlots)
-				NextBatch();
-
-			textureIndex = (float)s_Data.TextureSlotIndex; // 存入后自增一次
-			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
-			s_Data.TextureSlotIndex++;
-		}
-
-		for (size_t i = 0; i < Sphere::GetVertexCount(); i++)
-		{
-			s_Data.SphereVertexBufferPtr->Position = transform * Sphere::GetVertices()[i];
-			s_Data.SphereVertexBufferPtr->Color = tintColor;
-			s_Data.SphereVertexBufferPtr->TexCoord = Sphere::GetTextureCoords()[i];
-			s_Data.SphereVertexBufferPtr->TexIndex = textureIndex;
-			s_Data.SphereVertexBufferPtr->TilingFactor = tilingFactor;
-			s_Data.SphereVertexBufferPtr->EntityID = entityID;
-			s_Data.SphereVertexBufferPtr++;
-		}
-
-		s_Data.SphereIndexCount += Sphere::GetIndexCount();
-		s_Data.Stats.VertexCount += Sphere::GetVertexCount();
-		s_Data.Stats.IndexCount += Sphere::GetIndexCount();
-		s_Data.Stats.GeometryCount++;
-	}
-
-	void Renderer3D::DrawMesh(const glm::mat4& transform, MeshFilterComponent& mesh, MeshRendererComponent& mrc, int entityID)
+	void Renderer3D::DrawMesh(const glm::mat4& transform, MeshFilterComponent& mfc, MeshRendererComponent& mrc, int entityID)
 	{
 		if (mrc.Texture)
-		{
-			if (mesh.Name == "Cube")
-				DrawCube(transform, mrc.Texture, mrc.TilingFactor, mrc.Color, entityID);
-			else if(mesh.Name == "Sphere")
-				DrawSphere(transform, mrc.Texture, mrc.TilingFactor, mrc.Color, entityID);
-		}
+			DrawBatch(transform, mfc.Type, mfc.MeshObj, mrc.Texture, mrc.TilingFactor, mrc.Color, entityID);
 		else
-		{
-			if (mesh.Name == "Cube")
-				DrawCube(transform, mrc.Color, entityID);
-			else if (mesh.Name == "Sphere")
-				DrawSphere(transform, mrc.Color, entityID);
-		}
+			DrawBatch(transform, mfc.Type, mfc.MeshObj, mrc.Color, entityID);
 	}
 
 	void Renderer3D::ResetStats()

@@ -37,6 +37,8 @@ namespace Hazel
 			return nullptr;
 	}
 
+	std::unordered_map<std::string, Ref<Shader>> ShaderLibrary::m_Shaders;
+
 	void ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader)
 	{
 		HZ_CORE_ASSERT(!Exists(name), "Shader already exists!");
@@ -69,7 +71,7 @@ namespace Hazel
 		return m_Shaders[name];
 	}
 
-	bool ShaderLibrary::Exists(const std::string& name) const
+	bool ShaderLibrary::Exists(const std::string& name)
 	{
 		return m_Shaders.find(name) != m_Shaders.end();
 	}

@@ -400,13 +400,24 @@ namespace Hazel
 			});
 		DrawComponent<MeshFilterComponent>("Mesh Filter", entity, [](auto& component)
 			{
-				auto& name = component.Name;
-				char buffer[256];
-				memset(buffer, 0, sizeof(buffer));
-				std::strncpy(buffer, name.c_str(), sizeof(buffer));
-				if (ImGui::InputText("##name", buffer, sizeof(buffer)))
+				auto type = component.Type;
+				const char* MeshTypeStrings[] = { "Cube", "Sphere", "Custom" };
+				const char* currentMeshTypeString = MeshTypeStrings[(int)type];
+				if (ImGui::BeginCombo("MeshType", currentMeshTypeString))
 				{
-					name = std::string(buffer);
+					for (int i = 0; i < 3; i++)
+					{
+						bool isSelected = currentMeshTypeString == MeshTypeStrings[i];
+						if (ImGui::Selectable(MeshTypeStrings[i], isSelected))
+						{
+							currentMeshTypeString = MeshTypeStrings[i];
+							component.SetType((MeshFilterComponent::MeshType)i);
+						}
+
+						if (isSelected)
+							ImGui::SetItemDefaultFocus();
+					}
+					ImGui::EndCombo();
 				}
 			});
 		DrawComponent<MeshRendererComponent>("Mesh Renderer", entity, [](auto& component)

@@ -216,8 +216,8 @@ namespace Hazel
 			out << YAML::Key << "MeshFilterComponent";
 			out << YAML::BeginMap; // TagComponent
 
-			auto& name = entity.GetComponent<MeshFilterComponent>().Name;
-			out << YAML::Key << "Name" << YAML::Value << name;
+			auto& type = entity.GetComponent<MeshFilterComponent>().Type;
+			out << YAML::Key << "Type" << YAML::Value << (int)type;
 
 			out << YAML::EndMap; // TagComponent
 		}
@@ -366,9 +366,9 @@ namespace Hazel
 				auto meshFilterComponent = entity["MeshFilterComponent"];
 				if (meshFilterComponent)
 				{
-					std::string meshName = meshFilterComponent["Name"].as<std::string>();
+					int meshType = meshFilterComponent["Type"].as<int>();
 					auto& mfc = deserializedEntity.AddComponent<MeshFilterComponent>();
-					mfc.Name = meshName;
+					mfc.SetType((MeshFilterComponent::MeshType)meshType);
 				}
 
 				auto meshRendererComponent = entity["MeshRendererComponent"];

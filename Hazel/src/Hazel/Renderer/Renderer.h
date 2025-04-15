@@ -25,7 +25,7 @@ namespace Hazel
 		static void BeginScene(const EditorCamera& camera);
 		static void EndScene();
 		static void Draw(const glm::mat4& transform, SpriteRendererComponent& src, int entityID);
-		static void Draw(const glm::mat4& transform, MeshFilterComponent& mesh, MeshRendererComponent& mrc, int entityID);
+		static void Draw(const glm::mat4& transform, MeshFilterComponent& mfc, MeshRendererComponent& mrc, int entityID);
 		static void ResetStats();
 		static RenderStats* GetStats();
 

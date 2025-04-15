@@ -3,6 +3,7 @@
 #include "SceneCamera.h"
 #include "Hazel/Core/UUID.h"
 #include "Hazel/Renderer/Texture.h"
+#include "Hazel/Renderer/Mesh.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -58,11 +59,35 @@ namespace Hazel
 
 	struct MeshFilterComponent
 	{
-		std::string Name;
+		enum class MeshType
+		{
+			Cube,
+			Sphere,
+			Custom,
+		};
+		MeshType Type = MeshType::Cube;
+		Ref<Mesh> MeshObj = MeshLibrary::GetCubeMesh();
 
 		MeshFilterComponent() = default;
 		MeshFilterComponent(const MeshFilterComponent&) = default;
-		MeshFilterComponent(const std::string& name) : Name(name) {}
+		MeshFilterComponent(MeshType type) : Type(type) {}
+		void SetType(MeshType type)
+		{
+			Type = type;
+			switch (type)
+			{
+			case MeshType::Cube:
+				MeshObj = MeshLibrary::GetCubeMesh();
+				break;
+			case MeshType::Sphere:
+				MeshObj = MeshLibrary::GetSphereMesh();
+				break;
+			case MeshType::Custom:
+				break;
+			default:
+				break;
+			}
+		}
 	};
 
 	struct MeshRendererComponent

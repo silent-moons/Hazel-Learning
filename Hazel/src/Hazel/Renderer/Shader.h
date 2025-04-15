@@ -31,15 +31,17 @@ namespace Hazel
 	class ShaderLibrary	//此类抽象度较高，可以直接在 Shader.h 中定义，不涉及某一个图形接口的细节
 	{
 	public:
-		void Add(const std::string& name, const Ref<Shader>& shader);
-		void Add(const Ref<Shader>& shader);
-		Ref<Shader> Load(const std::string& filepath);
-		Ref<Shader> Load(const std::string& name, const std::string& filepath);
+		ShaderLibrary() = delete;
+		ShaderLibrary(const ShaderLibrary&) = delete;
+		ShaderLibrary& operator=(const ShaderLibrary&) = delete;
 
-		Ref<Shader> Get(const std::string& name);
-
-		bool Exists(const std::string& name) const;
+		static void Add(const std::string& name, const Ref<Shader>& shader);
+		static void Add(const Ref<Shader>& shader);
+		static Ref<Shader> Load(const std::string& filepath);
+		static Ref<Shader> Load(const std::string& name, const std::string& filepath);
+		static Ref<Shader> Get(const std::string& name);
+		static bool Exists(const std::string& name);
 	private:
-		std::unordered_map<std::string, Ref<Shader>> m_Shaders;
+		static std::unordered_map<std::string, Ref<Shader>> m_Shaders;
 	};
 }

@@ -11,6 +11,7 @@ namespace Hazel
 	class Renderer3D
 	{
 	private:
+		//static void Init();
 		static void Init();
 		static void Shutdown();
 
@@ -18,12 +19,21 @@ namespace Hazel
 		static void BeginScene(const EditorCamera& camera);
 		static void EndScene();
 		static void Flush();
-
-		static void DrawCube(const glm::mat4& transform, const glm::vec4& color, int entityID = -1);
-		static void DrawCube(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f), int entityID = -1);
-		static void DrawSphere(const glm::mat4& transform, const glm::vec4& color, int entityID = -1);
-		static void DrawSphere(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f), int entityID = -1);
-		static void DrawMesh(const glm::mat4& transform, MeshFilterComponent& mesh, MeshRendererComponent& mrc, int entityID);
+		static void DrawBatch(
+			const glm::mat4& transform, 
+			MeshFilterComponent::MeshType meshType,
+			const Ref<Mesh>& mesh,
+			const glm::vec4& color, 
+			int entityID = -1);
+		static void DrawBatch(
+			const glm::mat4& transform,
+			MeshFilterComponent::MeshType meshType,
+			const Ref<Mesh>& mesh,
+			const Ref<Texture2D>& texture, 
+			float tilingFactor = 1.0f, 
+			const glm::vec4& tintColor = glm::vec4(1.0f),
+			int entityID = -1);
+		static void DrawMesh(const glm::mat4& transform, MeshFilterComponent& mfc, MeshRendererComponent& mrc, int entityID);
 
 		static void ResetStats();
 		static RenderStats* GetStats();
