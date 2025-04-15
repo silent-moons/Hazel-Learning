@@ -400,18 +400,23 @@ namespace Hazel
 			});
 		DrawComponent<MeshFilterComponent>("Mesh Filter", entity, [](auto& component)
 			{
-				auto type = component.Type;
-				const char* MeshTypeStrings[] = { "Cube", "Sphere", "Custom" };
-				const char* currentMeshTypeString = MeshTypeStrings[(int)type];
-				if (ImGui::BeginCombo("MeshType", currentMeshTypeString))
+				const char* meshTypeStrings[] = { "StaticBatchable", "StaticUnique", "SkinnedMesh" };
+				ImGui::Text("MeshType: ");
+				ImGui::SameLine();
+				ImGui::Text(meshTypeStrings[(int)component.MeshObj->GetMeshType()]);
+
+				auto gtype = component.GType;
+				const char* geometryTypeStrings[] = { "Cube", "Sphere", "Custom" };
+				const char* currentMeshTypeString = geometryTypeStrings[(int)gtype];
+				if (ImGui::BeginCombo("Geometry", currentMeshTypeString))
 				{
 					for (int i = 0; i < 3; i++)
 					{
-						bool isSelected = currentMeshTypeString == MeshTypeStrings[i];
-						if (ImGui::Selectable(MeshTypeStrings[i], isSelected))
+						bool isSelected = currentMeshTypeString == geometryTypeStrings[i];
+						if (ImGui::Selectable(geometryTypeStrings[i], isSelected))
 						{
-							currentMeshTypeString = MeshTypeStrings[i];
-							component.SetType((MeshFilterComponent::MeshType)i);
+							currentMeshTypeString = geometryTypeStrings[i];
+							component.SetType((MeshFilterComponent::GeometryType)i);
 						}
 
 						if (isSelected)

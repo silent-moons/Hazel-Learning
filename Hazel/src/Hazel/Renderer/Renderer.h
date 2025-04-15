@@ -31,7 +31,6 @@ namespace Hazel
 
 		static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 		static void SetMode(Mode mode);
-		static std::string GetModeString(Mode mode);
 
 		static Mode s_RendererMode;
 	private:

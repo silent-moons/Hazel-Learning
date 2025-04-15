@@ -214,12 +214,13 @@ namespace Hazel
 		if (entity.HasComponent<MeshFilterComponent>())
 		{
 			out << YAML::Key << "MeshFilterComponent";
-			out << YAML::BeginMap; // TagComponent
+			out << YAML::BeginMap; // MeshFilterComponent
 
-			auto& type = entity.GetComponent<MeshFilterComponent>().Type;
-			out << YAML::Key << "Type" << YAML::Value << (int)type;
+			auto& meshFilterComponent = entity.GetComponent<MeshFilterComponent>();
+			out << YAML::Key << "GType" << YAML::Value << (int)meshFilterComponent.GType;
+			out << YAML::Key << "MType" << YAML::Value << (int)meshFilterComponent.MeshObj->GetMeshType();
 
-			out << YAML::EndMap; // TagComponent
+			out << YAML::EndMap; // MeshFilterComponent
 		}
 
 		if (entity.HasComponent<MeshRendererComponent>())
@@ -366,9 +367,11 @@ namespace Hazel
 				auto meshFilterComponent = entity["MeshFilterComponent"];
 				if (meshFilterComponent)
 				{
-					int meshType = meshFilterComponent["Type"].as<int>();
+					int geometryType = meshFilterComponent["GType"].as<int>();
+					int meshType = meshFilterComponent["MType"].as<int>();
 					auto& mfc = deserializedEntity.AddComponent<MeshFilterComponent>();
-					mfc.SetType((MeshFilterComponent::MeshType)meshType);
+					mfc.SetType((MeshFilterComponent::GeometryType)geometryType);
+					mfc.MeshObj->SetMeshType((MeshType)meshType);
 				}
 
 				auto meshRendererComponent = entity["MeshRendererComponent"];

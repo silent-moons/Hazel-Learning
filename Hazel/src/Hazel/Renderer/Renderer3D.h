@@ -21,13 +21,13 @@ namespace Hazel
 		static void Flush();
 		static void DrawBatch(
 			const glm::mat4& transform, 
-			MeshFilterComponent::MeshType meshType,
+			MeshFilterComponent::GeometryType type,
 			const Ref<Mesh>& mesh,
 			const glm::vec4& color, 
 			int entityID = -1);
 		static void DrawBatch(
 			const glm::mat4& transform,
-			MeshFilterComponent::MeshType meshType,
+			MeshFilterComponent::GeometryType type,
 			const Ref<Mesh>& mesh,
 			const Ref<Texture2D>& texture, 
 			float tilingFactor = 1.0f, 

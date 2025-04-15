@@ -113,9 +113,4 @@ namespace Hazel
 			break;
 		}
 	}
-
-	std::string Renderer::GetModeString(Mode mode)
-	{
-		return mode == Mode::Renderer2D ? "2D" : "3D";
-	}
 }

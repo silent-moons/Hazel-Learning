@@ -13,6 +13,7 @@ namespace Hazel
 		m_Vertices = vertices;
 		m_Indices = indices;
 		m_TextureCoords = textureCoords;
+		m_MeshType = MeshType::StaticBatchable;
 	}
 
 	Ref<Mesh> MeshLibrary::s_CubeMesh = nullptr;

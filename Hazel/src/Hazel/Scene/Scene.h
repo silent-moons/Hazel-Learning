@@ -5,13 +5,14 @@
 #include "Hazel/Core/Timestep.h"
 #include "Hazel/Core/UUID.h"
 #include "Hazel/Renderer/EditorCamera.h"
+#include "Hazel/Scene/Components.h"
 
 class b2World;
 
 namespace Hazel 
 {
 	class Entity;
-
+	class Mesh;
 	class Scene
 	{
 	public:
@@ -44,12 +45,30 @@ namespace Hazel
 		void OnComponentAdded(Entity entity, T& component);
 
 	private:
+		struct RenderRequiredInfos
+		{
+			TransformComponent transform;
+			MeshFilterComponent mfc;
+			MeshRendererComponent mrc;
+			entt::entity entity;
+
+			RenderRequiredInfos() = default;
+			RenderRequiredInfos(
+				TransformComponent& transform,
+				MeshFilterComponent& mfc,
+				MeshRendererComponent& mrc,
+				entt::entity& entity
+			) : transform(transform), mfc(mfc), mrc(mrc), entity(entity) {}
+		};
+
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 
 		b2World* m_PhysicsWorld = nullptr;
 		std::unordered_map<UUID, entt::entity> m_EntityMap;
+		std::unordered_map<Mesh*, std::vector<RenderRequiredInfos>> m_BatchGroups;
 		std::string m_Name = "Untitled";
+
 		friend class Entity;
 		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;

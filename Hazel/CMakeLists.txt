@@ -5,6 +5,7 @@ add_subdirectory(vendor/yaml-cpp)
 add_subdirectory(vendor/box2d)
 
 add_definitions(-DGLFW_INCLUDE_NONE)
+add_definitions(-D_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING) # 清除spdlog带来的警告
 
 add_library(libHazel STATIC 
 	${Hazel}

@@ -25,7 +25,7 @@ namespace Hazel
 		BatchVertex* VertexBufferPtr = nullptr; // 用于移动的顶点指针
 	};
 
-	static std::unordered_map<MeshFilterComponent::MeshType, RendererBatchData> s_BatchDataMap;
+	static std::unordered_map<MeshFilterComponent::GeometryType, RendererBatchData> s_BatchDataMap;
 	struct Renderer3DData
 	{
 		static constexpr uint32_t MaxCubes = 100;
@@ -79,7 +79,7 @@ namespace Hazel
 		cubeData.VAO->AddVertexBuffer(cubeData.VBO);
 		cubeData.VAO->Unbind();
 		cubeData.VertexBufferBase = new BatchVertex[s_Data.MaxCubeVertices]; //保存指针初始位置
-		s_BatchDataMap[MeshFilterComponent::MeshType::Cube] = cubeData;
+		s_BatchDataMap[MeshFilterComponent::GeometryType::Cube] = cubeData;
 
 		// 球体合批
 		RendererBatchData sphereData;
@@ -101,9 +101,9 @@ namespace Hazel
 		sphereData.VAO = VertexArray::Create();
 		sphereData.VAO->SetIndexBuffer(sphereData.IBO);
 		sphereData.VAO->AddVertexBuffer(sphereData.VBO);
-		sphereData.VAO->Unbind();
+		//sphereData.VAO->Unbind();
 		sphereData.VertexBufferBase = new BatchVertex[s_Data.MaxSphereVertices]; //保存指针初始位置
-		s_BatchDataMap[MeshFilterComponent::MeshType::Sphere] = sphereData;
+		s_BatchDataMap[MeshFilterComponent::GeometryType::Sphere] = sphereData;
 
 		// 纹理采样器
 		int32_t samplers[s_Data.MaxTextureSlots];
@@ -175,7 +175,6 @@ namespace Hazel
 			data.VBO->SetData(data.VertexBufferBase, dataSize);
 			for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
 				s_Data.TextureSlots[i]->Bind(i);
-
 			RenderCommand::DrawIndexed(data.VAO, data.IndexCount);
 			s_Data.Stats.DrawCalls++;
 		}
@@ -187,12 +186,14 @@ namespace Hazel
 		StartBatch();
 	}
 
-	void Renderer3D::DrawBatch(const glm::mat4& transform, MeshFilterComponent::MeshType meshType, const Ref<Mesh>& mesh, const glm::vec4& color, int entityID)
+	void Renderer3D::DrawBatch(const glm::mat4& transform, MeshFilterComponent::GeometryType type, const Ref<Mesh>& mesh, const glm::vec4& color, int entityID)
 	{
 		const float textureIndex = 0.0f; // White Texture
 		const float tilingFactor = 1.0f;
 
-		RendererBatchData& batchData = s_BatchDataMap[meshType];
+		if (s_BatchDataMap.find(type) == s_BatchDataMap.end())
+			return;
+		RendererBatchData& batchData = s_BatchDataMap[type];
 		if (batchData.IndexCount >= Renderer3DData::MaxSphereIndices)
 			NextBatch();
 
@@ -213,9 +214,11 @@ namespace Hazel
 		s_Data.Stats.GeometryCount++;
 	}
 
-	void Renderer3D::DrawBatch(const glm::mat4& transform, MeshFilterComponent::MeshType meshType, const Ref<Mesh>& mesh, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
+	void Renderer3D::DrawBatch(const glm::mat4& transform, MeshFilterComponent::GeometryType type, const Ref<Mesh>& mesh, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
 	{
-		RendererBatchData& batchData = s_BatchDataMap[meshType];
+		if (s_BatchDataMap.find(type) == s_BatchDataMap.end())
+			return;
+		RendererBatchData& batchData = s_BatchDataMap[type];
 		if (batchData.IndexCount >= Renderer3DData::MaxSphereIndices)
 			NextBatch();
 
@@ -262,9 +265,9 @@ namespace Hazel
 	void Renderer3D::DrawMesh(const glm::mat4& transform, MeshFilterComponent& mfc, MeshRendererComponent& mrc, int entityID)
 	{
 		if (mrc.Texture)
-			DrawBatch(transform, mfc.Type, mfc.MeshObj, mrc.Texture, mrc.TilingFactor, mrc.Color, entityID);
+			DrawBatch(transform, mfc.GType, mfc.MeshObj, mrc.Texture, mrc.TilingFactor, mrc.Color, entityID);
 		else
-			DrawBatch(transform, mfc.Type, mfc.MeshObj, mrc.Color, entityID);
+			DrawBatch(transform, mfc.GType, mfc.MeshObj, mrc.Color, entityID);
 	}
 
 	void Renderer3D::ResetStats()

@@ -273,7 +273,7 @@ namespace Hazel
 			m_CameraController.OnResize(panelSize.x, panelSize.y);
 		}
 		// 场景已经渲染到帧缓冲中，接下来将帧缓冲中的颜色纹理渲染到imgui窗口中
-		ImTextureID textureID = (void*)m_Framebuffer->GetColorAttachmentRendererID();
+		ImTextureID textureID = (void*)(uint64_t)m_Framebuffer->GetColorAttachmentRendererID();
 		ImGui::Image(textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 
 		// 在视口范围内，接收拖放过来的值
@@ -353,7 +353,7 @@ namespace Hazel
 		float size = ImGui::GetWindowHeight() - 4.0f;
 		Ref<Texture2D> icon = m_SceneState == SceneState::Edit ? m_IconPlay : m_IconStop;
 		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
-		if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
+		if (ImGui::ImageButton((ImTextureID)(uint64_t)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
 		{
 			if (m_SceneState == SceneState::Edit)
 				OnScenePlay();
@@ -366,10 +366,11 @@ namespace Hazel
 		ImGui::End();
 
 		ImGui::Begin("##modeSelectable", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		const char* rendererMode[2] = { "2D", "3D" };
 		for (int i = 0; i < 2; i++) 
 		{
 			ImGui::SameLine();
-			if (ImGui::Selectable(Renderer::GetModeString((Renderer::Mode)i).c_str(), (int)Renderer::s_RendererMode == i, 0, ImVec2(80, 30)))
+			if (ImGui::Selectable(rendererMode[i], (int)Renderer::s_RendererMode == i, 0, ImVec2(80, 30)))
 			{
 				Renderer::SetMode((Renderer::Mode)i);
 			}
@@ -460,6 +461,7 @@ namespace Hazel
 			break;
 		}
 		}
+		return true;
 	}
 
 	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)

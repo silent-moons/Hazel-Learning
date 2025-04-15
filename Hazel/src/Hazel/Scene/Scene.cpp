@@ -2,7 +2,6 @@
 
 #include "Scene.h"
 #include "Entity.h"
-#include "Components.h"
 #include "ScriptableEntity.h"
 #include "Hazel/Scripting/ScriptEngine.h"
 #include "Hazel/Renderer/Renderer2D.h"
@@ -31,14 +30,6 @@ namespace Hazel
 		HZ_CORE_ASSERT(false, "Unknown body type");
 		return b2_staticBody;
 	}
-
-	struct RenderRequiredInfos
-	{
-		TransformComponent transform;
-		MeshFilterComponent mesh;
-		MeshRendererComponent mrc;
-		entt::entity entity;
-	};
 
 	Scene::Scene()
 	{
@@ -226,17 +217,6 @@ namespace Hazel
 			}
 		}
 
-		//if (mainCamera)
-		//{
-		//	Renderer::BeginScene(*mainCamera, cameraTransform);
-		//	auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		//	for (auto entity : group)
-		//	{
-		//		auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-		//		Renderer::Draw(transform.GetTransform(), sprite, (int)entity);
-		//	}
-		//	Renderer::EndScene();
-		//}
 		if (mainCamera)
 		{
 			Renderer::BeginScene(*mainCamera, cameraTransform);
@@ -254,11 +234,23 @@ namespace Hazel
 			}
 			case Renderer::Mode::Renderer3D:
 			{
+				for (auto& [_, rrifs] : m_BatchGroups)
+					rrifs.clear();
+				//auto group = m_Registry.group<TransformComponent>(entt::get<MeshRendererComponent>);
 				auto group = m_Registry.view<TransformComponent, MeshFilterComponent, MeshRendererComponent>();
 				for (auto entity : group)
 				{
-					auto [transform, mesh, sprite] = group.get<TransformComponent, MeshFilterComponent, MeshRendererComponent>(entity);
-					Renderer::Draw(transform.GetTransform(), mesh, sprite, (int)entity);
+
+					auto [transform, mfc, mrc] = group.get<TransformComponent, MeshFilterComponent, MeshRendererComponent>(entity);
+					auto meshptr = mfc.MeshObj.get();
+					m_BatchGroups[meshptr].emplace_back(transform, mfc, mrc, entity);
+				}
+				for (auto& [_, rrifs] : m_BatchGroups)
+				{
+					for (auto& rrif : rrifs)
+					{
+						Renderer::Draw(rrif.transform.GetTransform(), rrif.mfc, rrif.mrc, (int)rrif.entity);
+					}
 				}
 				break;
 			}
@@ -287,21 +279,35 @@ namespace Hazel
 		}
 		case Renderer::Mode::Renderer3D:
 		{
-			std::unordered_map<Mesh*, std::vector<RenderRequiredInfos>> batchGroups;
+			for (auto& [_, rrifs] : m_BatchGroups)
+				rrifs.clear();
+			
 			//auto group = m_Registry.group<TransformComponent>(entt::get<MeshRendererComponent>);
 			auto group = m_Registry.view<TransformComponent, MeshFilterComponent, MeshRendererComponent>();
 			for (auto entity : group)
 			{
-
 				auto [transform, mfc, mrc] = group.get<TransformComponent, MeshFilterComponent, MeshRendererComponent>(entity);
-				auto meshptr = mfc.MeshObj.get();
-				batchGroups[meshptr].push_back({ transform, mfc, mrc, entity });
+				switch (mfc.MeshObj->GetMeshType())
+				{
+				case MeshType::StaticBatchable:
+				{
+					auto meshptr = mfc.MeshObj.get();
+					m_BatchGroups[meshptr].emplace_back(transform, mfc, mrc, entity);
+					break;
+				}
+				case MeshType::StaticUnique:
+					break;
+				case MeshType::SkinnedMesh:
+					break;
+				default:
+					break;
+				}
 			}
-			for (auto& [_, rrifs] : batchGroups)
+			for (auto& [_, rrifs] : m_BatchGroups)
 			{
 				for (auto& rrif : rrifs)
 				{
-					Renderer::Draw(rrif.transform.GetTransform(), rrif.mesh, rrif.mrc, (int)rrif.entity);
+					Renderer::Draw(rrif.transform.GetTransform(), rrif.mfc, rrif.mrc, (int)rrif.entity);
 				}
 			}
 			break;

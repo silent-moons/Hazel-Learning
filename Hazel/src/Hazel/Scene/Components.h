@@ -59,30 +59,30 @@ namespace Hazel
 
 	struct MeshFilterComponent
 	{
-		enum class MeshType
+		enum class GeometryType
 		{
 			Cube,
 			Sphere,
 			Custom,
 		};
-		MeshType Type = MeshType::Cube;
+		GeometryType GType = GeometryType::Cube;
 		Ref<Mesh> MeshObj = MeshLibrary::GetCubeMesh();
 
 		MeshFilterComponent() = default;
 		MeshFilterComponent(const MeshFilterComponent&) = default;
-		MeshFilterComponent(MeshType type) : Type(type) {}
-		void SetType(MeshType type)
+		MeshFilterComponent(GeometryType type) : GType(type) {}
+		void SetType(GeometryType type)
 		{
-			Type = type;
+			GType = type;
 			switch (type)
 			{
-			case MeshType::Cube:
+			case GeometryType::Cube:
 				MeshObj = MeshLibrary::GetCubeMesh();
 				break;
-			case MeshType::Sphere:
+			case GeometryType::Sphere:
 				MeshObj = MeshLibrary::GetSphereMesh();
 				break;
-			case MeshType::Custom:
+			case GeometryType::Custom:
 				break;
 			default:
 				break;
