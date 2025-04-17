@@ -28,5 +28,6 @@ namespace Hazel
 	private:
 		Ref<Scene> m_Context;
 		Entity m_SelectionContext; // 当前选中的实体
+		Entity m_DragDropSource; // 被拖拽的实体
 	};
 }

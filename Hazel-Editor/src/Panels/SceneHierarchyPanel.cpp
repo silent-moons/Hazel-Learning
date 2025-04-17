@@ -45,10 +45,12 @@ namespace Hazel
 					m_Context->m_Name = buffer;
 				
 				// 在场景名树节点下绘制实体
-				m_Context->m_Registry.each([&](auto entityID)
+				m_Context->m_Registry.view<TransformComponent>().each(
+					[&](auto entityID, TransformComponent& tf)
 					{
 						Entity entity{ entityID , m_Context.get() };
-						DrawEntityNode(entity);
+						if (tf.Parent == 0)
+							DrawEntityNode(entity);
 					});
 				ImGui::TreePop();
 			}
@@ -57,13 +59,31 @@ namespace Hazel
 			if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
 				m_SelectionContext = {};
 
-			// Right-click on blank space
-			if (ImGui::BeginPopupContextWindow(0, 1, false))
+			// 创建一个覆盖整个窗口的 InvisibleButton 作为接受区域
+			ImVec2 winSize = ImGui::GetContentRegionAvail();
+			ImVec2 winPos = ImGui::GetCursorScreenPos();
+			ImGui::SetCursorScreenPos(winPos); // 重置光标位置
+			ImGui::InvisibleButton("##DropZone", winSize);
+			
+			if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+				ImGui::OpenPopup("HierarchyContextMenu");
+			if (ImGui::BeginPopup("HierarchyContextMenu"))
 			{
 				if (ImGui::MenuItem("Create Empty Entity"))
 					m_Context->CreateEntity("Empty Entity");
-
 				ImGui::EndPopup();
+			}
+
+			// 拖拽实体到空白处
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY"))
+				{
+					Entity* droppedHandle = (Entity*)payload->Data;
+					Entity droppedEntity = { (entt::entity)(*droppedHandle), m_Context.get() };
+					droppedEntity.SetParent({ (entt::entity)0, nullptr });
+				}
+				ImGui::EndDragDropTarget();
 			}
 		}
 		ImGui::End();
@@ -90,14 +110,42 @@ namespace Hazel
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 	{
 		auto& tag = entity.GetComponent<TagComponent>().Tag;
+		auto& transform = entity.GetComponent<TransformComponent>();
+		bool hasChildren = !transform.Children.empty();
 
 		// 节点是否被选中，节点箭头是否是打开状态
 		ImGuiTreeNodeFlags flags = (m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0;
 		flags |= ImGuiTreeNodeFlags_OpenOnArrow;
 		flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
+		if (!hasChildren)
+			flags |= ImGuiTreeNodeFlags_Leaf;
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
 		if (ImGui::IsItemClicked())
 			m_SelectionContext = entity;
+
+		// 拖拽开始
+		if (ImGui::BeginDragDropSource()) 
+		{
+			m_DragDropSource = entity;
+			ImGui::SetDragDropPayload("ENTITY", &m_DragDropSource, sizeof(Entity));
+			ImGui::Text("Set Parent");
+			ImGui::EndDragDropSource();
+		}
+
+		// 拖拽目标
+		if (ImGui::BeginDragDropTarget()) 
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY")) 
+			{
+				Entity* droppedHandle = (Entity*)payload->Data;
+				if (droppedHandle != &entity) 
+				{
+					Entity droppedEntity = { (entt::entity)(*droppedHandle), m_Context.get()};
+					droppedEntity.SetParent(entity);
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
 
 		// 在树形菜单的项目上右击，弹出删除菜单
 		bool entityDeleted = false;
@@ -110,11 +158,9 @@ namespace Hazel
 
 		if (opened)
 		{
-			ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-			// 测试树形UI的使用，无实际意义。TODO: 完善场景实体的树状关系后，再来改变层级面板UI
-			bool opened = ImGui::TreeNodeEx((void*)9817239, flags, tag.c_str());
-			if (opened)
-				ImGui::TreePop();
+			// 递归绘制实体的子节点
+			for (auto child : transform.Children)
+				DrawEntityNode(m_Context->GetEntityByUUID(child));
 			ImGui::TreePop();
 		}
 

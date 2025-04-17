@@ -82,6 +82,25 @@ namespace YAML
 			return true;
 		}
 	};
+
+	template<>
+	struct convert<Hazel::UUID> 
+	{
+		static Node encode(const Hazel::UUID& uuid)
+		{
+			Node node;
+			node = uuid;
+			return node;
+		}
+
+		static bool decode(const Node& node, Hazel::UUID& uuid)
+		{
+			if (!node.IsScalar()) 
+				return false;
+			uuid = node.as<uint64_t>();
+			return true;
+		}
+	};
 }
 
 namespace Hazel 
@@ -106,6 +125,12 @@ namespace Hazel
 		out << YAML::BeginSeq << v.x << v.y << v.z << v.w << YAML::EndSeq;
 		return out;
 	}
+
+	//YAML::Emitter& operator<<(YAML::Emitter& out, const UUID& uuid)
+	//{
+	//	out << static_cast<uint64_t>(uuid);
+	//	return out;
+	//}
 
 	static std::string RigidBody2DBodyTypeToString(Rigidbody2DComponent::BodyType bodyType)
 	{
@@ -159,6 +184,12 @@ namespace Hazel
 			out << YAML::Key << "Translation" << YAML::Value << tc.Translation;
 			out << YAML::Key << "Rotation" << YAML::Value << tc.Rotation;
 			out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
+			out << YAML::Key << "Parent" << YAML::Value << tc.Parent;
+			out << YAML::Key << "Children" << YAML::Value << tc.Children;
+			//out << YAML::Key << "Children" << YAML::Value << YAML::BeginSeq;
+			//for(auto& c : tc.Children)
+			//	out << c;
+			//out << YAML::EndSeq;
 
 			out << YAML::EndMap; // TransformComponent
 		}
@@ -335,6 +366,8 @@ namespace Hazel
 					tc.Translation = transformComponent["Translation"].as<glm::vec3>();
 					tc.Rotation = transformComponent["Rotation"].as<glm::vec3>();
 					tc.Scale = transformComponent["Scale"].as<glm::vec3>();
+					tc.Parent = transformComponent["Parent"].as<UUID>();
+					tc.Children = transformComponent["Children"].as<std::vector<UUID>>();
 				}
 
 				auto cameraComponent = entity["CameraComponent"];

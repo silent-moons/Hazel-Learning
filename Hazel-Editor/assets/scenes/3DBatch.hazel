@@ -1,5 +1,73 @@
-Scene: "3DBatch\x00"
+Scene: 3DBatch
 Entities:
+  - Entity: 10649249206579894675
+    TagComponent:
+      Tag: Sphere1
+    TransformComponent:
+      Translation: [2.5, 2.0999999, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 0
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 1
+      MType: 0
+    MeshRendererComponent:
+      Color: [1, 0, 6.00814819e-05, 1]
+      TexturePath: ./assets\textures\Checkerboard.png
+      TilingFactor: 1
+  - Entity: 8265586926760686749
+    TagComponent:
+      Tag: Cube
+    TransformComponent:
+      Translation: [-1, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 0
+      Children:
+        - 527232773585038388
+    MeshFilterComponent:
+      GType: 0
+      MType: 0
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: ./assets\textures\box.png
+      TilingFactor: 1
+  - Entity: 527232773585038388
+    TagComponent:
+      Tag: Cube1
+    TransformComponent:
+      Translation: [-1, 1.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8265586926760686749
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 0
+      MType: 0
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: ./assets\textures\box.png
+      TilingFactor: 2
+  - Entity: 9935977319097977484
+    TagComponent:
+      Tag: Sphere
+    TransformComponent:
+      Translation: [1, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 0
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 1
+      MType: 0
+    MeshRendererComponent:
+      Color: [0, 1, 0, 1]
+      TexturePath: ./assets\textures\Checkerboard.png
+      TilingFactor: 1
   - Entity: 3421576538197365665
     TagComponent:
       Tag: Camera
@@ -7,6 +75,9 @@ Entities:
       Translation: [0, 0, 10]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
+      Parent: 0
+      Children:
+        []
     CameraComponent:
       Camera:
         ProjectionType: 0
@@ -20,59 +91,3 @@ Entities:
       FixedAspectRatio: false
     ScriptComponent:
       ClassName: Sandbox.Camera
-  - Entity: 9935977319097977484
-    TagComponent:
-      Tag: Sphere
-    TransformComponent:
-      Translation: [1, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshFilterComponent:
-      GType: 1
-      MType: 0
-    MeshRendererComponent:
-      Color: [0, 1, 0, 1]
-      TexturePath: ./assets\textures\Checkerboard.png
-      TilingFactor: 1
-  - Entity: 527232773585038388
-    TagComponent:
-      Tag: Cube1
-    TransformComponent:
-      Translation: [-1, 1.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshFilterComponent:
-      GType: 0
-      MType: 0
-    MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TexturePath: ./assets\textures\box.png
-      TilingFactor: 2
-  - Entity: 8265586926760686749
-    TagComponent:
-      Tag: Cube
-    TransformComponent:
-      Translation: [-1, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshFilterComponent:
-      GType: 0
-      MType: 0
-    MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TexturePath: ./assets\textures\box.png
-      TilingFactor: 1
-  - Entity: 10649249206579894675
-    TagComponent:
-      Tag: Sphere1
-    TransformComponent:
-      Translation: [2.5, 2.0999999, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshFilterComponent:
-      GType: 1
-      MType: 0
-    MeshRendererComponent:
-      Color: [1, 0, 6.00814819e-05, 1]
-      TexturePath: ./assets\textures\Checkerboard.png
-      TilingFactor: 1

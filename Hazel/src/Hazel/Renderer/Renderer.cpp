@@ -65,10 +65,10 @@ namespace Hazel
 			HZ_CORE_ERROR("Renderer::Draw: No function bound!");
 	}
 
-	void Renderer::Draw(const glm::mat4& transform, MeshFilterComponent& mfc, MeshRendererComponent& mrc, int entityID)
+	void Renderer::Draw(TransformComponent& transform, MeshFilterComponent& mfc, MeshRendererComponent& mrc, entt::entity entityID)
 	{
 		if (s_DrawMeshFn)
-			s_DrawMeshFn(transform, mfc, mrc, entityID);
+			s_DrawMeshFn(transform.WorldTransform, mfc, mrc, (int)entityID);
 		else
 			HZ_CORE_ERROR("Renderer::Draw: No function bound!");
 	}

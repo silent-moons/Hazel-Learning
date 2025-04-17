@@ -122,6 +122,12 @@ namespace Hazel
 
 	void Scene::DestroyEntity(Entity entity)
 	{
+		auto& tf = entity.GetComponent<TransformComponent>();
+		for (auto child : tf.Children)
+			DestroyEntity({ m_EntityMap.at(child), this });
+
+		// 如果被删除的物体有父物体，需要从父物体的子物体数组中删除
+		entity.UnBindParent();
 		m_EntityMap.erase(entity.GetUUID());
 		m_Registry.destroy(entity);
 	}
@@ -211,7 +217,7 @@ namespace Hazel
 				if (camera.Primary)
 				{
 					mainCamera = &camera.Camera;
-					cameraTransform = transform.GetTransform();
+					cameraTransform = transform.WorldTransform;
 					break;
 				}
 			}
@@ -228,7 +234,7 @@ namespace Hazel
 				for (auto entity : group)
 				{
 					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-					Renderer::Draw(transform.GetTransform(), sprite, (int)entity);
+					Renderer::Draw(transform.LocalTransform(), sprite, (int)entity);
 				}
 				break;
 			}
@@ -237,19 +243,19 @@ namespace Hazel
 				for (auto& [_, rrifs] : m_BatchGroups)
 					rrifs.clear();
 				//auto group = m_Registry.group<TransformComponent>(entt::get<MeshRendererComponent>);
-				auto group = m_Registry.view<TransformComponent, MeshFilterComponent, MeshRendererComponent>();
-				for (auto entity : group)
+				auto view = m_Registry.view<TransformComponent>();
+				for (auto entity : view)
 				{
-
-					auto [transform, mfc, mrc] = group.get<TransformComponent, MeshFilterComponent, MeshRendererComponent>(entity);
-					auto meshptr = mfc.MeshObj.get();
-					m_BatchGroups[meshptr].emplace_back(transform, mfc, mrc, entity);
+					auto& transform = view.get<TransformComponent>(entity);
+					if (transform.Parent != 0)
+						continue;
+					ProcessTree(transform, entity);
 				}
-				for (auto& [_, rrifs] : m_BatchGroups)
+				for (auto& [_, rrifs] : m_BatchGroups) // 绘制可合批物体
 				{
 					for (auto& rrif : rrifs)
 					{
-						Renderer::Draw(rrif.transform.GetTransform(), rrif.mfc, rrif.mrc, (int)rrif.entity);
+						Renderer::Draw(rrif.transform, rrif.mfc, rrif.mrc, rrif.entity);
 					}
 				}
 				break;
@@ -273,7 +279,7 @@ namespace Hazel
 			for (auto entity : group)
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Renderer::Draw(transform.GetTransform(), sprite, (int)entity);
+				Renderer::Draw(transform.LocalTransform(), sprite, (int)entity);
 			}
 			break;
 		}
@@ -283,31 +289,19 @@ namespace Hazel
 				rrifs.clear();
 			
 			//auto group = m_Registry.group<TransformComponent>(entt::get<MeshRendererComponent>);
-			auto group = m_Registry.view<TransformComponent, MeshFilterComponent, MeshRendererComponent>();
-			for (auto entity : group)
+			auto view = m_Registry.view<TransformComponent>();
+			for (auto entity : view)
 			{
-				auto [transform, mfc, mrc] = group.get<TransformComponent, MeshFilterComponent, MeshRendererComponent>(entity);
-				switch (mfc.MeshObj->GetMeshType())
-				{
-				case MeshType::StaticBatchable:
-				{
-					auto meshptr = mfc.MeshObj.get();
-					m_BatchGroups[meshptr].emplace_back(transform, mfc, mrc, entity);
-					break;
-				}
-				case MeshType::StaticUnique:
-					break;
-				case MeshType::SkinnedMesh:
-					break;
-				default:
-					break;
-				}
+				auto& transform = view.get<TransformComponent>(entity);
+				if (transform.Parent != 0)
+					continue;
+				ProcessTree(transform, entity);
 			}
-			for (auto& [_, rrifs] : m_BatchGroups)
+			for (auto& [_, rrifs] : m_BatchGroups) // 绘制可合批物体
 			{
 				for (auto& rrif : rrifs)
 				{
-					Renderer::Draw(rrif.transform.GetTransform(), rrif.mfc, rrif.mrc, (int)rrif.entity);
+					Renderer::Draw(rrif.transform, rrif.mfc, rrif.mrc, rrif.entity);
 				}
 			}
 			break;
@@ -455,5 +449,44 @@ namespace Hazel
 	template<>
 	void Scene::OnComponentAdded<BoxCollider2DComponent>(Entity entity, BoxCollider2DComponent& component)
 	{
+	}
+
+	void Scene::ProcessTree(TransformComponent& transform, entt::entity& entity)
+	{
+		// 根节点的世界变换就是本地变换，非根节点的世界变换为父节点世界变换乘以自己的本地变换
+		if (transform.Parent != 0)
+		{
+			auto& parentTransform = m_Registry.get<TransformComponent>(m_EntityMap.at(transform.Parent));
+			transform.WorldTransform = parentTransform.WorldTransform * transform.LocalTransform();
+		}
+		else
+			transform.WorldTransform = transform.LocalTransform();
+
+		// 如果实体有MeshFilter组件和MeshRenderer则进一步处理
+		if (m_Registry.all_of<MeshFilterComponent, MeshRendererComponent>(entity))
+		{
+			auto [mfc, mrc] = m_Registry.get<MeshFilterComponent, MeshRendererComponent>(entity);
+			Mesh* meshptr = mfc.MeshObj.get();
+			switch (mfc.MeshObj->GetMeshType())
+			{
+			case MeshType::StaticBatchable:
+			{
+				auto meshptr = mfc.MeshObj.get();
+				m_BatchGroups[meshptr].emplace_back(transform, mfc, mrc, entity);
+				break;
+			}
+			case MeshType::StaticUnique: // 未来在这里直接调用渲染函数
+				break;
+			case MeshType::SkinnedMesh:
+				break;
+			default:
+				break;
+			}
+		}
+		for (auto& child : transform.Children)
+		{
+			auto& childTransform = m_Registry.get<TransformComponent>(m_EntityMap.at(child));
+			ProcessTree(childTransform, m_EntityMap.at(child));
+		}
 	}
 }

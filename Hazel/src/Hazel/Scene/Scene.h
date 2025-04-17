@@ -44,6 +44,7 @@ namespace Hazel
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
 
+		void ProcessTree(TransformComponent& transform, entt::entity& entity);
 	private:
 		struct RenderRequiredInfos
 		{

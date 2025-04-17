@@ -275,7 +275,7 @@ namespace Hazel
 		// 场景已经渲染到帧缓冲中，接下来将帧缓冲中的颜色纹理渲染到imgui窗口中
 		ImTextureID textureID = (void*)(uint64_t)m_Framebuffer->GetColorAttachmentRendererID();
 		ImGui::Image(textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
-
+		
 		// 在视口范围内，接收拖放过来的值
 		if (ImGui::BeginDragDropTarget())
 		{
@@ -304,7 +304,7 @@ namespace Hazel
 
 			// Entity transform
 			auto& tc = selectedEntity.GetComponent<TransformComponent>();
-			glm::mat4 transform = tc.GetTransform();
+			glm::mat4 transform = tc.WorldTransform;
 			
 			// Snapping
 			bool snap = Input::IsKeyPressed(Key::LeftControl);
@@ -318,8 +318,13 @@ namespace Hazel
 				nullptr, snap ? snapValues : nullptr);
 			if (ImGuizmo::IsUsing())
 			{
+				glm::mat4 parentWorldInv = glm::inverse(tc.Parent != 0 ? 
+					m_ActiveScene->GetEntityByUUID(tc.Parent).GetComponent<TransformComponent>().WorldTransform : 
+					glm::mat4(1.0f));
+				glm::mat4 newLocalMatrix = parentWorldInv * transform;
+
 				glm::vec3 translation, rotation, scale;
-				Math::DecomposeTransform(transform, translation, rotation, scale);
+				Math::DecomposeTransform(newLocalMatrix, translation, rotation, scale);
 				glm::vec3 deltaRotation = rotation - tc.Rotation;
 				tc.Translation = translation;
 				tc.Rotation += deltaRotation;

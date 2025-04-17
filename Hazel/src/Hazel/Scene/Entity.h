@@ -2,8 +2,8 @@
 
 #include "Hazel/Core/Log.h"
 #include "Hazel/Core/UUID.h"
-#include "Scene.h"
 #include "Components.h"
+#include "Scene.h"
 
 #include <entt.hpp>
 
@@ -70,6 +70,10 @@ namespace Hazel
 			return !(*this == other);
 		}
 
+		void SetParent(Entity parent);
+		void UnBindParent();
+	private:
+		void ProcessTransform(TransformComponent& child, TransformComponent& parent);
 	private:
 		entt::entity m_EntityHandle{ entt::null };
 		Scene* m_Scene = nullptr;
