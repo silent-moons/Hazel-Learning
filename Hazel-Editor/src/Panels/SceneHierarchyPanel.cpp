@@ -81,7 +81,7 @@ namespace Hazel
 				{
 					Entity* droppedHandle = (Entity*)payload->Data;
 					Entity droppedEntity = { (entt::entity)(*droppedHandle), m_Context.get() };
-					droppedEntity.SetParent({ (entt::entity)0, nullptr });
+					droppedEntity.SetParent({ entt::null, nullptr });
 				}
 				ImGui::EndDragDropTarget();
 			}

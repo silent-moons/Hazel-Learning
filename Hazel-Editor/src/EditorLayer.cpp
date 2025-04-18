@@ -571,7 +571,8 @@ namespace Hazel
 			return;
 
 		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+		Entity selectedParent = selectedEntity.GetParent();
 		if (selectedEntity)
-			m_EditorScene->DuplicateEntity(selectedEntity);
+			m_EditorScene->DuplicateEntity(selectedEntity, selectedParent);
 	}
 }

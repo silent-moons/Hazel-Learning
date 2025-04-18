@@ -23,6 +23,7 @@ namespace Hazel
 
 		Entity CreateEntity(const std::string& name = std::string());
 		Entity CreateEntityWithUUID(UUID uuid, const std::string& name = std::string());
+		void DuplicateEntity(Entity src, Entity parent);
 		void DestroyEntity(Entity entity);
 
 		void OnRuntimeStart();
@@ -31,8 +32,6 @@ namespace Hazel
 		void OnUpdateRuntime(Timestep ts);
 		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
-
-		void DuplicateEntity(Entity entity);
 
 		Entity GetEntityByUUID(UUID uuid);
 		Entity GetPrimaryCameraEntity();
@@ -44,7 +43,8 @@ namespace Hazel
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
 
-		void ProcessTree(TransformComponent& transform, entt::entity& entity);
+		void ProcessTree2D(TransformComponent& transform, entt::entity& entity);
+		void ProcessTree3D(TransformComponent& transform, entt::entity& entity);
 	private:
 		struct RenderRequiredInfos
 		{

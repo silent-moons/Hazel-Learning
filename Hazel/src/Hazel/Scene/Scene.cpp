@@ -120,6 +120,27 @@ namespace Hazel
 		return entity;
 	}
 
+	void Scene::DuplicateEntity(Entity src, Entity parent)
+	{
+		// 创建旧实体同名的新实体，随机分配UUID
+		Entity newEntity = CreateEntity(src.GetName());
+		CopyComponentIfExists(AllComponents{}, newEntity, src);
+		auto& newTf = newEntity.GetComponent<TransformComponent>();
+		// 新实体的子物体清空，之后递归建立，新实体的父物体要改为当前的父物体
+		newTf.Children.clear();
+		
+		// 建立新的父子关系
+		if (parent)
+		{
+			newTf.Parent = parent.GetUUID();
+			auto& parentTf = parent.GetComponent<TransformComponent>();
+			parentTf.Children.push_back(newEntity.GetUUID());
+		}
+		auto& srcTf = src.GetComponent<TransformComponent>();
+		for (auto child : srcTf.Children)
+			DuplicateEntity({ m_EntityMap.at(child), this }, newEntity);
+	}
+
 	void Scene::DestroyEntity(Entity entity)
 	{
 		auto& tf = entity.GetComponent<TransformComponent>();
@@ -230,11 +251,13 @@ namespace Hazel
 			{
 			case Renderer::Mode::Renderer2D:
 			{
-				auto group = m_Registry.view<TransformComponent, SpriteRendererComponent>();
-				for (auto entity : group)
+				auto view = m_Registry.view<TransformComponent>();
+				for (auto entity : view)
 				{
-					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-					Renderer::Draw(transform.LocalTransform(), sprite, (int)entity);
+					auto& transform = view.get<TransformComponent>(entity);
+					if (transform.Parent != 0)
+						continue;
+					ProcessTree2D(transform, entity);
 				}
 				break;
 			}
@@ -249,7 +272,7 @@ namespace Hazel
 					auto& transform = view.get<TransformComponent>(entity);
 					if (transform.Parent != 0)
 						continue;
-					ProcessTree(transform, entity);
+					ProcessTree3D(transform, entity);
 				}
 				for (auto& [_, rrifs] : m_BatchGroups) // 绘制可合批物体
 				{
@@ -274,12 +297,13 @@ namespace Hazel
 		{
 		case Renderer::Mode::Renderer2D:
 		{
-			//auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			auto group = m_Registry.view<TransformComponent, SpriteRendererComponent>();
-			for (auto entity : group)
+			auto view = m_Registry.view<TransformComponent>();
+			for (auto entity : view)
 			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Renderer::Draw(transform.LocalTransform(), sprite, (int)entity);
+				auto& transform = view.get<TransformComponent>(entity);
+				if (transform.Parent != 0)
+					continue;
+				ProcessTree2D(transform, entity);
 			}
 			break;
 		}
@@ -295,7 +319,7 @@ namespace Hazel
 				auto& transform = view.get<TransformComponent>(entity);
 				if (transform.Parent != 0)
 					continue;
-				ProcessTree(transform, entity);
+				ProcessTree3D(transform, entity);
 			}
 			for (auto& [_, rrifs] : m_BatchGroups) // 绘制可合批物体
 			{
@@ -325,12 +349,6 @@ namespace Hazel
 			if (!cameraComponent.FixedAspectRatio)
 				cameraComponent.Camera.SetViewportSize(width, height);
 		}
-	}
-
-	void Scene::DuplicateEntity(Entity entity)
-	{
-		Entity newEntity = CreateEntity(entity.GetName()); // 创建旧实体同名的新实体，随机分配UUID
-		CopyComponentIfExists(AllComponents{}, newEntity, entity);
 	}
 
 	Entity Scene::GetPrimaryCameraEntity()
@@ -451,7 +469,31 @@ namespace Hazel
 	{
 	}
 
-	void Scene::ProcessTree(TransformComponent& transform, entt::entity& entity)
+	void Scene::ProcessTree2D(TransformComponent& transform, entt::entity& entity)
+	{
+		// 根节点的世界变换就是本地变换，非根节点的世界变换为父节点世界变换乘以自己的本地变换
+		if (transform.Parent != 0)
+		{
+			auto& parentTransform = m_Registry.get<TransformComponent>(m_EntityMap.at(transform.Parent));
+			transform.WorldTransform = parentTransform.WorldTransform * transform.LocalTransform();
+		}
+		else
+			transform.WorldTransform = transform.LocalTransform();
+
+		// 如果实体有SpriteRenderer则进一步处理
+		if (m_Registry.all_of<SpriteRendererComponent>(entity))
+		{
+			auto src = m_Registry.get<SpriteRendererComponent>(entity);
+			Renderer::Draw(transform, src, entity);
+		}
+		for (auto& child : transform.Children)
+		{
+			auto& childTransform = m_Registry.get<TransformComponent>(m_EntityMap.at(child));
+			ProcessTree2D(childTransform, m_EntityMap.at(child));
+		}
+	}
+
+	void Scene::ProcessTree3D(TransformComponent& transform, entt::entity& entity)
 	{
 		// 根节点的世界变换就是本地变换，非根节点的世界变换为父节点世界变换乘以自己的本地变换
 		if (transform.Parent != 0)
@@ -486,7 +528,7 @@ namespace Hazel
 		for (auto& child : transform.Children)
 		{
 			auto& childTransform = m_Registry.get<TransformComponent>(m_EntityMap.at(child));
-			ProcessTree(childTransform, m_EntityMap.at(child));
+			ProcessTree3D(childTransform, m_EntityMap.at(child));
 		}
 	}
 }

@@ -57,10 +57,10 @@ namespace Hazel
 			HZ_CORE_ERROR("Renderer::EndScene: No function bound!");
 	}
 
-	void Renderer::Draw(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
+	void Renderer::Draw(TransformComponent& transform, SpriteRendererComponent& src, entt::entity entityID)
 	{
 		if(s_DrawSpriteFn)
-			s_DrawSpriteFn(transform, src, entityID);
+			s_DrawSpriteFn(transform.WorldTransform, src, (int)entityID);
 		else
 			HZ_CORE_ERROR("Renderer::Draw: No function bound!");
 	}

@@ -9,10 +9,18 @@ namespace Hazel
 	Entity::Entity(entt::entity handle, Scene* scene)
 		: m_EntityHandle(handle), m_Scene(scene) {}
 
+	Entity Entity::GetParent() const
+	{
+		UUID parentUUID = GetComponent<TransformComponent>().Parent;
+		if (parentUUID == 0)
+			return { entt::null, nullptr };
+		return { m_Scene->m_EntityMap.at(parentUUID), m_Scene };
+	}
+
 	void Entity::SetParent(Entity parent)
 	{
 		auto& selfTransform = GetComponent<TransformComponent>();
-		if (!parent.m_Scene)
+		if (!parent)
 		{
 			UnBindParent();
 			TransformComponent temp;
