@@ -1,0 +1,62 @@
+Scene: 2DBatch
+Entities:
+  - Entity: 6462429659170413658
+    TagComponent:
+      Tag: Red Square
+    TransformComponent:
+      Translation: [0.450281382, -0.770731926, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 0
+      Children:
+        - 9159992821993206299
+    SpriteRendererComponent:
+      Color: [1, 0, 0, 1]
+      TilingFactor: 1
+  - Entity: 9159992821993206299
+    TagComponent:
+      Tag: Green Square
+    TransformComponent:
+      Translation: [0, 1, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 6462429659170413658
+      Children:
+        - 1117361887961774187
+    SpriteRendererComponent:
+      Color: [0, 1, 0, 1]
+      TilingFactor: 1
+  - Entity: 1117361887961774187
+    TagComponent:
+      Tag: Blue Square
+    TransformComponent:
+      Translation: [1, -1, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 9159992821993206299
+      Children:
+        []
+    SpriteRendererComponent:
+      Color: [0, 0, 1, 1]
+      TilingFactor: 1
+  - Entity: 5133719490785031320
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 0
+      Children:
+        []
+    CameraComponent:
+      Camera:
+        ProjectionType: 0
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: true
+      FixedAspectRatio: false

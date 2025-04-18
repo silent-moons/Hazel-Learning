@@ -9,14 +9,10 @@ namespace Hazel
 {
 	extern const std::filesystem::path g_AssetPath;
 
-	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f, true), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
-	{
-	}
+	EditorLayer::EditorLayer() : Layer("EditorLayer") {}
 
 	void EditorLayer::OnAttach()
 	{
-		//m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 		m_IconPlay = Texture2D::Create("Resources/Icons/PlayButton.png");
 		m_IconStop = Texture2D::Create("Resources/Icons/StopButton.png");
 
@@ -91,7 +87,6 @@ namespace Hazel
 			&& m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f)
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 
 			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
@@ -270,7 +265,6 @@ namespace Hazel
 		{
 			m_ViewportSize = { panelSize.x, panelSize.y };// 及时更新视口大小
 			m_Framebuffer->Resize(panelSize.x, panelSize.y);
-			m_CameraController.OnResize(panelSize.x, panelSize.y);
 		}
 		// 场景已经渲染到帧缓冲中，接下来将帧缓冲中的颜色纹理渲染到imgui窗口中
 		ImTextureID textureID = (void*)(uint64_t)m_Framebuffer->GetColorAttachmentRendererID();
@@ -292,7 +286,7 @@ namespace Hazel
 		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
 		if (selectedEntity && m_GizmoType != -1 && m_SceneState == SceneState::Edit)
 		{
-			ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetOrthographic(!(int)m_EditorCamera.GetProjectionType());
 			ImGuizmo::SetDrawlist();
 			ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, 
 				m_ViewportBounds[1].x - m_ViewportBounds[0].x, 
@@ -305,6 +299,7 @@ namespace Hazel
 			// Entity transform
 			auto& tc = selectedEntity.GetComponent<TransformComponent>();
 			glm::mat4 transform = tc.WorldTransform;
+			float oldZ = tc.Translation.z;
 			
 			// Snapping
 			bool snap = Input::IsKeyPressed(Key::LeftControl);
@@ -329,6 +324,9 @@ namespace Hazel
 				tc.Translation = translation;
 				tc.Rotation += deltaRotation;
 				tc.Scale = scale;
+				// ImGuizmo正交模式下有bug，操作xOy平面时z坐标会突变，要进行还原
+				if (m_EditorCamera.GetProjectionType() == Camera::ProjectionType::Orthographic)
+					tc.Translation.z = oldZ;
 			}
 		}
 
@@ -378,6 +376,7 @@ namespace Hazel
 			if (ImGui::Selectable(rendererMode[i], (int)Renderer::s_RendererMode == i, 0, ImVec2(80, 30)))
 			{
 				Renderer::SetMode((Renderer::Mode)i);
+				m_EditorCamera.SetProjectionType((Camera::ProjectionType)i);
 			}
 		}
 		ImGui::PopStyleVar(2);
@@ -387,7 +386,6 @@ namespace Hazel
 
 	void EditorLayer::OnEvent(Event& e)
 	{
-		m_CameraController.OnEvent(e);
 		if (m_SceneState == SceneState::Edit)
 		{
 			m_EditorCamera.OnEvent(e);
@@ -463,6 +461,24 @@ namespace Hazel
 		{
 			if (!ImGuizmo::IsUsing() && m_SceneState == SceneState::Edit)
 				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+			break;
+		}
+
+		// 相机聚焦
+		case Key::F:
+		{
+			if (shift)
+				m_EditorCamera.Reset();
+			else
+			{
+				if (m_HoveredEntity)
+				{
+					glm::vec3 translation, rotation, scale;
+					Math::DecomposeTransform(m_HoveredEntity.GetComponent<TransformComponent>().WorldTransform, 
+						translation, rotation, scale);
+					m_EditorCamera.SetFocal(translation);
+				}
+			}
 			break;
 		}
 		}

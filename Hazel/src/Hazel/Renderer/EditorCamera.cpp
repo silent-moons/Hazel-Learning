@@ -23,12 +23,21 @@ namespace Hazel
 	void EditorCamera::UpdateProjection()
 	{
 		m_AspectRatio = m_ViewportWidth / m_ViewportHeight;
-		m_Projection = glm::perspective(glm::radians(m_FOV), m_AspectRatio, m_NearClip, m_FarClip);
+		if (m_ProjectionType == ProjectionType::Perspective)
+			m_Projection = glm::perspective(glm::radians(m_FOV), m_AspectRatio, m_NearClip, m_FarClip);
+		else
+		{
+			float orthoLeft = -m_OrthographicSize * m_AspectRatio * 0.5f;
+			float orthoRight = m_OrthographicSize * m_AspectRatio * 0.5f;
+			float orthoBottom = -m_OrthographicSize * 0.5f;
+			float orthoTop = m_OrthographicSize * 0.5f;
+			m_Projection = glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, 
+				m_OrthographicNear, m_OrthographicFar);
+		}
 	}
 
 	void EditorCamera::UpdateView()
 	{
-		// m_Yaw = m_Pitch = 0.0f; // Lock the camera's rotation
 		m_Position = CalculatePosition();
 
 		glm::quat orientation = GetOrientation();
@@ -68,10 +77,11 @@ namespace Hazel
 		m_InitialMousePosition = mouse;
 		if (Input::IsKeyPressed(Key::LeftAlt))
 		{
-			if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
+			if (Input::IsMouseButtonPressed(Mouse::ButtonLeft) && 
+				m_ProjectionType == Camera::ProjectionType::Perspective)
 				MouseRotate(delta);
-			else if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
-				MouseZoom(delta.y);
+			//else if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
+			//	MouseZoom(delta.y);
 		}
 		if (Input::IsMouseButtonPressed(Mouse::ButtonMiddle))
 			MousePan(delta);
@@ -89,8 +99,16 @@ namespace Hazel
 	bool EditorCamera::OnMouseScroll(MouseScrolledEvent& e)
 	{
 		float delta = e.GetYOffset() * 0.1f;
-		MouseZoom(delta);
-		UpdateView();
+		if (m_ProjectionType == ProjectionType::Perspective)
+		{
+			MouseZoomPersp(delta);
+			UpdateView();
+		}
+		else
+		{
+			MouseZoomOrtho(delta);
+			UpdateProjection();
+		}
 		return false;
 	}
 
@@ -111,7 +129,7 @@ namespace Hazel
 		m_Pitch += delta.y * RotationSpeed();
 	}
 
-	void EditorCamera::MouseZoom(float delta)
+	void EditorCamera::MouseZoomPersp(float delta)
 	{
 		m_Distance -= delta * ZoomSpeed();
 		if (m_Distance < 1.0f)
@@ -119,6 +137,13 @@ namespace Hazel
 			m_FocalPoint += GetForwardDirection();
 			m_Distance = 1.0f;
 		}
+	}
+
+	void EditorCamera::MouseZoomOrtho(float delta)
+	{
+		m_OrthographicSize -= delta * ZoomSpeed();
+		if (m_OrthographicSize < 1.0f)
+			m_OrthographicSize = 1.0f;
 	}
 
 	glm::vec3 EditorCamera::GetUpDirection() const
@@ -144,5 +169,21 @@ namespace Hazel
 	glm::quat EditorCamera::GetOrientation() const
 	{
 		return glm::quat(glm::vec3(-m_Pitch, -m_Yaw, 0.0f));
+	}
+
+	void EditorCamera::Reset()
+	{
+		m_OrthographicSize = 8.0f;
+		m_Position = { 0.0f, 0.0f, 0.0f };
+		m_FocalPoint = { 0.0f, 0.0f, 0.0f };
+		m_Distance = 10.0f;
+		m_Pitch = 0.0f;
+		m_Yaw = 0.0f;
+	}
+
+	void EditorCamera::SetFocal(const glm::vec3& center)
+	{
+		m_FocalPoint = center;
+		m_Distance = 5.0f;
 	}
 }
