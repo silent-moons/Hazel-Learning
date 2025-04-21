@@ -69,7 +69,7 @@ namespace Hazel
 			Custom,
 		};
 		GeometryType GType = GeometryType::Cube;
-		Ref<Mesh> MeshObj = MeshLibrary::GetCubeMesh();
+		Ref<Mesh> MeshObj = BatchMeshLibrary::GetCubeMesh();
 
 		MeshFilterComponent() = default;
 		MeshFilterComponent(const MeshFilterComponent&) = default;
@@ -80,12 +80,13 @@ namespace Hazel
 			switch (type)
 			{
 			case GeometryType::Cube:
-				MeshObj = MeshLibrary::GetCubeMesh();
+				MeshObj = BatchMeshLibrary::GetCubeMesh();
 				break;
 			case GeometryType::Sphere:
-				MeshObj = MeshLibrary::GetSphereMesh();
+				MeshObj = BatchMeshLibrary::GetSphereMesh();
 				break;
 			case GeometryType::Custom:
+				MeshObj = BatchMeshLibrary::GetTempMesh();
 				break;
 			default:
 				break;

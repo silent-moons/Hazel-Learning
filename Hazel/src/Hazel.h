@@ -30,6 +30,7 @@
 #include "Hazel/Renderer/Texture.h"
 #include "Hazel/Renderer/VertexArray.h"
 #include "Hazel/Renderer/EditorCamera.h"
+#include "Hazel/Renderer/Model.h"
 //#include "Hazel/Renderer/OrthoGraphicCamera.h"
 //#include "Hazel/Renderer/OrthoGraphicCameraController.h"
 

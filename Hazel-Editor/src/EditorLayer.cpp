@@ -29,6 +29,8 @@ namespace Hazel
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
+		Model model;
+		model.Read("./");
 
 #if 0
 		// Entity

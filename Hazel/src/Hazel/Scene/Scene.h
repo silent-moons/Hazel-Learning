@@ -68,6 +68,7 @@ namespace Hazel
 		b2World* m_PhysicsWorld = nullptr;
 		std::unordered_map<UUID, entt::entity> m_EntityMap;
 		std::unordered_map<Mesh*, std::vector<RenderRequiredInfos>> m_BatchGroups;
+		std::vector<RenderRequiredInfos> m_UniqueMeshInfos;
 		std::string m_Name = "Untitled";
 
 		friend class Entity;

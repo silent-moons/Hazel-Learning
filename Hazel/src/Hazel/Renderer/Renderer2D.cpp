@@ -80,10 +80,10 @@ namespace Hazel
 			samplers[i] = i;
 
 		// Shader
-		if (ShaderLibrary::Exists("Texture"))
-			s_Data.TextureShader = ShaderLibrary::Get("Texture");
+		if (ShaderLibrary::Exists("UnlitBatch"))
+			s_Data.TextureShader = ShaderLibrary::Get("UnlitBatch");
 		else
-			s_Data.TextureShader = ShaderLibrary::Load("assets/shaders/Texture.glsl");
+			s_Data.TextureShader = ShaderLibrary::Load("assets/shaders/UnlitBatch.glsl");
 		s_Data.TextureShader->Bind();
 		//上传所有采样器到对应纹理单元
 		s_Data.TextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
@@ -100,7 +100,7 @@ namespace Hazel
 		delete[] s_Data.QuadVertexBufferBase;
 	}
 
-	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+	void Renderer2D::BeginBatch(const Camera& camera, const glm::mat4& transform)
 	{
 		glm::mat4 viewProj = camera.GetProjection() * glm::inverse(transform);
 
@@ -110,7 +110,7 @@ namespace Hazel
 		StartBatch();
 	}
 
-	void Renderer2D::BeginScene(const EditorCamera& camera)
+	void Renderer2D::BeginBatch(const EditorCamera& camera)
 	{
 		glm::mat4 viewProj = camera.GetViewProjection();
 		s_Data.TextureShader->Bind();
@@ -118,7 +118,7 @@ namespace Hazel
 		StartBatch();
 	}
 
-	void Renderer2D::EndScene()
+	void Renderer2D::EndBatch()
 	{
 		Flush();
 	}
@@ -189,7 +189,7 @@ namespace Hazel
 
 		for (size_t i = 0; i < Quad::GetVertexCount(); i++)
 		{
-			s_Data.QuadVertexBufferPtr->Position = transform * Quad::GetVertices()[i];
+			s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(Quad::GetVertices()[i], 1.0f);
 			s_Data.QuadVertexBufferPtr->Color = color;
 			s_Data.QuadVertexBufferPtr->TexCoord = Quad::GetTextureCoords()[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
@@ -234,7 +234,7 @@ namespace Hazel
 		
 		for (size_t i = 0; i < Quad::GetVertexCount(); i++)
 		{
-			s_Data.QuadVertexBufferPtr->Position = transform * Quad::GetVertices()[i];
+			s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(Quad::GetVertices()[i], 1.0f);
 			s_Data.QuadVertexBufferPtr->Color = tintColor;
 			s_Data.QuadVertexBufferPtr->TexCoord = Quad::GetTextureCoords()[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;

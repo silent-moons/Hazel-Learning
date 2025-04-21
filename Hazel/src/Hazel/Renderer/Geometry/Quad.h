@@ -18,14 +18,14 @@ namespace Hazel
 	class Quad
 	{
 	public:
-		static const std::vector<glm::vec4>& GetVertices()
+		static const std::vector<glm::vec3>& GetVertices()
 		{
-			static std::vector<glm::vec4> vertices
+			static std::vector<glm::vec3> vertices
 			{
-				{ -0.5f, -0.5f, 0.0f, 1.0f },
-				{  0.5f, -0.5f, 0.0f, 1.0f },
-				{  0.5f,  0.5f, 0.0f, 1.0f },
-				{ -0.5f,  0.5f, 0.0f, 1.0f }
+				{ -0.5f, -0.5f, 0.0f },
+				{  0.5f, -0.5f, 0.0f },
+				{  0.5f,  0.5f, 0.0f },
+				{ -0.5f,  0.5f, 0.0f }
 			};
 			return vertices;
 		}

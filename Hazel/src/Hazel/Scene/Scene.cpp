@@ -246,11 +246,11 @@ namespace Hazel
 
 		if (mainCamera)
 		{
-			Renderer::BeginScene(*mainCamera, cameraTransform);
 			switch (Renderer::s_RendererMode)
 			{
 			case Renderer::Mode::Renderer2D:
 			{
+				Renderer::BeginBatch(*mainCamera, cameraTransform);
 				auto view = m_Registry.view<TransformComponent>();
 				for (auto entity : view)
 				{
@@ -265,7 +265,8 @@ namespace Hazel
 			{
 				for (auto& [_, rrifs] : m_BatchGroups)
 					rrifs.clear();
-				//auto group = m_Registry.group<TransformComponent>(entt::get<MeshRendererComponent>);
+				m_UniqueMeshInfos.clear();
+
 				auto view = m_Registry.view<TransformComponent>();
 				for (auto entity : view)
 				{
@@ -274,7 +275,16 @@ namespace Hazel
 						continue;
 					ProcessTree3D(transform, entity);
 				}
-				for (auto& [_, rrifs] : m_BatchGroups) // 绘制可合批物体
+				// 不可合批物体
+				for (auto& info : m_UniqueMeshInfos)
+				{
+					Renderer::BeginUnique(*mainCamera, info.transform.WorldTransform, cameraTransform);
+					Renderer::Draw(info.transform, info.mfc, info.mrc, info.entity);
+
+				}
+				// 可合批物体
+				Renderer::BeginBatch(*mainCamera, cameraTransform);
+				for (auto& [_, rrifs] : m_BatchGroups)
 				{
 					for (auto& rrif : rrifs)
 					{
@@ -286,17 +296,17 @@ namespace Hazel
 			default:
 				break;
 			}
-			Renderer::EndScene();
+			Renderer::EndBatch();
 		}
 	}
 
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 	{
-		Renderer::BeginScene(camera);
 		switch (Renderer::s_RendererMode)
 		{
 		case Renderer::Mode::Renderer2D:
 		{
+			Renderer::BeginBatch(camera);
 			auto view = m_Registry.view<TransformComponent>();
 			for (auto entity : view)
 			{
@@ -311,8 +321,8 @@ namespace Hazel
 		{
 			for (auto& [_, rrifs] : m_BatchGroups)
 				rrifs.clear();
+			m_UniqueMeshInfos.clear();
 			
-			//auto group = m_Registry.group<TransformComponent>(entt::get<MeshRendererComponent>);
 			auto view = m_Registry.view<TransformComponent>();
 			for (auto entity : view)
 			{
@@ -321,6 +331,16 @@ namespace Hazel
 					continue;
 				ProcessTree3D(transform, entity);
 			}
+			// 不可合批物体
+			for (auto& info : m_UniqueMeshInfos)
+			{
+				Renderer::BeginUnique(camera, info.transform.WorldTransform);
+				Renderer::Draw(info.transform, info.mfc, info.mrc, info.entity);
+
+			}
+
+			// 可合批物体
+			Renderer::BeginBatch(camera);
 			for (auto& [_, rrifs] : m_BatchGroups) // 绘制可合批物体
 			{
 				for (auto& rrif : rrifs)
@@ -333,7 +353,7 @@ namespace Hazel
 		default:
 			break;
 		}
-		Renderer::EndScene();
+		Renderer::EndBatch();
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)
@@ -511,13 +531,14 @@ namespace Hazel
 			Mesh* meshptr = mfc.MeshObj.get();
 			switch (mfc.MeshObj->GetMeshType())
 			{
-			case MeshType::StaticBatchable:
+			case MeshType::StaticBatchable: // 可合批的物体根据Mesh指针放入哈希表
 			{
 				auto meshptr = mfc.MeshObj.get();
 				m_BatchGroups[meshptr].emplace_back(transform, mfc, mrc, entity);
 				break;
 			}
-			case MeshType::StaticUnique: // 未来在这里直接调用渲染函数
+			case MeshType::StaticUnique: // 不可合批的物体进入m_UniqueMeshInfos
+				m_UniqueMeshInfos.emplace_back(transform, mfc, mrc, entity);
 				break;
 			case MeshType::SkinnedMesh:
 				break;

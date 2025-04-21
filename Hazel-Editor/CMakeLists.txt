@@ -1,10 +1,12 @@
 file(GLOB ASSETS "./assets" )
 file(GLOB RESOURCES "./Resources" )
 file(GLOB MONO "./mono" )
+file(GLOB SHAREDLIBS "${CMAKE_SOURCE_DIR}/ThirdParty/bin/assimp-vc143-mtd.dll")
 
 file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR}/Hazel-Editor)
 file(COPY ${RESOURCES} DESTINATION ${CMAKE_BINARY_DIR}/Hazel-Editor)
 file(COPY ${MONO} DESTINATION ${CMAKE_BINARY_DIR}/Hazel-Editor)
+file(COPY ${SHAREDLIBS} DESTINATION ${CMAKE_BINARY_DIR}/Hazel-Editor)
 
 add_definitions(-D_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING) # 清除spdlog带来的警告
 

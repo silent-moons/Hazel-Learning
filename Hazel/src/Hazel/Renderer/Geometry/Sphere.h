@@ -21,9 +21,9 @@ namespace Hazel
 		static constexpr int numLatLines = 32;
 		static constexpr int numLongLines = 64;
 	public:
-		static const std::vector<glm::vec4>& GetVertices()
+		static const std::vector<glm::vec3>& GetVertices()
 		{
-			static std::vector<glm::vec4> vertices;
+			static std::vector<glm::vec3> vertices;
 			constexpr float radius = 1;
 			if (vertices.empty())
 			{
@@ -40,7 +40,7 @@ namespace Hazel
 						float x = xy * cosf(sectorAngle);
 						float y = xy * sinf(sectorAngle);
 
-						vertices.emplace_back(x, y, z, 1.0f);
+						vertices.emplace_back(x, y, z);
 					}
 				}
 			}

@@ -15,9 +15,9 @@ namespace Hazel
 		static void Init();
 		static void Shutdown();
 
-		static void BeginScene(const Camera& camera, const glm::mat4& transform);
-		static void BeginScene(const EditorCamera& camera);
-		static void EndScene();
+		static void BeginBatch(const Camera& camera, const glm::mat4& transform);
+		static void BeginBatch(const EditorCamera& camera);
+		static void EndBatch();
 		static void Flush();
 
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
