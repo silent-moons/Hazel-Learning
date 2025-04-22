@@ -240,7 +240,17 @@ namespace Hazel
 			auto& meshFilterComponent = entity.GetComponent<MeshFilterComponent>();
 			out << YAML::Key << "GType" << YAML::Value << (int)meshFilterComponent.GType;
 			out << YAML::Key << "MType" << YAML::Value << (int)meshFilterComponent.MeshObj->GetMeshType();
-
+			if (meshFilterComponent.GType == MeshFilterComponent::GeometryType::Custom)
+			{
+				out << YAML::Key << "MeshPath" << YAML::Value << meshFilterComponent.MeshObj->GetFilePath();
+				
+				// TODO: 材质系统完善后应该将纹理数据放在材质中，位于MeshRenderer组件
+				out << YAML::Key << "TexPath";
+				out << YAML::BeginSeq;
+				for (int i = 0; i < meshFilterComponent.MeshObj->GetTextures().size(); i++)
+					out << YAML::Value << meshFilterComponent.MeshObj->GetTextures()[i]->GetMetaDataFilePath();
+				out << YAML::EndSeq;
+			}
 			out << YAML::EndMap; // MeshFilterComponent
 		}
 
@@ -393,7 +403,46 @@ namespace Hazel
 					int geometryType = meshFilterComponent["GType"].as<int>();
 					int meshType = meshFilterComponent["MType"].as<int>();
 					auto& mfc = deserializedEntity.AddComponent<MeshFilterComponent>();
-					mfc.SetType((MeshFilterComponent::GeometryType)geometryType);
+					mfc.GType = (MeshFilterComponent::GeometryType)geometryType;
+					if (geometryType == (int)MeshFilterComponent::GeometryType::Cube)
+						mfc.MeshObj = BatchMeshLibrary::GetCubeMesh();
+					else if (geometryType == (int)MeshFilterComponent::GeometryType::Sphere)
+						mfc.MeshObj = BatchMeshLibrary::GetSphereMesh();
+					else if(geometryType == (int)MeshFilterComponent::GeometryType::Custom)
+					{
+						std::string meshPath = meshFilterComponent["MeshPath"].as<std::string>();
+						//读取 Mesh文件头
+						std::ifstream inputMeshStream(meshPath, std::ios::in | std::ios::binary);
+						MeshFileHead meshFileHead;
+						inputMeshStream.read((char*)&meshFileHead, sizeof(meshFileHead));
+						//读取顶点数据
+						std::vector<Vertex> vertices(meshFileHead.VertexNum);
+						inputMeshStream.read((char*)vertices.data(), meshFileHead.VertexNum * sizeof(Vertex));
+						//读取顶点索引数据
+						std::vector<uint32_t> indices(meshFileHead.IndexNum);
+						inputMeshStream.read((char*)indices.data(), meshFileHead.IndexNum * sizeof(uint32_t));
+						inputMeshStream.close();
+
+						// TODO: 材质系统完善后应该将纹理数据放在材质中，位于MeshRenderer组件
+						std::vector<std::string> texPath = meshFilterComponent["TexPath"].as<std::vector<std::string>>();
+						std::vector<Ref<Texture2D>> textures;
+						//读取纹理文件
+						for (auto& p : texPath)
+						{
+							std::ifstream inputTexStream(p, std::ios::in | std::ios::binary);
+							TexFileHead texFileHead;
+							inputTexStream.read((char*)&texFileHead, sizeof(texFileHead));
+							unsigned char* data = new unsigned char[texFileHead.DataSize];
+							inputTexStream.read((char*)data, texFileHead.DataSize);
+							Ref<Texture2D> texture = Texture2D::Create(texFileHead.Width, texFileHead.Height, 
+								texFileHead.Channels);
+							texture->SetData(data, texFileHead.DataSize);
+							textures.push_back(texture);
+							inputTexStream.close();
+						}
+						mfc.MeshObj = CreateRef<UniqueMesh>(vertices, indices, textures);
+						mfc.MeshObj->SetFilePath(meshPath);
+					}
 					mfc.MeshObj->SetMeshType((MeshType)meshType);
 				}
 

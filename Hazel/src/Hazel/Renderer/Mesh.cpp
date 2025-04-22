@@ -1,5 +1,7 @@
 #include "hzpch.h"
 
+#include <fstream>
+
 #include "Mesh.h"
 #include "Hazel/Renderer/Geometry/Geometry.h"
 #include "Hazel/Renderer/Renderer.h"
@@ -39,6 +41,22 @@ namespace Hazel
 	void UniqueMesh::Unbind() const
 	{
 		m_VAO->Unbind();
+	}
+
+	void UniqueMesh::Export(const std::string& path) const
+	{
+		std::ofstream outputStream(path, std::ios::out | std::ios::binary);
+
+		MeshFileHead meshFileHead;
+		meshFileHead.VertexNum = m_Vertices.size();
+		meshFileHead.IndexNum = m_Indices.size();
+		//写入文件头
+		outputStream.write((char*)&meshFileHead, sizeof(meshFileHead));
+		//写入顶点数据
+		outputStream.write((char*)m_Vertices.data(), m_Vertices.size() * sizeof(Vertex));
+		//写入索引数据
+		outputStream.write((char*)m_Indices.data(), m_Indices.size() * sizeof(uint32_t));
+		outputStream.close();
 	}
 
 	void UniqueMesh::InitMesh(

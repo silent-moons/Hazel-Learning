@@ -23,6 +23,12 @@ namespace Hazel
         glm::vec3 Bitangent;
     };
 
+    struct MeshFileHead
+    {
+        uint32_t VertexNum;
+        uint32_t IndexNum;
+    };
+
     class Mesh 
     {
     public:
@@ -30,6 +36,9 @@ namespace Hazel
 
         virtual void Bind() const {}
         virtual void Unbind() const {}
+        virtual void Export(const std::string& path) const {}
+        virtual void SetFilePath(const std::string& path) {}
+        virtual std::string GetFilePath() const { return ""; }
 
         virtual const std::vector<Vertex>& GetVertices() const { return m_EmptyVertices; }
         virtual const std::vector<glm::vec3>& GetVerticesPositions() const = 0;
@@ -80,6 +89,9 @@ namespace Hazel
             std::vector<Ref<Texture2D>>& textures);
         void Bind() const override;
         void Unbind() const override;
+		void Export(const std::string& path) const override;
+        void SetFilePath(const std::string& path) override { m_FilePath = path; }
+        std::string GetFilePath() const override { return m_FilePath; }
 
         const std::vector<Vertex>& GetVertices() const override { return m_Vertices; }
         const std::vector<glm::vec3>& GetVerticesPositions() const override { return m_VerticesPositions; }
@@ -107,6 +119,7 @@ namespace Hazel
         Ref<VertexBuffer> m_VBO;
         Ref<IndexBuffer> m_IBO;
 
+        std::string m_FilePath;
         MeshType m_MeshType;
     };
 

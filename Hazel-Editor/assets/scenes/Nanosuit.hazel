@@ -1,0 +1,151 @@
+Scene: Untitled
+Entities:
+  - Entity: 15322549776781869417
+    TagComponent:
+      Tag: Body
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8757182460895538739
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/Body.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/body_dif.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 4196819639748723001
+    TagComponent:
+      Tag: Helmet
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8757182460895538739
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/Helmet.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/helmet_diff.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 1955890265548151704
+    TagComponent:
+      Tag: Arms
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8757182460895538739
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/Arms.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/arm_dif.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 17653018522349867343
+    TagComponent:
+      Tag: Lights
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8757182460895538739
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/Lights.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/glass_dif.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 11997062440435104232
+    TagComponent:
+      Tag: hands
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8757182460895538739
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/hands.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/hand_dif.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 5679688570235814005
+    TagComponent:
+      Tag: Legs
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8757182460895538739
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/Legs.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/leg_dif.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 4120356699990065532
+    TagComponent:
+      Tag: Visor
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8757182460895538739
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/Visor.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\nanosuit\nanosuit/glass_dif.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 8757182460895538739
+    TagComponent:
+      Tag: nanosuit.obj
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 0
+      Children:
+        - 4120356699990065532
+        - 5679688570235814005
+        - 11997062440435104232
+        - 17653018522349867343
+        - 1955890265548151704
+        - 4196819639748723001
+        - 15322549776781869417

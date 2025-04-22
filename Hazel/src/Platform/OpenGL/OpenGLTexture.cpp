@@ -1,16 +1,25 @@
 #include "hzpch.h"
 #include "OpenGLTexture.h"
 
+#include <fstream>
 #include <glad/glad.h>
 #include <stb_image.h>
 
 namespace Hazel 
 {
-	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height, int channels)
 		: m_Width(width), m_Height(height)
 	{
-		m_InternalFormat = GL_RGBA8;
-		m_DataFormat = GL_RGBA;
+		if (channels == 4)
+		{
+			m_InternalFormat = GL_RGBA8;
+			m_DataFormat = GL_RGBA;
+		}
+		else
+		{
+			m_InternalFormat = GL_RGB8;
+			m_DataFormat = GL_RGB;
+		}
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
 		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);	
@@ -82,5 +91,24 @@ namespace Hazel
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
 		glBindTextureUnit(slot, m_RendererID);
+	}
+
+	void OpenGLTexture2D::Export(const std::string& path)
+	{
+		m_MetaDataFilePath = path;
+
+		TexFileHead texFileHead;
+		texFileHead.MipmapLevel = 0;
+		texFileHead.Width = m_Width;
+		texFileHead.Height = m_Height;
+		texFileHead.Channels = m_DataFormat == GL_RGB ? 3 : 4;
+		texFileHead.DataSize = m_InternalFormat == GL_RGB8 ? m_Width * m_Height * 3 : m_Width * m_Height * 4;
+		std::ofstream outputStream(path, std::ios::out | std::ios::binary);
+		outputStream.write((char*)&texFileHead, sizeof(texFileHead));
+
+		std::vector<uint32_t> texData(texFileHead.DataSize);
+		glGetTextureImage(m_RendererID, 0, m_DataFormat, GL_UNSIGNED_BYTE, texFileHead.DataSize, texData.data());
+		outputStream.write((char*)texData.data(), texFileHead.DataSize);
+		outputStream.close();
 	}
 }

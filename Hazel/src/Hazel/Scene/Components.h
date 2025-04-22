@@ -76,17 +76,18 @@ namespace Hazel
 		MeshFilterComponent(GeometryType type) : GType(type) {}
 		void SetType(GeometryType type)
 		{
-			GType = type;
 			switch (type)
 			{
 			case GeometryType::Cube:
+				GType = type;
 				MeshObj = BatchMeshLibrary::GetCubeMesh();
 				break;
 			case GeometryType::Sphere:
+				GType = type;
 				MeshObj = BatchMeshLibrary::GetSphereMesh();
 				break;
 			case GeometryType::Custom:
-				MeshObj = BatchMeshLibrary::GetTempMesh();
+				HZ_CORE_WARN("暂不支持切换自定义网格，后续会弹出文件窗口进行选择");
 				break;
 			default:
 				break;

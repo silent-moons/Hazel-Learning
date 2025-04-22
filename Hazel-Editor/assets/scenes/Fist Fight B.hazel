@@ -1,0 +1,694 @@
+Scene: Untitled
+Entities:
+  - Entity: 14503657310709923477
+    TagComponent:
+      Tag: Warrok
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 1469978864563304817
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\Fist Fight B\Fist Fight B/Warrok.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\Fist Fight B\Fist Fight B/bear_diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 7600781767029103815
+    TagComponent:
+      Tag: RightToe_End
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 12220650906919269631
+      Children:
+        []
+  - Entity: 12220650906919269631
+    TagComponent:
+      Tag: RightToeBase
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 7481037405276946981
+      Children:
+        - 7600781767029103815
+  - Entity: 7481037405276946981
+    TagComponent:
+      Tag: RightFoot
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 16679963812369465744
+      Children:
+        - 12220650906919269631
+  - Entity: 16679963812369465744
+    TagComponent:
+      Tag: RightLeg
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 6705443591131427732
+      Children:
+        - 7481037405276946981
+  - Entity: 6705443591131427732
+    TagComponent:
+      Tag: RightUpLeg
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 2721344898123027120
+      Children:
+        - 16679963812369465744
+  - Entity: 14137813986969754413
+    TagComponent:
+      Tag: LeftToe_End
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11912629948620205393
+      Children:
+        []
+  - Entity: 11912629948620205393
+    TagComponent:
+      Tag: LeftToeBase
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 15291516172234650903
+      Children:
+        - 14137813986969754413
+  - Entity: 15291516172234650903
+    TagComponent:
+      Tag: LeftFoot
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 14437620372330034938
+      Children:
+        - 11912629948620205393
+  - Entity: 14437620372330034938
+    TagComponent:
+      Tag: LeftLeg
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 4364798439594986129
+      Children:
+        - 15291516172234650903
+  - Entity: 4364798439594986129
+    TagComponent:
+      Tag: LeftUpLeg
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 2721344898123027120
+      Children:
+        - 14437620372330034938
+  - Entity: 2247145548325267777
+    TagComponent:
+      Tag: RightHandPinky4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11366654918145033962
+      Children:
+        []
+  - Entity: 11366654918145033962
+    TagComponent:
+      Tag: RightHandPinky3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 18140598799807517990
+      Children:
+        - 2247145548325267777
+  - Entity: 18140598799807517990
+    TagComponent:
+      Tag: RightHandPinky2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 16372266635293517742
+      Children:
+        - 11366654918145033962
+  - Entity: 16372266635293517742
+    TagComponent:
+      Tag: RightHandPinky1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11121045025466106341
+      Children:
+        - 18140598799807517990
+  - Entity: 7371511379799753628
+    TagComponent:
+      Tag: RightHandRing4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 12647463336764142248
+      Children:
+        []
+  - Entity: 12647463336764142248
+    TagComponent:
+      Tag: RightHandRing3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10766790300950183938
+      Children:
+        - 7371511379799753628
+  - Entity: 10766790300950183938
+    TagComponent:
+      Tag: RightHandRing2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 13299168847564777036
+      Children:
+        - 12647463336764142248
+  - Entity: 13299168847564777036
+    TagComponent:
+      Tag: RightHandRing1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11121045025466106341
+      Children:
+        - 10766790300950183938
+  - Entity: 15633207048443100127
+    TagComponent:
+      Tag: RightHandMiddle4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 6259782662031911694
+      Children:
+        []
+  - Entity: 6259782662031911694
+    TagComponent:
+      Tag: RightHandMiddle3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 1725399802961275246
+      Children:
+        - 15633207048443100127
+  - Entity: 1725399802961275246
+    TagComponent:
+      Tag: RightHandMiddle2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 7943218878826548947
+      Children:
+        - 6259782662031911694
+  - Entity: 7943218878826548947
+    TagComponent:
+      Tag: RightHandMiddle1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11121045025466106341
+      Children:
+        - 1725399802961275246
+  - Entity: 14725507055914567559
+    TagComponent:
+      Tag: RightHandIndex4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 5979295749597574480
+      Children:
+        []
+  - Entity: 5979295749597574480
+    TagComponent:
+      Tag: RightHandIndex3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 2405362324830812757
+      Children:
+        - 14725507055914567559
+  - Entity: 2405362324830812757
+    TagComponent:
+      Tag: RightHandIndex2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10672058537466320015
+      Children:
+        - 5979295749597574480
+  - Entity: 10672058537466320015
+    TagComponent:
+      Tag: RightHandIndex1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11121045025466106341
+      Children:
+        - 2405362324830812757
+  - Entity: 4066490987042131570
+    TagComponent:
+      Tag: RightHandThumb4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 5376629833570057455
+      Children:
+        []
+  - Entity: 5376629833570057455
+    TagComponent:
+      Tag: RightHandThumb3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 15070756723674496418
+      Children:
+        - 4066490987042131570
+  - Entity: 15070756723674496418
+    TagComponent:
+      Tag: RightHandThumb2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 5889309461282023433
+      Children:
+        - 5376629833570057455
+  - Entity: 5889309461282023433
+    TagComponent:
+      Tag: RightHandThumb1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11121045025466106341
+      Children:
+        - 15070756723674496418
+  - Entity: 11121045025466106341
+    TagComponent:
+      Tag: RightHand
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8294744278518766427
+      Children:
+        - 5889309461282023433
+        - 10672058537466320015
+        - 7943218878826548947
+        - 13299168847564777036
+        - 16372266635293517742
+  - Entity: 8294744278518766427
+    TagComponent:
+      Tag: RightForeArm
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11036279656990192318
+      Children:
+        - 11121045025466106341
+  - Entity: 11036279656990192318
+    TagComponent:
+      Tag: RightArm
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 4612726633847329279
+      Children:
+        - 8294744278518766427
+  - Entity: 4612726633847329279
+    TagComponent:
+      Tag: RightShoulder
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 15456905301811862128
+      Children:
+        - 11036279656990192318
+  - Entity: 3704206447461751056
+    TagComponent:
+      Tag: LeftHandIndex4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 12143248120477368887
+      Children:
+        []
+  - Entity: 12143248120477368887
+    TagComponent:
+      Tag: LeftHandIndex3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 2970943981894000323
+      Children:
+        - 3704206447461751056
+  - Entity: 2970943981894000323
+    TagComponent:
+      Tag: LeftHandIndex2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8545548321123900359
+      Children:
+        - 12143248120477368887
+  - Entity: 8545548321123900359
+    TagComponent:
+      Tag: LeftHandIndex1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 14782615922434589600
+      Children:
+        - 2970943981894000323
+  - Entity: 5150714966856558926
+    TagComponent:
+      Tag: LeftHandMiddle4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 12197636685882514351
+      Children:
+        []
+  - Entity: 12197636685882514351
+    TagComponent:
+      Tag: LeftHandMiddle3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 815871984919706535
+      Children:
+        - 5150714966856558926
+  - Entity: 815871984919706535
+    TagComponent:
+      Tag: LeftHandMiddle2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11556422170995818012
+      Children:
+        - 12197636685882514351
+  - Entity: 11556422170995818012
+    TagComponent:
+      Tag: LeftHandMiddle1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 14782615922434589600
+      Children:
+        - 815871984919706535
+  - Entity: 13131150716892017418
+    TagComponent:
+      Tag: LeftHandRing4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10628814664031509944
+      Children:
+        []
+  - Entity: 10628814664031509944
+    TagComponent:
+      Tag: LeftHandRing3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 5749578321499572015
+      Children:
+        - 13131150716892017418
+  - Entity: 5749578321499572015
+    TagComponent:
+      Tag: LeftHandRing2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 13345342002787457832
+      Children:
+        - 10628814664031509944
+  - Entity: 13345342002787457832
+    TagComponent:
+      Tag: LeftHandRing1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 14782615922434589600
+      Children:
+        - 5749578321499572015
+  - Entity: 830238435087270418
+    TagComponent:
+      Tag: LeftHandPinky4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10167589224162935488
+      Children:
+        []
+  - Entity: 10167589224162935488
+    TagComponent:
+      Tag: LeftHandPinky3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 17623432741613567910
+      Children:
+        - 830238435087270418
+  - Entity: 17623432741613567910
+    TagComponent:
+      Tag: LeftHandPinky2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 15826376379182565029
+      Children:
+        - 10167589224162935488
+  - Entity: 15826376379182565029
+    TagComponent:
+      Tag: LeftHandPinky1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 14782615922434589600
+      Children:
+        - 17623432741613567910
+  - Entity: 3513898870817574960
+    TagComponent:
+      Tag: LeftHandThumb4
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 1509258426580808621
+      Children:
+        []
+  - Entity: 1509258426580808621
+    TagComponent:
+      Tag: LeftHandThumb3
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 15760777480807302022
+      Children:
+        - 3513898870817574960
+  - Entity: 15760777480807302022
+    TagComponent:
+      Tag: LeftHandThumb2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11916072712040850534
+      Children:
+        - 1509258426580808621
+  - Entity: 11916072712040850534
+    TagComponent:
+      Tag: LeftHandThumb1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 14782615922434589600
+      Children:
+        - 15760777480807302022
+  - Entity: 14782615922434589600
+    TagComponent:
+      Tag: LeftHand
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 11182327285236257846
+      Children:
+        - 11916072712040850534
+        - 15826376379182565029
+        - 13345342002787457832
+        - 11556422170995818012
+        - 8545548321123900359
+  - Entity: 11182327285236257846
+    TagComponent:
+      Tag: LeftForeArm
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 4864170670865894264
+      Children:
+        - 14782615922434589600
+  - Entity: 4864170670865894264
+    TagComponent:
+      Tag: LeftArm
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 261857705612341432
+      Children:
+        - 11182327285236257846
+  - Entity: 261857705612341432
+    TagComponent:
+      Tag: LeftShoulder
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 15456905301811862128
+      Children:
+        - 4864170670865894264
+  - Entity: 9176446658428706910
+    TagComponent:
+      Tag: HeadTop_End
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 8765685344500383319
+      Children:
+        []
+  - Entity: 8765685344500383319
+    TagComponent:
+      Tag: Head
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 9713933176280778328
+      Children:
+        - 9176446658428706910
+  - Entity: 9713933176280778328
+    TagComponent:
+      Tag: Neck
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 15456905301811862128
+      Children:
+        - 8765685344500383319
+  - Entity: 15456905301811862128
+    TagComponent:
+      Tag: Spine2
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 5526293878995113933
+      Children:
+        - 9713933176280778328
+        - 261857705612341432
+        - 4612726633847329279
+  - Entity: 5526293878995113933
+    TagComponent:
+      Tag: Spine1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 15643831178123154363
+      Children:
+        - 15456905301811862128
+  - Entity: 15643831178123154363
+    TagComponent:
+      Tag: Spine
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 2721344898123027120
+      Children:
+        - 5526293878995113933
+  - Entity: 2721344898123027120
+    TagComponent:
+      Tag: Hips
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 1469978864563304817
+      Children:
+        - 15643831178123154363
+        - 4364798439594986129
+        - 6705443591131427732
+  - Entity: 1469978864563304817
+    TagComponent:
+      Tag: RootNode
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [0.0199999996, 0.0199999996, 0.0199999996]
+      Parent: 0
+      Children:
+        - 2721344898123027120
+        - 14503657310709923477

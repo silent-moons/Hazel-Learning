@@ -1,0 +1,1591 @@
+Scene: Untitled
+Entities:
+  - Entity: 1544596168873666643
+    TagComponent:
+      Tag: Cube.055__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.055__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 7775024023213601315
+    TagComponent:
+      Tag: Sphere.027__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.027__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15489652379847005327
+    TagComponent:
+      Tag: Sphere.026__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.026__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 497025222107652801
+    TagComponent:
+      Tag: Sphere.025__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.025__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 13668766795144263079
+    TagComponent:
+      Tag: Sphere.024__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.024__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 6113164946895523359
+    TagComponent:
+      Tag: Sphere.023__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.023__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 17968885888608624840
+    TagComponent:
+      Tag: Sphere.022__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.022__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 6999099431538071720
+    TagComponent:
+      Tag: Cube.054__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.054__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 5475938689839381818
+    TagComponent:
+      Tag: Cube.053__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.053__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15086502320762548170
+    TagComponent:
+      Tag: Cube.052__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.052__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 3841063371689555629
+    TagComponent:
+      Tag: Sphere.021__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.021__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 11218032557134276294
+    TagComponent:
+      Tag: Sphere.020__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.020__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15951619241014767538
+    TagComponent:
+      Tag: Sphere.019__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.019__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 3917005775442602413
+    TagComponent:
+      Tag: Sphere.018__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.018__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 12898444849236817015
+    TagComponent:
+      Tag: Cube.051__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.051__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 1109518108659325625
+    TagComponent:
+      Tag: Sphere.017__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.017__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 14732979330538485423
+    TagComponent:
+      Tag: Sphere.016__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.016__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15950813941027491193
+    TagComponent:
+      Tag: Sphere.015__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.015__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 9823931690619948508
+    TagComponent:
+      Tag: Sphere.014__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Sphere.014__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 11851506720449227627
+    TagComponent:
+      Tag: Cube.050__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.050__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 5118231141061198873
+    TagComponent:
+      Tag: Cylinder.056__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.056__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 1300882092307326189
+    TagComponent:
+      Tag: Cylinder.055__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.055__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 3777778107186872155
+    TagComponent:
+      Tag: Cube.049__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.049__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 14684641192842675208
+    TagComponent:
+      Tag: BezierCurve.003__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/BezierCurve.003__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 4346930797507040712
+    TagComponent:
+      Tag: Cylinder.054__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.054__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 4255761037713457009
+    TagComponent:
+      Tag: Cylinder.053__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.053__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 7601734572732355093
+    TagComponent:
+      Tag: Cylinder.052__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.052__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 16586724873098869509
+    TagComponent:
+      Tag: Cylinder.051__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.051__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15101259509317102353
+    TagComponent:
+      Tag: Cube.048__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.048__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 3287890670628216538
+    TagComponent:
+      Tag: Cylinder.050__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.050__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 14034899987936582127
+    TagComponent:
+      Tag: Cube.047__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.047__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 1822936958761897246
+    TagComponent:
+      Tag: Cube.046__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.046__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 13899156324861918704
+    TagComponent:
+      Tag: Plane.015__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Plane.015__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 6269327384783558081
+    TagComponent:
+      Tag: Cube.045__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.045__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 17373071009549812069
+    TagComponent:
+      Tag: Cube.044__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.044__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15381135688778622062
+    TagComponent:
+      Tag: Cube.043__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.043__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 6243320507269807261
+    TagComponent:
+      Tag: Cube.042__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.042__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 11692663358153322523
+    TagComponent:
+      Tag: Cube.041__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.041__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 5726920115348822192
+    TagComponent:
+      Tag: Cube.040__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.040__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 12031634639630842880
+    TagComponent:
+      Tag: Cylinder.049__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.049__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 9944158606167881480
+    TagComponent:
+      Tag: Cylinder.048__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.048__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 1657110701573448905
+    TagComponent:
+      Tag: Cylinder.047__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.047__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 14506698645283736464
+    TagComponent:
+      Tag: Cylinder.046__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.046__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 11940144390119840729
+    TagComponent:
+      Tag: Cylinder.045__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.045__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 12959705528743946691
+    TagComponent:
+      Tag: Cylinder.044__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.044__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 2899810802951676935
+    TagComponent:
+      Tag: Cylinder.043__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.043__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 5896494063953664472
+    TagComponent:
+      Tag: Cylinder.042__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.042__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 13775472296811912252
+    TagComponent:
+      Tag: Cylinder.041__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.041__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 9302760491378493730
+    TagComponent:
+      Tag: Cylinder.040__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.040__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 3748241984078699842
+    TagComponent:
+      Tag: Cylinder.039__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.039__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 16656228234344030932
+    TagComponent:
+      Tag: Cylinder.038__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.038__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15837102214890714080
+    TagComponent:
+      Tag: Cylinder.037__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.037__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 5914924963351409710
+    TagComponent:
+      Tag: Cylinder.036__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.036__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 18245147932148990844
+    TagComponent:
+      Tag: Cube.039__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.039__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 17862119819645198
+    TagComponent:
+      Tag: Cube.038__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.038__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 1824732244922300694
+    TagComponent:
+      Tag: Cylinder.035__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.035__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 17824703936164146852
+    TagComponent:
+      Tag: Cylinder.034__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.034__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 3271269023346651566
+    TagComponent:
+      Tag: Cube.037__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.037__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 13657280828908199465
+    TagComponent:
+      Tag: Cylinder.033__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.033__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15602688114505118180
+    TagComponent:
+      Tag: Cube.036__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.036__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 2027132756500563466
+    TagComponent:
+      Tag: Cube.035__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.035__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 2702554694993999035
+    TagComponent:
+      Tag: Cube.034__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.034__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 14634544865594462006
+    TagComponent:
+      Tag: Cube.033__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.033__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 11141014569332219991
+    TagComponent:
+      Tag: Cylinder.032__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.032__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 10211915048191594392
+    TagComponent:
+      Tag: Cube.032__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.032__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15446989316506133664
+    TagComponent:
+      Tag: Cylinder.031__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.031__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 11890192618049447576
+    TagComponent:
+      Tag: Cube.031__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.031__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 12156182825870514503
+    TagComponent:
+      Tag: Plane.014__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Plane.014__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 11222356490009226969
+    TagComponent:
+      Tag: Cylinder.030__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.030__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 9341152395513091411
+    TagComponent:
+      Tag: Plane.013__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Plane.013__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 640839364971865464
+    TagComponent:
+      Tag: Plane.012__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Plane.012__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 15014333760340480744
+    TagComponent:
+      Tag: Cube.030__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.030__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 16212174024524142760
+    TagComponent:
+      Tag: Cylinder.029__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cylinder.029__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 2735927643360163053
+    TagComponent:
+      Tag: Plane.011__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Plane.011__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 4952516494611605085
+    TagComponent:
+      Tag: Plane.010__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Plane.010__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 9987169677185326508
+    TagComponent:
+      Tag: Plane.009__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Plane.009__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 13300663106451003118
+    TagComponent:
+      Tag: Cube.029__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.029__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 6041537407721547176
+    TagComponent:
+      Tag: Plane.008__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Plane.008__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 7120970209347881127
+    TagComponent:
+      Tag: Cube.028__0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+      Parent: 10230390503893351286
+      Children:
+        []
+    MeshFilterComponent:
+      GType: 2
+      MType: 1
+      MeshPath: D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/Cube.028__0.mesh
+      TexPath:
+        - D:\C++\HazelEngine\out\build\x64-Debug\Hazel-Editor\assets\models\bag\backpack/diffuse.tex
+    MeshRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+  - Entity: 10230390503893351286
+    TagComponent:
+      Tag: backpack.obj
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+      Parent: 0
+      Children:
+        - 7120970209347881127
+        - 6041537407721547176
+        - 13300663106451003118
+        - 9987169677185326508
+        - 4952516494611605085
+        - 2735927643360163053
+        - 16212174024524142760
+        - 15014333760340480744
+        - 640839364971865464
+        - 9341152395513091411
+        - 11222356490009226969
+        - 12156182825870514503
+        - 11890192618049447576
+        - 15446989316506133664
+        - 10211915048191594392
+        - 11141014569332219991
+        - 14634544865594462006
+        - 2702554694993999035
+        - 2027132756500563466
+        - 15602688114505118180
+        - 13657280828908199465
+        - 3271269023346651566
+        - 17824703936164146852
+        - 1824732244922300694
+        - 17862119819645198
+        - 18245147932148990844
+        - 5914924963351409710
+        - 15837102214890714080
+        - 16656228234344030932
+        - 3748241984078699842
+        - 9302760491378493730
+        - 13775472296811912252
+        - 5896494063953664472
+        - 2899810802951676935
+        - 12959705528743946691
+        - 11940144390119840729
+        - 14506698645283736464
+        - 1657110701573448905
+        - 9944158606167881480
+        - 12031634639630842880
+        - 5726920115348822192
+        - 11692663358153322523
+        - 6243320507269807261
+        - 15381135688778622062
+        - 17373071009549812069
+        - 6269327384783558081
+        - 13899156324861918704
+        - 1822936958761897246
+        - 14034899987936582127
+        - 3287890670628216538
+        - 15101259509317102353
+        - 16586724873098869509
+        - 7601734572732355093
+        - 4255761037713457009
+        - 4346930797507040712
+        - 14684641192842675208
+        - 3777778107186872155
+        - 1300882092307326189
+        - 5118231141061198873
+        - 11851506720449227627
+        - 9823931690619948508
+        - 15950813941027491193
+        - 14732979330538485423
+        - 1109518108659325625
+        - 12898444849236817015
+        - 3917005775442602413
+        - 15951619241014767538
+        - 11218032557134276294
+        - 3841063371689555629
+        - 15086502320762548170
+        - 5475938689839381818
+        - 6999099431538071720
+        - 17968885888608624840
+        - 6113164946895523359
+        - 13668766795144263079
+        - 497025222107652801
+        - 15489652379847005327
+        - 7775024023213601315
+        - 1544596168873666643
