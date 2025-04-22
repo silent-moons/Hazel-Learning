@@ -26,9 +26,7 @@ namespace Hazel
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(1);
 		stbi_uc* data = nullptr;
-		{
-			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-		}
+		data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 
 		if (data)
 		{
@@ -36,7 +34,6 @@ namespace Hazel
 
 			m_Width = width;
 			m_Height = height;
-
 			GLenum internalFormat = 0, dataFormat = 0;
 			if (channels == 4)
 			{
@@ -67,6 +64,7 @@ namespace Hazel
 
 			stbi_image_free(data);
 		}
+		stbi_set_flip_vertically_on_load(0);
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()

@@ -144,7 +144,9 @@ namespace Hazel
 	void Scene::DestroyEntity(Entity entity)
 	{
 		auto& tf = entity.GetComponent<TransformComponent>();
-		for (auto child : tf.Children)
+		// 先复制一份，避免在遍历时删除子节点
+		std::vector<UUID> childrenCopy = tf.Children;
+		for (auto child : childrenCopy)
 			DestroyEntity({ m_EntityMap.at(child), this });
 
 		// 如果被删除的物体有父物体，需要从父物体的子物体数组中删除

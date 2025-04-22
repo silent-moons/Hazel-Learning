@@ -74,6 +74,7 @@ namespace Hazel
     class UniqueMesh : public Mesh
     {
     public:
+        UniqueMesh();
         UniqueMesh(std::vector<Vertex>& vertices,
             std::vector<uint32_t>& indices,
             std::vector<Ref<Texture2D>>& textures);
@@ -91,7 +92,10 @@ namespace Hazel
         void SetMeshType(MeshType meshType) override { m_MeshType = meshType; }
         Ref<VertexArray> GetVAO() const override { return m_VAO; }
         const std::vector<Ref<Texture2D>>& GetTextures() const override { return m_Textures; }
-
+    private:
+        void InitMesh(std::vector<Vertex>& vertices,
+            std::vector<uint32_t>& indices,
+            std::vector<Ref<Texture2D>>& textures);
     private:
         std::vector<glm::vec3> m_VerticesPositions;
         std::vector<glm::vec2> m_TextureCoords;

@@ -18,7 +18,30 @@ namespace Hazel
 		m_MeshType = MeshType::StaticBatchable;
 	}
 
+	UniqueMesh::UniqueMesh()
+	{
+		InitMesh(std::vector<Vertex>(), std::vector<uint32_t>(), std::vector<Ref<Texture2D>>());
+	}
+
 	UniqueMesh::UniqueMesh(
+		std::vector<Vertex>& vertices,
+		std::vector<uint32_t>& indices,
+		std::vector<Ref<Texture2D>>& textures)
+	{
+		InitMesh(vertices, indices, textures);
+	}
+
+	void UniqueMesh::Bind() const
+	{
+		m_VAO->Bind();
+	}
+
+	void UniqueMesh::Unbind() const
+	{
+		m_VAO->Unbind();
+	}
+
+	void UniqueMesh::InitMesh(
 		std::vector<Vertex>& vertices,
 		std::vector<uint32_t>& indices,
 		std::vector<Ref<Texture2D>>& textures)
@@ -42,16 +65,6 @@ namespace Hazel
 		m_VBO->SetLayout(layout);
 		m_VAO->AddVertexBuffer(m_VBO);
 		m_VAO->SetIndexBuffer(m_IBO);
-	}
-
-	void UniqueMesh::Bind() const
-	{
-		m_VAO->Bind();
-	}
-
-	void UniqueMesh::Unbind() const
-	{
-		m_VAO->Unbind();
 	}
 
 	Ref<BatchMesh> BatchMeshLibrary::s_CubeMesh = nullptr;

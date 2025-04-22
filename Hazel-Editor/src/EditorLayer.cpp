@@ -29,8 +29,6 @@ namespace Hazel
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
-		Model model;
-		model.Read("./");
 
 #if 0
 		// Entity
@@ -209,16 +207,14 @@ namespace Hazel
 
 				if (ImGui::MenuItem("New", "Ctrl+N"))
 					NewScene();
-
 				if (ImGui::MenuItem("Open...", "Ctrl+O"))
 					OpenScene();
-
 				if (ImGui::MenuItem("Save", "Ctrl+S"))
 					SaveScene();
-
 				if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
 					SaveSceneAs();
-
+				if (ImGui::MenuItem("Import Model"))
+					ImportModel();
 				if (ImGui::MenuItem("Exit")) Application::Get().Close();
 				ImGui::EndMenu();
 			}
@@ -553,6 +549,15 @@ namespace Hazel
 			SerializeScene(m_ActiveScene, filepath);
 			m_EditorScenePath = filepath;
 		}
+	}
+
+	void EditorLayer::ImportModel()
+	{
+		if (m_SceneState != SceneState::Edit)
+			return;
+		std::string filepath = FileDialogs::OpenFile("Model File (*.obj *.fbx *.dae)\0*.obj;*.fbx;*.dae\0");
+		if (!filepath.empty())
+			Model::Read(filepath, m_ActiveScene);
 	}
 
 	void EditorLayer::SerializeScene(const Ref<Scene>& scene, const std::filesystem::path& path)

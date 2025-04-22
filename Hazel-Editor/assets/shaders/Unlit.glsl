@@ -28,6 +28,6 @@ uniform int u_EntityID;
 
 void main()
 {
-	color = texture(u_TextureDiffuse1, v_TexCoord);
+	color = vec4(texture(u_TextureDiffuse1, v_TexCoord).xyz, 1.0f);
 	color2 = u_EntityID;
 }

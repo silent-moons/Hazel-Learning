@@ -27,6 +27,7 @@ namespace Hazel
 		void OpenScene(const std::filesystem::path& path);
 		void SaveScene();
 		void SaveSceneAs();
+		void ImportModel();
 
 		void SerializeScene(const Ref<Scene>& scene, const std::filesystem::path& path);
 

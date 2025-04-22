@@ -48,6 +48,11 @@ namespace Hazel
 				m_Context->m_Registry.view<TransformComponent>().each(
 					[&](auto entityID, TransformComponent& tf)
 					{
+						// 实体ID合法时才绘制，因为entt有自己的内存管理机制
+						// 删除的实体并不会立刻被销毁，而是标记为无效
+						// 所以可能会出现实体被删除但依旧被遍历的情况
+						if(!m_Context->m_Registry.valid(entityID))
+							return;
 						Entity entity{ entityID , m_Context.get() };
 						if (tf.Parent == 0)
 							DrawEntityNode(entity);
@@ -159,7 +164,9 @@ namespace Hazel
 		if (opened)
 		{
 			// 递归绘制实体的子节点
-			for (auto child : transform.Children)
+			// 先复制一份，避免在遍历时删除子节点
+			std::vector<UUID> childrenCopy = transform.Children;
+			for (auto child : childrenCopy)
 				DrawEntityNode(m_Context->GetEntityByUUID(child));
 			ImGui::TreePop();
 		}

@@ -126,12 +126,6 @@ namespace Hazel
 		return out;
 	}
 
-	//YAML::Emitter& operator<<(YAML::Emitter& out, const UUID& uuid)
-	//{
-	//	out << static_cast<uint64_t>(uuid);
-	//	return out;
-	//}
-
 	static std::string RigidBody2DBodyTypeToString(Rigidbody2DComponent::BodyType bodyType)
 	{
 		switch (bodyType)
@@ -186,10 +180,6 @@ namespace Hazel
 			out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
 			out << YAML::Key << "Parent" << YAML::Value << tc.Parent;
 			out << YAML::Key << "Children" << YAML::Value << tc.Children;
-			//out << YAML::Key << "Children" << YAML::Value << YAML::BeginSeq;
-			//for(auto& c : tc.Children)
-			//	out << c;
-			//out << YAML::EndSeq;
 
 			out << YAML::EndMap; // TransformComponent
 		}
