@@ -3,6 +3,7 @@ file(GLOB_RECURSE Hazel "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 add_subdirectory(vendor/imgui)
 add_subdirectory(vendor/yaml-cpp)
 add_subdirectory(vendor/box2d)
+add_subdirectory(vendor/libsquish)
 
 add_definitions(-DGLFW_INCLUDE_NONE)
 add_definitions(-D_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING) # 清除spdlog带来的警告
@@ -55,6 +56,7 @@ target_link_libraries(libHazel PRIVATE
 	box2dlib
 	libmono-static-sgen
 	assimp-vc143-mtd
+	squishlib
 	# 将Mono引入项目后，在Windows平台下需要以下库进行构建，否则会有链接错误
 	Ws2_32.lib
 	Winmm.lib

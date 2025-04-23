@@ -429,16 +429,8 @@ namespace Hazel
 						//读取纹理文件
 						for (auto& p : texPath)
 						{
-							std::ifstream inputTexStream(p, std::ios::in | std::ios::binary);
-							TexFileHead texFileHead;
-							inputTexStream.read((char*)&texFileHead, sizeof(texFileHead));
-							unsigned char* data = new unsigned char[texFileHead.DataSize];
-							inputTexStream.read((char*)data, texFileHead.DataSize);
-							Ref<Texture2D> texture = Texture2D::Create(texFileHead.Width, texFileHead.Height, 
-								texFileHead.Channels);
-							texture->SetData(data, texFileHead.DataSize);
+							Ref<Texture2D> texture = Texture2D::LoadCompressedFile(p);
 							textures.push_back(texture);
-							inputTexStream.close();
 						}
 						mfc.MeshObj = CreateRef<UniqueMesh>(vertices, indices, textures);
 						mfc.MeshObj->SetFilePath(meshPath);
@@ -452,7 +444,10 @@ namespace Hazel
 					auto& mrc = deserializedEntity.AddComponent<MeshRendererComponent>();
 					mrc.Color = meshRendererComponent["Color"].as<glm::vec4>();
 					if (meshRendererComponent["TexturePath"])
-						mrc.Texture = Texture2D::Create(meshRendererComponent["TexturePath"].as<std::string>());
+					{
+						std::string path = meshRendererComponent["TexturePath"].as<std::string>();
+						mrc.Texture = Texture2D::LoadCompressedFile(path);
+					}
 					if (meshRendererComponent["TilingFactor"])
 						mrc.TilingFactor = meshRendererComponent["TilingFactor"].as<float>();
 				}
@@ -463,7 +458,10 @@ namespace Hazel
 					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
 					src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
 					if (spriteRendererComponent["TexturePath"])
-						src.Texture = Texture2D::Create(spriteRendererComponent["TexturePath"].as<std::string>());
+					{
+						std::string path = spriteRendererComponent["TexturePath"].as<std::string>();
+						src.Texture = Texture2D::LoadCompressedFile(path);
+					}
 					if (spriteRendererComponent["TilingFactor"])
 						src.TilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
 				}

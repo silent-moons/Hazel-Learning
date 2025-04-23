@@ -7,12 +7,12 @@
 #include "Hazel/Scene/Entity.h"
 #include "Hazel/Math/Math.h"
 
-#include <filesystem>
 #include <stb_image.h>
 
 namespace Hazel
 {
 	std::unordered_map<std::string, Ref<Texture2D>> Model::s_TextureCache;
+	static const std::filesystem::path g_AssetPath = "assets";
 
 	void Model::Read(const std::string& path, const Ref<Scene>& context)
 	{
@@ -22,11 +22,12 @@ namespace Hazel
 		std::string rootPath = path.substr(0, lastIndex + 1);
 		std::string fileName = path.substr(lastIndex + 1, path.size() - lastIndex - 1);
 		std::string fileNameWithoutExt = fileName.substr(0, fileName.find_last_of('.'));
-		std::string dataDir = rootPath + fileNameWithoutExt;
+		std::string absoluteDir = rootPath + fileNameWithoutExt;
+		std::filesystem::path relativeDir = std::filesystem::relative(absoluteDir, g_AssetPath);
 
 		try // 在模型目录创建一个文件夹，用于存放模型Mesh顶点信息
 		{
-			if (std::filesystem::create_directory(dataDir))
+			if (std::filesystem::create_directory(g_AssetPath / relativeDir))
 				HZ_CORE_TRACE("Create Directory Successfully: {0}", rootPath);
 		}
 		catch (const std::filesystem::filesystem_error& e) 
@@ -48,11 +49,12 @@ namespace Hazel
 		}
 
 		ProcessNode({entt::null, nullptr}, scene->mRootNode, scene, context, 
-			rootPath, dataDir);
+			rootPath, relativeDir);
 	}
 
 	void Model::ProcessNode(Entity parent, aiNode* ainode, const aiScene* scene, 
-		const Ref<Scene>& context, const std::string& rootPath, const std::string& dataDir)
+		const Ref<Scene>& context, const std::string& rootPath, 
+		const std::filesystem::path& dataRelativeDir)
 	{
 		//创建新节点
 		Entity node = context->CreateEntity(ainode->mName.C_Str());
@@ -74,8 +76,9 @@ namespace Hazel
 		if (ainode->mNumMeshes == 1)
 		{
 			aiMesh* aimesh = scene->mMeshes[ainode->mMeshes[0]];
-			Ref<Mesh> mesh = ProcessMesh(node, aimesh, scene, rootPath, dataDir);
-			std::string meshFilePath = dataDir + '/' + aimesh->mName.C_Str() + ".mesh";
+			Ref<Mesh> mesh = ProcessMesh(node, aimesh, scene, rootPath, dataRelativeDir);
+			std::filesystem::path meshName = aimesh->mName.C_Str();
+			std::string meshFilePath = (g_AssetPath / dataRelativeDir / (meshName.string() + ".mesh")).string();
 			mesh->Export(meshFilePath);
 			mesh->SetFilePath(meshFilePath);
 			auto& mfc = node.AddComponent<MeshFilterComponent>();
@@ -90,8 +93,9 @@ namespace Hazel
 			{
 				aiMesh* aimesh = scene->mMeshes[ainode->mMeshes[i]];
 				Entity subMesh = context->CreateEntity(aimesh->mName.C_Str());
-				Ref<Mesh> mesh = ProcessMesh(subMesh, aimesh, scene, rootPath, dataDir);
-				std::string meshFilePath = dataDir + '/' + aimesh->mName.C_Str() + ".mesh";
+				Ref<Mesh> mesh = ProcessMesh(subMesh, aimesh, scene, rootPath, dataRelativeDir);
+				std::filesystem::path meshName = aimesh->mName.C_Str();
+				std::string meshFilePath = (g_AssetPath / dataRelativeDir / (meshName.string() + ".mesh")).string();
 				mesh->Export(meshFilePath);
 				mesh->SetFilePath(meshFilePath);
 				auto& mfc = subMesh.AddComponent<MeshFilterComponent>();
@@ -105,11 +109,11 @@ namespace Hazel
 
 		// 接下来对它的子节点重复这一过程
 		for (unsigned int i = 0; i < ainode->mNumChildren; i++)
-			ProcessNode(node, ainode->mChildren[i], scene, context, rootPath, dataDir);
+			ProcessNode(node, ainode->mChildren[i], scene, context, rootPath, dataRelativeDir);
 	}
 
 	Ref<Mesh> Model::ProcessMesh(Entity entity, aiMesh* aimesh, const aiScene* scene,
-		const std::string& rootPath, const std::string& dataDir)
+		const std::string& rootPath, const std::filesystem::path& dataRelativeDir)
 	{
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
@@ -165,7 +169,7 @@ namespace Hazel
 			//取出材质
 			aiMaterial* material = scene->mMaterials[aimesh->mMaterialIndex];
 			textures.emplace_back(ProcessTexture(entity, material, 
-				aiTextureType_DIFFUSE, scene, rootPath, dataDir));
+				aiTextureType_DIFFUSE, scene, rootPath, dataRelativeDir));
 		}
 
 		return CreateRef<UniqueMesh>(vertices, indices, textures);
@@ -177,7 +181,7 @@ namespace Hazel
 		const aiTextureType& type,
 		const aiScene* scene,
 		const std::string& rootPath, 
-		const std::string& dataDir)
+		const std::filesystem::path& dataRelativeDir)
 	{
 		aiString aiPath;
 		material->Get(AI_MATKEY_TEXTURE(type, 0), aiPath);
@@ -205,23 +209,21 @@ namespace Hazel
 				dataInSize = widthIn * heightIn;
 			int width = 0, height = 0, picType = 0;
 			unsigned char* bits = stbi_load_from_memory(dataIn, dataInSize, &width, &height, &picType, STBI_rgb_alpha);
-			tex = Texture2D::Create(width, height);
-			std::string texPath = aiPath.C_Str();
-			std::size_t lastIndex = texPath.find_last_of('/');
-			std::string texName = texPath.substr(lastIndex + 1);
-			std::string texNameWithoutExt = texName.substr(0, texName.find_last_of('.'));
-			std::string texFilePath = dataDir + "/" + texNameWithoutExt + ".tex";
-			tex->SetData(bits, width * height * 4);
+			tex = Texture2D::Create(width, height, 4, true);
+			std::filesystem::path texPath = aiPath.C_Str();
+			texPath = texPath.filename();
+			std::string texFilePath = (g_AssetPath / dataRelativeDir / texPath.replace_extension("cpt")).string();
+			tex->SetData(bits);
 			tex->SetPath(aiPath.C_Str());
 			tex->Export(texFilePath);
+			stbi_image_free(bits);
 		}
 		else
 		{
 			std::string fullPath = rootPath + aiPath.C_Str();
 			tex = Texture2D::Create(fullPath);
-			std::string texPath = aiPath.C_Str();
-			std::string texName = texPath.substr(0, texPath.find_last_of('.'));
-			std::string texFilePath = dataDir + '/' + texName + ".tex";
+			std::filesystem::path texPath = aiPath.C_Str();
+			std::string texFilePath = (g_AssetPath / dataRelativeDir / texPath.replace_extension("cpt")).string();
 			tex->Export(texFilePath);
 		}
 		s_TextureCache.emplace(aiPath.C_Str(), tex);

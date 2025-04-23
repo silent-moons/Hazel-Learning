@@ -440,7 +440,21 @@ namespace Hazel
 					{
 						const wchar_t* path = (const wchar_t*)payload->Data;
 						std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
-						Ref<Texture2D> texture = Texture2D::Create(texturePath.string());
+						Ref<Texture2D> texture = nullptr;
+						if (texturePath.filename().extension().string() != ".cpt")
+						{
+							std::filesystem::path texturePathCpy = texturePath;
+							std::filesystem::path cptFile = texturePath.replace_extension(".cpt");
+							if (std::filesystem::exists(cptFile) && std::filesystem::is_regular_file(cptFile)) 
+								texture = Texture2D::LoadCompressedFile(cptFile.string());
+							else
+							{
+								texture = Texture2D::Create(texturePathCpy.string());
+								texture->Export(cptFile.string());
+							}
+						}
+						else
+							texture = Texture2D::LoadCompressedFile(texturePath.string());
 
 						if (texture->IsLoaded())
 							component.Texture = texture;
@@ -490,8 +504,21 @@ namespace Hazel
 					{
 						const wchar_t* path = (const wchar_t*)payload->Data;
 						std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
-						Ref<Texture2D> texture = Texture2D::Create(texturePath.string());
-
+						Ref<Texture2D> texture = nullptr;
+						if (texturePath.filename().extension().string() != ".cpt")
+						{
+							std::filesystem::path texturePathCpy = texturePath;
+							std::filesystem::path cptFile = texturePath.replace_extension(".cpt");
+							if (std::filesystem::exists(cptFile) && std::filesystem::is_regular_file(cptFile))
+								texture = Texture2D::LoadCompressedFile(cptFile.string());
+							else
+							{
+								texture = Texture2D::Create(texturePathCpy.string());
+								texture->Export(cptFile.string());
+							}
+						}
+						else
+							texture = Texture2D::LoadCompressedFile(texturePath.string());
 						if (texture->IsLoaded())
 							component.Texture = texture;
 						else

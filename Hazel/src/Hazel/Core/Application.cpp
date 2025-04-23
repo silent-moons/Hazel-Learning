@@ -16,8 +16,6 @@ namespace Hazel
 
 	Application::Application(const std::string& name)
 	{
-		stbi_set_flip_vertically_on_load(1);
-
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists! (The class Application is a Singleton, it just support one instance!)");
 		s_Instance = this;
 
