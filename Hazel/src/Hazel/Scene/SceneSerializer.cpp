@@ -425,15 +425,24 @@ namespace Hazel
 
 						// TODO: 材质系统完善后应该将纹理数据放在材质中，位于MeshRenderer组件
 						std::vector<std::string> texPath = meshFilterComponent["TexPath"].as<std::vector<std::string>>();
+						static std::unordered_map<std::string, Ref<Texture2D>> textureMap;
 						std::vector<Ref<Texture2D>> textures;
 						//读取纹理文件
+						Ref<Texture2D> texture;
 						for (auto& p : texPath)
 						{
-							Ref<Texture2D> texture = Texture2D::LoadCompressedFile(p);
+							if (textureMap.find(p) != textureMap.end())
+								texture = textureMap[p];
+							else
+							{
+								texture = Texture2D::LoadCompressedFile(p);
+								textureMap[p] = texture;
+							}
 							textures.push_back(texture);
 						}
 						mfc.MeshObj = CreateRef<UniqueMesh>(vertices, indices, textures);
 						mfc.MeshObj->SetFilePath(meshPath);
+
 					}
 					mfc.MeshObj->SetMeshType((MeshType)meshType);
 				}

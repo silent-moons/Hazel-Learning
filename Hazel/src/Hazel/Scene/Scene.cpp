@@ -338,7 +338,6 @@ namespace Hazel
 			{
 				Renderer::BeginUnique(camera, info.transform.WorldTransform);
 				Renderer::Draw(info.transform, info.mfc, info.mrc, info.entity);
-
 			}
 
 			// 可合批物体

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 #include <filesystem>
 
@@ -15,6 +15,7 @@ namespace Hazel
 	class Model
 	{
 	public:
+		Model() = delete;
 		static void Read(const std::string& path, const Ref<Scene>& context);
 	private:
 		static void ProcessNode(

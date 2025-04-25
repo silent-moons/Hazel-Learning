@@ -95,12 +95,17 @@ namespace Hazel
 
 	void OpenGLTexture2D::SetData(void* data)
 	{
-		int compressedSize = squish::GetStorageRequirements(m_Width, m_Height, squish::kDxt5);
+		int flag = 0;
+		if (m_Channels == 4)
+			flag = squish::kDxt5;
+		else if (m_Channels == 3)
+			flag = squish::kDxt1;
+		int compressedSize = squish::GetStorageRequirements(m_Width, m_Height, flag);
 		m_CompressedData.resize(compressedSize);
 		squish::CompressImage(
 			(unsigned char*)data, m_Width, m_Height,
 			m_CompressedData.data(),
-			squish::kDxt5 | squish::kColourRangeFit // 暂时使用kColourRangeFit快速压缩
+			flag | squish::kColourRangeFit // 暂时使用kColourRangeFit快速压缩
 		);
 		glCompressedTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, compressedSize, m_CompressedData.data());
 	}
