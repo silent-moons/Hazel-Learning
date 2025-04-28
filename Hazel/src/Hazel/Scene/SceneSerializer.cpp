@@ -224,10 +224,6 @@ namespace Hazel
 			out << YAML::BeginMap; // SpriteRendererComponent
 
 			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
-			//out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
-			//if (spriteRendererComponent.Texture)
-				//out << YAML::Key << "TexturePath" << YAML::Value << spriteRendererComponent.Texture->GetPath();
-			//out << YAML::Key << "TilingFactor" << YAML::Value << spriteRendererComponent.TilingFactor;
 
 			out << YAML::Key << "Material" << YAML::Value << spriteRendererComponent.Mat->GetPath();
 			out << YAML::EndMap; // SpriteRendererComponent
@@ -252,12 +248,12 @@ namespace Hazel
 			out << YAML::BeginMap; // MeshRendererComponent
 
 			auto& meshRendererComponent = entity.GetComponent<MeshRendererComponent>();
-			//out << YAML::Key << "Color" << YAML::Value << meshRendererComponent.Color;
-			//if (meshRendererComponent.Texture)
-			//	out << YAML::Key << "TexturePath" << YAML::Value << meshRendererComponent.Texture->GetPath();
-			//out << YAML::Key << "TilingFactor" << YAML::Value << meshRendererComponent.TilingFactor;
 			
-			out << YAML::Key << "Material" << YAML::Value << meshRendererComponent.Mat->GetPath();
+			if (meshRendererComponent.Mat)
+			{
+				out << YAML::Key << "Material" << YAML::Value << meshRendererComponent.Mat->GetPath();
+				//meshRendererComponent.Mat->Export(meshRendererComponent.Mat->GetPath());
+			}
 			out << YAML::EndMap; // MeshRendererComponent
 		}
 
@@ -427,14 +423,6 @@ namespace Hazel
 				if (meshRendererComponent)
 				{
 					auto& mrc = deserializedEntity.AddComponent<MeshRendererComponent>();
-					//mrc.Color = meshRendererComponent["Color"].as<glm::vec4>();
-					//if (meshRendererComponent["TexturePath"])
-					//{
-					//	std::string path = meshRendererComponent["TexturePath"].as<std::string>();
-					//	mrc.Texture = Texture2D::LoadCompressedFile(path);
-					//}
-					//if (meshRendererComponent["TilingFactor"])
-					//	mrc.TilingFactor = meshRendererComponent["TilingFactor"].as<float>();
 					if (meshRendererComponent["Material"])
 					{
 						std::string path = meshRendererComponent["Material"].as<std::string>();
@@ -457,14 +445,6 @@ namespace Hazel
 				if (spriteRendererComponent)
 				{
 					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
-					//src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
-					//if (spriteRendererComponent["TexturePath"])
-					//{
-					//	std::string path = spriteRendererComponent["TexturePath"].as<std::string>();
-					//	src.Texture = Texture2D::LoadCompressedFile(path);
-					//}
-					//if (spriteRendererComponent["TilingFactor"])
-					//	src.TilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
 					if (spriteRendererComponent["Material"])
 					{
 						std::string path = spriteRendererComponent["Material"].as<std::string>();

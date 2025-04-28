@@ -6,6 +6,24 @@
 
 namespace Hazel 
 {
+	enum class ShaderPropertyType
+	{
+		Float, Float2, Float3, Float4,
+		Color3, Color4,
+		Int, Int2, Int3, Int4
+	};
+
+	static ShaderPropertyType ShaderPropertyTypeFromString(const std::string& typeString)
+	{
+		if (typeString == "color4")
+			return ShaderPropertyType::Color4;
+		if (typeString == "float")
+			return ShaderPropertyType::Float;
+
+		HZ_CORE_ASSERT(false, "Unknown shader property type");
+		return ShaderPropertyType::Float;
+	}
+
 	class Shader
 	{
 	public:
@@ -23,6 +41,8 @@ namespace Hazel
 		virtual void SetMat4(const std::string& name, const glm::mat4& value) = 0;
 
 		virtual const std::string& GetName() const = 0;
+		virtual const std::unordered_map<std::string, ShaderPropertyType>& GetAttribAndType() const = 0;
+		virtual std::unordered_map<std::string, glm::vec4>& GetAttribAndValue() = 0;
 
 		static Ref<Shader> Create(const std::string& filepath);
 		static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);

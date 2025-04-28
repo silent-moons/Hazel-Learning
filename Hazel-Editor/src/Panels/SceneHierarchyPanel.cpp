@@ -429,42 +429,11 @@ namespace Hazel
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
 			{
-				ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
-
-				ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
-				// 在texture按钮上，接受拖动过来的值
-				if (ImGui::BeginDragDropTarget())
-				{
-					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-					{
-						const wchar_t* path = (const wchar_t*)payload->Data;
-						std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
-						Ref<Texture2D> texture = nullptr;
-						if (texturePath.filename().extension().string() != ".cpt")
-						{
-							std::filesystem::path texturePathCpy = texturePath;
-							std::filesystem::path cptFile = texturePath.replace_extension(".cpt");
-							if (std::filesystem::exists(cptFile) && std::filesystem::is_regular_file(cptFile)) 
-								texture = Texture2D::LoadCompressedFile(cptFile.string());
-							else
-							{
-								texture = Texture2D::Create(texturePathCpy.string());
-								texture->Export(cptFile.string());
-							}
-						}
-						else
-							texture = Texture2D::LoadCompressedFile(texturePath.string());
-
-						if (texture->IsLoaded())
-							component.Texture = texture;
-						else
-							HZ_WARN("Could not load texture {0}", texturePath.filename().string());
-					}
-					ImGui::EndDragDropTarget();
-				}
-
-				ImGui::Button("Material", ImVec2(100.0f, 0.0f));
-				// 在Material按钮上，接受拖动过来的值
+				std::string matPath;
+				if (component.Mat)
+					matPath = component.Mat->GetPath();
+				ImGui::InputText("Material", matPath.data(), matPath.size(), ImGuiInputTextFlags_ReadOnly);
+				// 在Material上，接受拖动过来的值
 				if (ImGui::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
@@ -482,7 +451,60 @@ namespace Hazel
 					}
 					ImGui::EndDragDropTarget();
 				}
-				ImGui::DragFloat("Tiling Factor", &component.TilingFactor, 0.1f, 0.0f, 100.0f);
+				std::string shaderName;
+				if (component.Mat)
+				{
+					shaderName = component.Mat->GetShader()->GetName();
+					ImGui::Text("Shader: %s", shaderName.c_str());
+					ImGui::Text("Material Properties:");
+					for (const auto& [attrib, type] : component.Mat->AttribAndType)
+					{
+						float* addr = glm::value_ptr(component.Mat->AttribAndValue[attrib]);
+						if (type == ShaderPropertyType::Color4)
+							ImGui::ColorEdit4("Color", addr);
+						else if (type == ShaderPropertyType::Float)
+							ImGui::DragFloat("Tiling Factor", addr, 0.1f, 0.0f, 100.0f);
+					}
+					std::string textureName;
+					if (!component.Mat->GetTextures().empty())
+					{
+						ImGui::Text("Textures:");
+						for (auto& texture : component.Mat->GetTextures())
+						{
+							textureName = texture->GetMetaDataFilePath();
+							ImGui::InputText("", textureName.data(), textureName.size(), ImGuiInputTextFlags_ReadOnly);
+							if (ImGui::BeginDragDropTarget())
+							{
+								if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+								{
+									const wchar_t* path = (const wchar_t*)payload->Data;
+									std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
+									Ref<Texture2D> tex = nullptr;
+									if (texturePath.filename().extension().string() != ".cpt")
+									{
+										std::filesystem::path texturePathCpy = texturePath;
+										std::filesystem::path cptFile = texturePath.replace_extension(".cpt");
+										if (std::filesystem::exists(cptFile) && std::filesystem::is_regular_file(cptFile))
+											tex = Texture2D::LoadCompressedFile(cptFile.string());
+										else
+										{
+											tex = Texture2D::Create(texturePathCpy.string());
+											tex->Export(cptFile.string());
+										}
+									}
+									else
+										tex = Texture2D::LoadCompressedFile(texturePath.string());
+
+									if (tex->IsLoaded())
+										texture = tex;
+									else
+										HZ_WARN("Could not load texture {0}", texturePath.filename().string());
+								}
+								ImGui::EndDragDropTarget();
+							}
+						}
+					}
+				}
 			});
 		DrawComponent<MeshFilterComponent>("Mesh Filter", entity, [](auto& component)
 			{
@@ -513,41 +535,11 @@ namespace Hazel
 			});
 		DrawComponent<MeshRendererComponent>("Mesh Renderer", entity, [](auto& component)
 			{
-				ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
-
-				ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
-				// 在texture按钮上，接受拖动过来的值
-				if (ImGui::BeginDragDropTarget())
-				{
-					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-					{
-						const wchar_t* path = (const wchar_t*)payload->Data;
-						std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
-						Ref<Texture2D> texture = nullptr;
-						if (texturePath.filename().extension().string() != ".cpt")
-						{
-							std::filesystem::path texturePathCpy = texturePath;
-							std::filesystem::path cptFile = texturePath.replace_extension(".cpt");
-							if (std::filesystem::exists(cptFile) && std::filesystem::is_regular_file(cptFile))
-								texture = Texture2D::LoadCompressedFile(cptFile.string());
-							else
-							{
-								texture = Texture2D::Create(texturePathCpy.string());
-								texture->Export(cptFile.string());
-							}
-						}
-						else
-							texture = Texture2D::LoadCompressedFile(texturePath.string());
-						if (texture->IsLoaded())
-							component.Texture = texture;
-						else
-							HZ_WARN("Could not load texture {0}", texturePath.filename().string());
-					}
-					ImGui::EndDragDropTarget();
-				}
-
-				ImGui::Button("Material", ImVec2(100.0f, 0.0f));
-				// 在Material按钮上，接受拖动过来的值
+				std::string matPath;
+				if (component.Mat)
+					matPath = component.Mat->GetPath();
+				ImGui::InputText("Material", matPath.data(), matPath.size(), ImGuiInputTextFlags_ReadOnly);
+				// 在Material上，接受拖动过来的值
 				if (ImGui::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
@@ -565,7 +557,60 @@ namespace Hazel
 					}
 					ImGui::EndDragDropTarget();
 				}
-				ImGui::DragFloat("Tiling Factor", &component.TilingFactor, 0.1f, 0.0f, 100.0f);
+				std::string shaderName;
+				if (component.Mat)
+				{
+					shaderName = component.Mat->GetShader()->GetName();
+					ImGui::Text("Shader: %s", shaderName.c_str());
+					ImGui::Text("Material Properties:");
+					for (const auto& [attrib, type] : component.Mat->AttribAndType)
+					{
+						float* addr = glm::value_ptr(component.Mat->AttribAndValue[attrib]);
+						if (type == ShaderPropertyType::Color4)
+							ImGui::ColorEdit4("Color", addr);
+						else if (type == ShaderPropertyType::Float)
+							ImGui::DragFloat("Tiling Factor", addr, 0.1f, 0.0f, 100.0f);
+					}
+					std::string textureName;
+					if (!component.Mat->GetTextures().empty())
+					{
+						ImGui::Text("Textures:");
+						for (auto& texture : component.Mat->GetTextures())
+						{
+							textureName = texture->GetMetaDataFilePath();
+							ImGui::InputText("", textureName.data(), textureName.size(), ImGuiInputTextFlags_ReadOnly);
+							if (ImGui::BeginDragDropTarget())
+							{
+								if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+								{
+									const wchar_t* path = (const wchar_t*)payload->Data;
+									std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
+									Ref<Texture2D> tex = nullptr;
+									if (texturePath.filename().extension().string() != ".cpt")
+									{
+										std::filesystem::path texturePathCpy = texturePath;
+										std::filesystem::path cptFile = texturePath.replace_extension(".cpt");
+										if (std::filesystem::exists(cptFile) && std::filesystem::is_regular_file(cptFile))
+											tex = Texture2D::LoadCompressedFile(cptFile.string());
+										else
+										{
+											tex = Texture2D::Create(texturePathCpy.string());
+											tex->Export(cptFile.string());
+										}
+									}
+									else
+										tex = Texture2D::LoadCompressedFile(texturePath.string());
+
+									if (tex->IsLoaded())
+										texture = tex;
+									else
+										HZ_WARN("Could not load texture {0}", texturePath.filename().string());
+								}
+								ImGui::EndDragDropTarget();
+							}
+						}
+					}
+				}
 			});
 
 		DrawComponent<Rigidbody2DComponent>("Rigidbody 2D", entity, [](auto& component)

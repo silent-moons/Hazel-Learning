@@ -279,10 +279,8 @@ namespace Hazel
 				}
 				// 不可合批物体
 				for (auto& info : m_UniqueMeshInfos)
-				{
 					Renderer::Draw(*mainCamera, cameraTransform, info.transform, info.mfc, info.mrc, info.entity);
 
-				}
 				// 可合批物体
 				Renderer::BeginBatch(*mainCamera, cameraTransform);
 				for (auto& [_, rrifs] : m_BatchGroups)
@@ -334,10 +332,7 @@ namespace Hazel
 			}
 			// 不可合批物体
 			for (auto& info : m_UniqueMeshInfos)
-			{
-				//Renderer::BeginUnique(camera, info.transform.WorldTransform);
 				Renderer::Draw(camera, info.transform, info.mfc, info.mrc, info.entity);
-			}
 
 			// 可合批物体
 			Renderer::BeginBatch(camera);

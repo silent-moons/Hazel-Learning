@@ -19,6 +19,8 @@ namespace Hazel
 		void Unbind() const override;
 
 		const std::string& GetName() const override { return m_Name; }
+		const std::unordered_map<std::string, ShaderPropertyType>& GetAttribAndType() const { return m_AttribAndType; }
+		std::unordered_map<std::string, glm::vec4>& GetAttribAndValue() { return m_AttribAndValue; }
 
 		void UploadUniformInt(const std::string& name, const int& value);
 		void UploadUniformIntArray(const std::string& name, int* values, uint32_t count);
@@ -38,12 +40,15 @@ namespace Hazel
 		void SetMat4(const std::string& name, const glm::mat4& value) override;
 
 	private:
-		std::string ReadFile(const std::string& filepath);										//将文件读入一个字符串中并返回以供使用
+		std::string ReadFile(const std::string& filepath);
+		void RegisterAttribs(const std::string& source);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSource);
 
 	private:
 		uint32_t m_RendererID;
 		std::string m_Name;
+		std::unordered_map<std::string, ShaderPropertyType> m_AttribAndType;
+		std::unordered_map<std::string, glm::vec4> m_AttribAndValue;
 	};
 }

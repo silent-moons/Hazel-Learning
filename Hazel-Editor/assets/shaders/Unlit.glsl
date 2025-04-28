@@ -1,3 +1,5 @@
+@Color$color4
+
 #type vertex
 #version 460 core
 
@@ -24,10 +26,11 @@ layout(location = 1) out int color2;
 in vec2 v_TexCoord;
 
 uniform sampler2D u_TextureDiffuse1;
+uniform vec4 u_Color;
 uniform int u_EntityID;
 
 void main()
 {
-	color = vec4(texture(u_TextureDiffuse1, v_TexCoord).xyz, 1.0f);
+	color = vec4(texture(u_TextureDiffuse1, v_TexCoord).xyz, 1.0f) * u_Color;
 	color2 = u_EntityID;
 }

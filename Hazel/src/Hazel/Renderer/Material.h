@@ -19,10 +19,14 @@ namespace Hazel
 		void SetPath(const std::string& path) { m_Path = path; }
 		const Ref<Shader>& GetShader() const { return m_Shader; }
 		void SetShader(const Ref<Shader>& shader) { m_Shader = shader; }
+		void RegisterShaderProperty();
 		void AddTexture(const Ref<Texture2D>& texture) { m_Textures.push_back(texture); }
 		const std::vector<Ref<Texture2D>>& GetTextures() const { return m_Textures; }
+		std::vector<Ref<Texture2D>>& GetTextures() { return m_Textures; }
 
 		void Export(const std::string& path);
+		std::unordered_map<std::string, ShaderPropertyType> AttribAndType;
+		std::unordered_map<std::string, glm::vec4> AttribAndValue;
 	private:
 		std::string m_Path;
 		Ref<Shader> m_Shader;
@@ -60,6 +64,7 @@ namespace YAML
 				std::string shaderPath = Hazel::AssetPath.string() + "/shaders/" + shaderName + ".glsl";
 				mat->SetShader(Hazel::ShaderLibrary::Load(shaderPath));
 			}
+			mat->RegisterShaderProperty();
 			for (const auto& texturePath : node["textures"])
 				mat->AddTexture(Hazel::Texture2D::LoadCompressedFile(texturePath.as<std::string>()));
 			return true;

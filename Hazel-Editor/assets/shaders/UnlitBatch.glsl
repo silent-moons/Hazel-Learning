@@ -1,3 +1,6 @@
+@Color$color4
+@Tiling Factor$float
+
 #type vertex
 #version 460 core
 
@@ -9,7 +12,6 @@ layout(location = 4) in float a_TilingFactor;
 layout(location = 5) in int a_EntityID;
 
 uniform mat4 u_ViewProjection;
-//uniform mat4 u_Transform;
 
 out vec4 v_Color;
 out vec2 v_TexCoord;
@@ -25,7 +27,6 @@ void main()
 	v_TilingFactor = a_TilingFactor;
 	v_EntityID = a_EntityID;
 	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-	//gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 }
 
 #type fragment

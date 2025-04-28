@@ -19,22 +19,33 @@ namespace Hazel
 		}
 		std::string shaderName = node["shader"].as<std::string>();
 		if (ShaderLibrary::Exists(shaderName))
-			SetShader(ShaderLibrary::Get(shaderName));
+			m_Shader = ShaderLibrary::Get(shaderName);
 		else
 		{
 			std::string shaderPath = AssetPath.string() + "/shaders/" + shaderName + ".glsl";
-			SetShader(ShaderLibrary::Load(shaderPath));
+			m_Shader = ShaderLibrary::Load(shaderPath);
 		}
-		
+		RegisterShaderProperty();
 		for (const auto& texturePath : node["textures"])
 			AddTexture(Hazel::Texture2D::LoadCompressedFile(texturePath.as<std::string>()));
     }
 
+	void Material::RegisterShaderProperty()
+	{
+		if (!m_Shader)
+		{
+			HZ_CORE_WARN("Material has no shader, register failed.");
+			return;
+		}
+		AttribAndType = m_Shader->GetAttribAndType();
+		AttribAndValue = m_Shader->GetAttribAndValue();
+	}
+
 	void Material::Export(const std::string& path)
 	{
 		YAML::Node node;
-		node["shader"] = GetShader()->GetName();
-		for (const auto& texture : GetTextures())
+		node["shader"] = m_Shader->GetName();
+		for (const auto& texture : m_Textures)
 			node["textures"].push_back(texture->GetMetaDataFilePath());
 		std::ofstream fout(path);
 		fout << node;

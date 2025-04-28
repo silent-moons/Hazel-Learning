@@ -92,6 +92,7 @@ namespace Hazel
 				mrc.Mat->SetShader(ShaderLibrary::Get("Unlit"));
 			else
 				mrc.Mat->SetShader(ShaderLibrary::Load("assets/shaders/Unlit.glsl"));
+			mrc.Mat->RegisterShaderProperty();
 			std::string matFilePath = (g_AssetPath / dataRelativeDir / (std::string("material_") + std::to_string(aimesh->mMaterialIndex) + ".mat")).string();
 			mrc.Mat->SetPath(matFilePath);
 			mrc.Mat->Export(matFilePath);
@@ -122,6 +123,7 @@ namespace Hazel
 					mrc.Mat->SetShader(ShaderLibrary::Get("Unlit"));
 				else
 					mrc.Mat->SetShader(ShaderLibrary::Load("assets/shaders/Unlit.glsl"));
+				mrc.Mat->RegisterShaderProperty();
 				std::string matFilePath = (g_AssetPath / dataRelativeDir / (std::string("material_") + std::to_string(aimesh->mMaterialIndex) + ".mat")).string();
 				mrc.Mat->SetPath(matFilePath);
 				mrc.Mat->Export(matFilePath);

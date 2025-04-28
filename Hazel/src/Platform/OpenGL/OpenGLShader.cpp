@@ -22,6 +22,7 @@ namespace Hazel
 	OpenGLShader::OpenGLShader(const std::string& filepath)
 	{
 		std::string source = ReadFile(filepath);
+		RegisterAttribs(source);
 		std::unordered_map<GLenum, std::string> shaderSources = PreProcess(source);
 		Compile(shaderSources);
 
@@ -69,6 +70,49 @@ namespace Hazel
 			HZ_CORE_ASSERT("Could not open file '{0}'", filepath);
 
 		return result;
+	}
+
+	void OpenGLShader::RegisterAttribs(const std::string& source)
+	{
+		std::istringstream stream(source);  // 将字符串转换为输入流
+		std::string line;
+
+		// 逐行处理字符串
+		while (std::getline(stream, line)) 
+		{
+			if (line.empty()) // 跳过空行
+				continue;
+
+			// 去除行首尾的空白字符
+			line.erase(0, line.find_first_not_of(" \t"));
+			line.erase(line.find_last_not_of(" \t") + 1);
+			if (!line.empty() && line[line.size() - 1] == '\r')
+				line.erase(line.size() - 1);
+			if (!line.empty() && line[line.size() - 1] == '\n')
+				line.erase(line.size() - 1);
+
+			// 如果是 #type 行，停止读取
+			if (line[0] == '#')
+				break;
+
+			// 如果是以 @ 开头，处理该行
+			if (!line.empty() && line[0] == '@') 
+			{
+				// 查找 @ 后面的内容
+				size_t delimiterPos = line.find('$');
+				if (delimiterPos != std::string::npos) 
+				{
+					std::string key = line.substr(1, delimiterPos - 1);
+					std::string typeStr = line.substr(delimiterPos + 1);
+					ShaderPropertyType type = ShaderPropertyTypeFromString(typeStr);
+					m_AttribAndType[key] = type;
+					if (type == ShaderPropertyType::Float4 || type == ShaderPropertyType::Color4)
+						m_AttribAndValue[key] = { 1.0f, 1.0f, 1.0f, 1.0f };
+					else if (type == ShaderPropertyType::Float)
+						m_AttribAndValue[key] = { 1.0f, 0.0f, 0.0f, 0.0f };
+				}
+			}
+		}
 	}
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)

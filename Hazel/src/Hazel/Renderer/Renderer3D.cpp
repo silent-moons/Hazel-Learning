@@ -311,22 +311,27 @@ namespace Hazel
 	{
 		if (!mrc.Mat)
 			return;
+		std::unordered_map<std::string, glm::vec4>& attribAndValue = mrc.Mat->AttribAndValue;
 		if (mfc.GType == MeshFilterComponent::GeometryType::Custom)
 		{
 			glm::mat4 viewProj = camera.GetViewProjection() * glm::inverse(cameraTrans);
 			mrc.Mat->GetShader()->Bind();
 			mrc.Mat->GetShader()->SetMat4("u_ViewProjection", viewProj);
 			mrc.Mat->GetShader()->SetMat4("u_Model", transform);
+			mrc.Mat->GetShader()->SetFloat4("u_Color", attribAndValue.at("Color"));
 			DrawUnique(transform, mfc.MeshObj, mrc.Mat, entityID);
 		}
 		else
 		{
 			// TODO: 多纹理的支持
 			if (mrc.Mat->GetTextures().size() > 0)
-				DrawBatch(transform, mfc.GType, mfc.MeshObj, mrc.Mat->GetTextures()[0],
-					mrc.TilingFactor, mrc.Color, entityID);
+				DrawBatch(transform, mfc.GType, mfc.MeshObj, 
+					mrc.Mat->GetTextures()[0],
+					attribAndValue.at("Tiling Factor").x,
+					attribAndValue.at("Color"),
+					entityID);
 			else
-				DrawBatch(transform, mfc.GType, mfc.MeshObj, mrc.Color, entityID);
+				DrawBatch(transform, mfc.GType, mfc.MeshObj, attribAndValue.at("Color"), entityID);
 		}
 	}
 

@@ -280,10 +280,18 @@ namespace Hazel
 
 	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
 	{
+		if (!src.Mat)
+			return;
+		std::unordered_map<std::string, glm::vec4>& attribAndValue = src.Mat->AttribAndValue;
+
 		if (src.Mat->GetTextures().size() > 0)
-			DrawQuad(transform, src.Mat->GetTextures()[0], src.TilingFactor, src.Color, entityID);
+			DrawQuad(transform, 
+				src.Mat->GetTextures()[0], 
+				attribAndValue.at("Tiling Factor").x,
+				attribAndValue.at("Color"),
+				entityID);
 		else
-			DrawQuad(transform, src.Color, entityID);
+			DrawQuad(transform, attribAndValue.at("Color"), entityID);
 	}
 
 	void Renderer2D::ResetStats()

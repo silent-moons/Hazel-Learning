@@ -52,15 +52,10 @@ namespace Hazel
 
 	struct SpriteRendererComponent
 	{
-		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
-		Ref<Texture2D> Texture;
-		float TilingFactor = 1.0f;
-
 		Ref<Material> Mat;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
-		SpriteRendererComponent(const glm::vec4& color) : Color(color) {}
 	};
 
 	struct MeshFilterComponent
@@ -100,15 +95,10 @@ namespace Hazel
 
 	struct MeshRendererComponent
 	{
-		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
-		Ref<Texture2D> Texture;
-		float TilingFactor = 1.0f;
-
 		Ref<Material> Mat;
 
 		MeshRendererComponent() = default;
 		MeshRendererComponent(const MeshRendererComponent&) = default;
-		MeshRendererComponent(const glm::vec4& color) : Color(color) {}
 	};
 
 	struct CameraComponent

@@ -1,3 +1,3 @@
 shader: UnlitBatch
 textures:
-  - assets/textures/box.cpt
+  - assets\textures\box.cpt
