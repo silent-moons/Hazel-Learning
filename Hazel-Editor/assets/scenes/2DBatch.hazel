@@ -32,8 +32,7 @@ Entities:
       Children:
         []
     SpriteRendererComponent:
-      Color: [0, 0, 1, 1]
-      TilingFactor: 1
+      Material: assets\materials\NoTexture.mat
   - Entity: 9159992821993206299
     TagComponent:
       Tag: Green Square
@@ -45,8 +44,7 @@ Entities:
       Children:
         - 1117361887961774187
     SpriteRendererComponent:
-      Color: [0, 1, 0, 1]
-      TilingFactor: 1
+      Material: assets\materials\Box.mat
   - Entity: 6462429659170413658
     TagComponent:
       Tag: Red Square
@@ -58,6 +56,4 @@ Entities:
       Children:
         - 9159992821993206299
     SpriteRendererComponent:
-      Color: [1, 0, 0, 1]
-      TexturePath: assets\textures\ChernoLogo.cpt
-      TilingFactor: 1
+      Material: assets\materials\Checkerboard.mat

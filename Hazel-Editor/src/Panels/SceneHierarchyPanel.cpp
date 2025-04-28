@@ -11,7 +11,6 @@
 
 namespace Hazel 
 {
-
 	extern const std::filesystem::path g_AssetPath;
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
@@ -463,6 +462,26 @@ namespace Hazel
 					}
 					ImGui::EndDragDropTarget();
 				}
+
+				ImGui::Button("Material", ImVec2(100.0f, 0.0f));
+				// 在Material按钮上，接受拖动过来的值
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+					{
+						const wchar_t* path = (const wchar_t*)payload->Data;
+						std::filesystem::path matPath = std::filesystem::path(g_AssetPath) / path;
+						Ref<Material> mat = nullptr;
+						if (matPath.filename().extension().string() == ".mat")
+						{
+							mat = CreateRef<Material>(matPath.string());
+							component.Mat = mat;
+						}
+						else
+							HZ_WARN("Could not load material {0}", matPath.filename().string());
+					}
+					ImGui::EndDragDropTarget();
+				}
 				ImGui::DragFloat("Tiling Factor", &component.TilingFactor, 0.1f, 0.0f, 100.0f);
 			});
 		DrawComponent<MeshFilterComponent>("Mesh Filter", entity, [](auto& component)
@@ -523,6 +542,26 @@ namespace Hazel
 							component.Texture = texture;
 						else
 							HZ_WARN("Could not load texture {0}", texturePath.filename().string());
+					}
+					ImGui::EndDragDropTarget();
+				}
+
+				ImGui::Button("Material", ImVec2(100.0f, 0.0f));
+				// 在Material按钮上，接受拖动过来的值
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+					{
+						const wchar_t* path = (const wchar_t*)payload->Data;
+						std::filesystem::path matPath = std::filesystem::path(g_AssetPath) / path;
+						Ref<Material> mat = nullptr;
+						if (matPath.filename().extension().string() == ".mat")
+						{
+							mat = CreateRef<Material>(matPath.string());
+							component.Mat = mat;
+						}
+						else
+							HZ_WARN("Could not load material {0}", matPath.filename().string());
 					}
 					ImGui::EndDragDropTarget();
 				}

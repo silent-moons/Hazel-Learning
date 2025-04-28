@@ -19,8 +19,8 @@ namespace Hazel
 		static void BeginBatch(const Camera& camera, const glm::mat4& transform);
 		static void BeginBatch(const EditorCamera& camera);
 		// 不可合批物体Runtime和Editor
-		static void BeginUnique(const Camera& camera, const glm::mat4& modelMat, const glm::mat4& cameraTrans);
-		static void BeginUnique(const EditorCamera& camera, const glm::mat4& modelMat);
+		//static void BeginUnique(const Camera& camera, const glm::mat4& modelMat, const glm::mat4& cameraTrans);
+		//static void BeginUnique(const EditorCamera& camera, const glm::mat4& modelMat);
 		static void EndBatch();
 		static void Flush();
 		static void DrawBatch(
@@ -40,9 +40,15 @@ namespace Hazel
 		static void DrawUnique(
 			const glm::mat4& transform,
 			const Ref<Mesh>& mesh,
-			const Ref<Texture2D>& texture,
+			const Ref<Material>& mat,
 			int entityID = -1);
-		static void DrawMesh(const glm::mat4& transform, MeshFilterComponent& mfc, MeshRendererComponent& mrc, int entityID);
+		static void DrawMesh(
+			const Camera& camera, 
+			const glm::mat4& cameraTrans,
+			const glm::mat4& transform, 
+			MeshFilterComponent& mfc, 
+			MeshRendererComponent& mrc, 
+			int entityID);
 
 		static void ResetStats();
 		static RenderStats* GetStats();

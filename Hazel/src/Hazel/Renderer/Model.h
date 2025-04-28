@@ -23,20 +23,17 @@ namespace Hazel
 			aiNode* ainode, 
 			const aiScene* scene, 
 			const Ref<Scene>& context,
-			const std::string& rootPath, 
 			const std::filesystem::path& dataRelativeDir);
-		static Ref<Mesh> ProcessMesh(
+		static std::pair<Ref<Mesh>, std::vector<Ref<Texture2D>>> ProcessMesh(
 			Entity entity,
 			aiMesh* aimesh, 
 			const aiScene* scene, 
-			const std::string& rootPath, 
 			const std::filesystem::path& dataRelativeDir);
 		static Ref<Texture2D> ProcessTexture(
 			Entity entity,
 			const aiMaterial* material, 
 			const aiTextureType& type, 
 			const aiScene* scene, 
-			const std::string& rootPath, 
 			const std::filesystem::path& dataRelativeDir);
 		static glm::mat4 GetMat4f(aiMatrix4x4 value);
 

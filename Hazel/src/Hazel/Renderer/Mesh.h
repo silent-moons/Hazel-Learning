@@ -49,10 +49,10 @@ namespace Hazel
         virtual MeshType GetMeshType() const = 0;
         virtual void SetMeshType(MeshType meshType) = 0;
         virtual Ref<VertexArray> GetVAO() const { return nullptr; }
-        virtual const std::vector<Ref<Texture2D>>& GetTextures() const { return m_EmptyTextures; }
+        //virtual const std::vector<Ref<Texture2D>>& GetTextures() const { return m_EmptyTextures; }
     private:
         std::vector<Vertex> m_EmptyVertices;
-        std::vector<Ref<Texture2D>> m_EmptyTextures;
+        //std::vector<Ref<Texture2D>> m_EmptyTextures;
     };
 
     class BatchMesh : public Mesh 
@@ -85,8 +85,7 @@ namespace Hazel
     public:
         UniqueMesh();
         UniqueMesh(std::vector<Vertex>& vertices,
-            std::vector<uint32_t>& indices,
-            std::vector<Ref<Texture2D>>& textures);
+            std::vector<uint32_t>& indices);
         void Bind() const override;
         void Unbind() const override;
 		void Export(const std::string& path) const override;
@@ -103,18 +102,17 @@ namespace Hazel
         MeshType GetMeshType() const override { return MeshType::StaticUnique; }
         void SetMeshType(MeshType meshType) override { m_MeshType = meshType; }
         Ref<VertexArray> GetVAO() const override { return m_VAO; }
-        const std::vector<Ref<Texture2D>>& GetTextures() const override { return m_Textures; }
+        //const std::vector<Ref<Texture2D>>& GetTextures() const override { return m_Textures; }
     private:
         void InitMesh(std::vector<Vertex>& vertices,
-            std::vector<uint32_t>& indices,
-            std::vector<Ref<Texture2D>>& textures);
+            std::vector<uint32_t>& indices);
     private:
         std::vector<glm::vec3> m_VerticesPositions;
         std::vector<glm::vec2> m_TextureCoords;
 
         std::vector<Vertex> m_Vertices;
         std::vector<uint32_t> m_Indices;
-        std::vector<Ref<Texture2D>> m_Textures;
+        //std::vector<Ref<Texture2D>> m_Textures;
         Ref<VertexArray> m_VAO;
         Ref<VertexBuffer> m_VBO;
         Ref<IndexBuffer> m_IBO;
@@ -132,10 +130,10 @@ namespace Hazel
     public:
         static Ref<BatchMesh> GetCubeMesh();
         static Ref<BatchMesh> GetSphereMesh();
-        static Ref<Mesh> GetTempMesh();
+        //static Ref<Mesh> GetTempMesh();
     private:
         static Ref<BatchMesh> s_CubeMesh;
         static Ref<BatchMesh> s_SphereMesh;
-        static Ref<Mesh> s_TempMesh;
+        //static Ref<Mesh> s_TempMesh;
     };
 }

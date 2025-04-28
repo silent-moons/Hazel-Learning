@@ -280,8 +280,7 @@ namespace Hazel
 				// 不可合批物体
 				for (auto& info : m_UniqueMeshInfos)
 				{
-					Renderer::BeginUnique(*mainCamera, info.transform.WorldTransform, cameraTransform);
-					Renderer::Draw(info.transform, info.mfc, info.mrc, info.entity);
+					Renderer::Draw(*mainCamera, cameraTransform, info.transform, info.mfc, info.mrc, info.entity);
 
 				}
 				// 可合批物体
@@ -290,7 +289,7 @@ namespace Hazel
 				{
 					for (auto& rrif : rrifs)
 					{
-						Renderer::Draw(rrif.transform, rrif.mfc, rrif.mrc, rrif.entity);
+						Renderer::Draw(*mainCamera, rrif.transform, rrif.mfc, rrif.mrc, rrif.entity);
 					}
 				}
 				break;
@@ -336,8 +335,8 @@ namespace Hazel
 			// 不可合批物体
 			for (auto& info : m_UniqueMeshInfos)
 			{
-				Renderer::BeginUnique(camera, info.transform.WorldTransform);
-				Renderer::Draw(info.transform, info.mfc, info.mrc, info.entity);
+				//Renderer::BeginUnique(camera, info.transform.WorldTransform);
+				Renderer::Draw(camera, info.transform, info.mfc, info.mrc, info.entity);
 			}
 
 			// 可合批物体
@@ -346,7 +345,7 @@ namespace Hazel
 			{
 				for (auto& rrif : rrifs)
 				{
-					Renderer::Draw(rrif.transform, rrif.mfc, rrif.mrc, rrif.entity);
+					Renderer::Draw(camera, rrif.transform, rrif.mfc, rrif.mrc, rrif.entity);
 				}
 			}
 			break;

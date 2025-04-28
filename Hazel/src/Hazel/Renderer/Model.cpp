@@ -48,13 +48,11 @@ namespace Hazel
 			return;
 		}
 
-		ProcessNode({entt::null, nullptr}, scene->mRootNode, scene, context, 
-			rootPath, relativeDir);
+		ProcessNode({entt::null, nullptr}, scene->mRootNode, scene, context, relativeDir);
 	}
 
 	void Model::ProcessNode(Entity parent, aiNode* ainode, const aiScene* scene, 
-		const Ref<Scene>& context, const std::string& rootPath, 
-		const std::filesystem::path& dataRelativeDir)
+		const Ref<Scene>& context, const std::filesystem::path& dataRelativeDir)
 	{
 		//创建新节点
 		Entity node = context->CreateEntity(ainode->mName.C_Str());
@@ -76,7 +74,7 @@ namespace Hazel
 		if (ainode->mNumMeshes == 1)
 		{
 			aiMesh* aimesh = scene->mMeshes[ainode->mMeshes[0]];
-			Ref<Mesh> mesh = ProcessMesh(node, aimesh, scene, rootPath, dataRelativeDir);
+			auto [mesh, textures] = ProcessMesh(node, aimesh, scene, dataRelativeDir);
 			std::filesystem::path meshName = aimesh->mName.C_Str();
 			std::string meshFilePath = (g_AssetPath / dataRelativeDir / (meshName.string() + ".mesh")).string();
 			mesh->Export(meshFilePath);
@@ -84,7 +82,19 @@ namespace Hazel
 			auto& mfc = node.AddComponent<MeshFilterComponent>();
 			mfc.GType = MeshFilterComponent::GeometryType::Custom;
 			mfc.MeshObj = mesh;
-			node.AddComponent<MeshRendererComponent>();
+
+			auto& mrc = node.AddComponent<MeshRendererComponent>();
+			mrc.Mat = CreateRef<Material>();
+			for (auto& texture : textures)
+				mrc.Mat->AddTexture(texture);
+
+			if (ShaderLibrary::Exists("Unlit"))
+				mrc.Mat->SetShader(ShaderLibrary::Get("Unlit"));
+			else
+				mrc.Mat->SetShader(ShaderLibrary::Load("assets/shaders/Unlit.glsl"));
+			std::string matFilePath = (g_AssetPath / dataRelativeDir / (std::string("material_") + std::to_string(aimesh->mMaterialIndex) + ".mat")).string();
+			mrc.Mat->SetPath(matFilePath);
+			mrc.Mat->Export(matFilePath);
 		}
 		// 如果节点有1个以上网格，就创建子节点
 		else
@@ -93,7 +103,7 @@ namespace Hazel
 			{
 				aiMesh* aimesh = scene->mMeshes[ainode->mMeshes[i]];
 				Entity subMesh = context->CreateEntity(aimesh->mName.C_Str());
-				Ref<Mesh> mesh = ProcessMesh(subMesh, aimesh, scene, rootPath, dataRelativeDir);
+				auto [mesh, textures] = ProcessMesh(node, aimesh, scene, dataRelativeDir);
 				std::filesystem::path meshName = aimesh->mName.C_Str();
 				std::string meshFilePath = (g_AssetPath / dataRelativeDir / (meshName.string() + ".mesh")).string();
 				mesh->Export(meshFilePath);
@@ -101,19 +111,30 @@ namespace Hazel
 				auto& mfc = subMesh.AddComponent<MeshFilterComponent>();
 				mfc.GType = MeshFilterComponent::GeometryType::Custom;
 				mfc.MeshObj = mesh;
-				subMesh.AddComponent<MeshRendererComponent>();
 				trans.Children.push_back(subMesh.GetUUID());
 				subMesh.GetComponent<TransformComponent>().Parent = node.GetUUID();
+
+				auto& mrc = subMesh.AddComponent<MeshRendererComponent>();
+				mrc.Mat = CreateRef<Material>();
+				for (auto& texture : textures)
+					mrc.Mat->AddTexture(texture);
+				if (ShaderLibrary::Exists("Unlit"))
+					mrc.Mat->SetShader(ShaderLibrary::Get("Unlit"));
+				else
+					mrc.Mat->SetShader(ShaderLibrary::Load("assets/shaders/Unlit.glsl"));
+				std::string matFilePath = (g_AssetPath / dataRelativeDir / (std::string("material_") + std::to_string(aimesh->mMaterialIndex) + ".mat")).string();
+				mrc.Mat->SetPath(matFilePath);
+				mrc.Mat->Export(matFilePath);
 			}
 		}
 
 		// 接下来对它的子节点重复这一过程
 		for (unsigned int i = 0; i < ainode->mNumChildren; i++)
-			ProcessNode(node, ainode->mChildren[i], scene, context, rootPath, dataRelativeDir);
+			ProcessNode(node, ainode->mChildren[i], scene, context, dataRelativeDir);
 	}
 
-	Ref<Mesh> Model::ProcessMesh(Entity entity, aiMesh* aimesh, const aiScene* scene,
-		const std::string& rootPath, const std::filesystem::path& dataRelativeDir)
+	std::pair<Ref<Mesh>, std::vector<Ref<Texture2D>>> Model::ProcessMesh(Entity entity, 
+		aiMesh* aimesh, const aiScene* scene, const std::filesystem::path& dataRelativeDir)
 	{
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
@@ -169,10 +190,10 @@ namespace Hazel
 			//取出材质
 			aiMaterial* material = scene->mMaterials[aimesh->mMaterialIndex];
 			textures.emplace_back(ProcessTexture(entity, material, 
-				aiTextureType_DIFFUSE, scene, rootPath, dataRelativeDir));
+				aiTextureType_DIFFUSE, scene, dataRelativeDir));
 		}
 
-		return CreateRef<UniqueMesh>(vertices, indices, textures);
+		return { CreateRef<UniqueMesh>(vertices, indices), textures };
 	}
 
 	Ref<Texture2D> Model::ProcessTexture(
@@ -180,7 +201,6 @@ namespace Hazel
 		const aiMaterial* material,
 		const aiTextureType& type,
 		const aiScene* scene,
-		const std::string& rootPath, 
 		const std::filesystem::path& dataRelativeDir)
 	{
 		aiString aiPath;
@@ -220,8 +240,7 @@ namespace Hazel
 		}
 		else
 		{
-			std::string fullPath = rootPath + aiPath.C_Str();
-			tex = Texture2D::Create(fullPath);
+			tex = Texture2D::Create((g_AssetPath / dataRelativeDir.parent_path() / aiPath.C_Str()).string());
 			std::filesystem::path texPath = aiPath.C_Str();
 			std::string texFilePath = (g_AssetPath / dataRelativeDir / texPath.replace_extension("cpt")).string();
 			tex->Export(texFilePath);

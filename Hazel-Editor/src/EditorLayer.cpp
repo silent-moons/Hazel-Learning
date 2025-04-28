@@ -292,7 +292,7 @@ namespace Hazel
 			
 			// Editor camera
 			const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
-			glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
+			glm::mat4 cameraView = m_EditorCamera.GetView();
 
 			// Entity transform
 			auto& tc = selectedEntity.GetComponent<TransformComponent>();

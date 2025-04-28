@@ -1,139 +1,118 @@
 Scene: Untitled
 Entities:
-  - Entity: 7291481322279345378
+  - Entity: 7194573481370742419
     TagComponent:
       Tag: Body
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 12135055575798930533
+      Parent: 17362387615571003166
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\nanosuit\nanosuit\Body.mesh
-      TexPath:
-        - assets\models\nanosuit\nanosuit\body_dif.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 15555711284457606955
+      Material: assets\models\nanosuit\nanosuit\material_2.mat
+  - Entity: 8350316724458856269
     TagComponent:
       Tag: Helmet
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 12135055575798930533
+      Parent: 17362387615571003166
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\nanosuit\nanosuit\Helmet.mesh
-      TexPath:
-        - assets\models\nanosuit\nanosuit\helmet_diff.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 7490367373369085006
+      Material: assets\models\nanosuit\nanosuit\material_5.mat
+  - Entity: 7013764761203457539
     TagComponent:
       Tag: Arms
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 12135055575798930533
+      Parent: 17362387615571003166
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\nanosuit\nanosuit\Arms.mesh
-      TexPath:
-        - assets\models\nanosuit\nanosuit\arm_dif.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 99897052614974451
+      Material: assets\models\nanosuit\nanosuit\material_1.mat
+  - Entity: 9931025936388981808
     TagComponent:
       Tag: Lights
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 12135055575798930533
+      Parent: 17362387615571003166
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\nanosuit\nanosuit\Lights.mesh
-      TexPath:
-        - assets\models\nanosuit\nanosuit\glass_dif.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 12462628196966699588
+      Material: assets\models\nanosuit\nanosuit\material_3.mat
+  - Entity: 15922346918795547384
     TagComponent:
       Tag: hands
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 12135055575798930533
+      Parent: 17362387615571003166
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\nanosuit\nanosuit\hands.mesh
-      TexPath:
-        - assets\models\nanosuit\nanosuit\hand_dif.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 12304863399329860939
+      Material: assets\models\nanosuit\nanosuit\material_4.mat
+  - Entity: 16902793793660110105
     TagComponent:
       Tag: Legs
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 12135055575798930533
+      Parent: 17362387615571003166
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\nanosuit\nanosuit\Legs.mesh
-      TexPath:
-        - assets\models\nanosuit\nanosuit\leg_dif.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 6786622308301947385
+      Material: assets\models\nanosuit\nanosuit\material_6.mat
+  - Entity: 5476097830027306646
     TagComponent:
       Tag: Visor
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 12135055575798930533
+      Parent: 17362387615571003166
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\nanosuit\nanosuit\Visor.mesh
-      TexPath:
-        - assets\models\nanosuit\nanosuit\glass_dif.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 12135055575798930533
+      Material: assets\models\nanosuit\nanosuit\material_3.mat
+  - Entity: 17362387615571003166
     TagComponent:
       Tag: nanosuit.obj
     TransformComponent:
@@ -142,10 +121,10 @@ Entities:
       Scale: [1, 1, 1]
       Parent: 0
       Children:
-        - 6786622308301947385
-        - 12304863399329860939
-        - 12462628196966699588
-        - 99897052614974451
-        - 7490367373369085006
-        - 15555711284457606955
-        - 7291481322279345378
+        - 5476097830027306646
+        - 16902793793660110105
+        - 15922346918795547384
+        - 9931025936388981808
+        - 7013764761203457539
+        - 8350316724458856269
+        - 7194573481370742419

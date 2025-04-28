@@ -3,6 +3,7 @@
 
 #include "Hazel/Renderer/VertexArray.h"
 #include "Hazel/Renderer/Shader.h"
+#include "Hazel/Renderer/Material.h"
 #include "Hazel/Renderer/RenderCommand.h"
 #include "Hazel/Renderer/RenderStats.h"
 #include "Hazel/Renderer/Geometry/Cube.h"
@@ -45,7 +46,7 @@ namespace Hazel
 
 		RenderStats Stats;
 
-		Ref<Shader> TempShader; // temp
+		//Ref<Shader> TempShader; // temp
 	};
 	static Renderer3DData s_Data;
 
@@ -129,7 +130,7 @@ namespace Hazel
 		s_Data.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 		s_Data.TextureSlots[0] = s_Data.WhiteTexture;
 
-		s_Data.TempShader = ShaderLibrary::Load("assets/shaders/Unlit.glsl");
+		//s_Data.TempShader = ShaderLibrary::Load("assets/shaders/Unlit.glsl");
 	}
 
 	void Renderer3D::Shutdown()
@@ -154,21 +155,21 @@ namespace Hazel
 		StartBatch();
 	}
 
-	void Renderer3D::BeginUnique(const Camera& camera, const glm::mat4& modelMat, const glm::mat4& cameraTrans)
-	{
-		glm::mat4 viewProj = camera.GetProjection() * glm::inverse(cameraTrans);
-		s_Data.TempShader->Bind();
-		s_Data.TempShader->SetMat4("u_ViewProjection", viewProj);
-		s_Data.TempShader->SetMat4("u_Model", modelMat);
-	}
+	//void Renderer3D::BeginUnique(const Camera& camera, const glm::mat4& modelMat, const glm::mat4& cameraTrans)
+	//{
+	//	glm::mat4 viewProj = camera.GetProjection() * glm::inverse(cameraTrans);
+	//	s_Data.TempShader->Bind();
+	//	s_Data.TempShader->SetMat4("u_ViewProjection", viewProj);
+	//	s_Data.TempShader->SetMat4("u_Model", modelMat);
+	//}
 
-	void Renderer3D::BeginUnique(const EditorCamera& camera, const glm::mat4& modelMat)
-	{
-		glm::mat4 viewProj = camera.GetViewProjection();
-		s_Data.TempShader->Bind();
-		s_Data.TempShader->SetMat4("u_ViewProjection", viewProj);
-		s_Data.TempShader->SetMat4("u_Model", modelMat);
-	}
+	//void Renderer3D::BeginUnique(const EditorCamera& camera, const glm::mat4& modelMat)
+	//{
+	//	glm::mat4 viewProj = camera.GetViewProjection();
+	//	s_Data.TempShader->Bind();
+	//	s_Data.TempShader->SetMat4("u_ViewProjection", viewProj);
+	//	s_Data.TempShader->SetMat4("u_Model", modelMat);
+	//}
 
 	void Renderer3D::EndBatch()
 	{
@@ -285,14 +286,14 @@ namespace Hazel
 		s_Data.Stats.GeometryCount++;
 	}
 
-	void Renderer3D::DrawUnique(const glm::mat4& transform, const Ref<Mesh>& mesh, const Ref<Texture2D>& texture, int entityID)
+	void Renderer3D::DrawUnique(const glm::mat4& transform, const Ref<Mesh>& mesh, const Ref<Material>& mat, int entityID)
 	{
-		for (size_t i = 0; i < mesh->GetTextures().size(); i++)
+		for (size_t i = 0; i < mat->GetTextures().size(); i++)
 		{
-			mesh->GetTextures()[i]->Bind(i);
-			s_Data.TempShader->SetInt("u_TextureDiffuse1", i);
+			mat->GetTextures()[i]->Bind(i);
+			mat->GetShader()->SetInt("u_TextureDiffuse1", i);
 		}
-		s_Data.TempShader->SetInt("u_EntityID", entityID);
+		mat->GetShader()->SetInt("u_EntityID", entityID);
 		RenderCommand::DrawIndexed(mesh->GetVAO(), mesh->GetIndexCount());
 		s_Data.Stats.VertexCount += mesh->GetVertexCount();
 		s_Data.Stats.IndexCount += mesh->GetIndexCount();
@@ -300,16 +301,30 @@ namespace Hazel
 		s_Data.Stats.GeometryCount++;
 	}
 
-	void Renderer3D::DrawMesh(const glm::mat4& transform, MeshFilterComponent& mfc, MeshRendererComponent& mrc, int entityID)
+	void Renderer3D::DrawMesh(
+		const Camera& camera,
+		const glm::mat4& cameraTrans, 
+		const glm::mat4& transform, 
+		MeshFilterComponent& mfc, 
+		MeshRendererComponent& mrc, 
+		int entityID)
 	{
+		if (!mrc.Mat)
+			return;
 		if (mfc.GType == MeshFilterComponent::GeometryType::Custom)
 		{
-			DrawUnique(transform, mfc.MeshObj, mrc.Texture, entityID);
+			glm::mat4 viewProj = camera.GetViewProjection() * glm::inverse(cameraTrans);
+			mrc.Mat->GetShader()->Bind();
+			mrc.Mat->GetShader()->SetMat4("u_ViewProjection", viewProj);
+			mrc.Mat->GetShader()->SetMat4("u_Model", transform);
+			DrawUnique(transform, mfc.MeshObj, mrc.Mat, entityID);
 		}
 		else
 		{
-			if (mrc.Texture)
-				DrawBatch(transform, mfc.GType, mfc.MeshObj, mrc.Texture, mrc.TilingFactor, mrc.Color, entityID);
+			// TODO: 多纹理的支持
+			if (mrc.Mat->GetTextures().size() > 0)
+				DrawBatch(transform, mfc.GType, mfc.MeshObj, mrc.Mat->GetTextures()[0],
+					mrc.TilingFactor, mrc.Color, entityID);
 			else
 				DrawBatch(transform, mfc.GType, mfc.MeshObj, mrc.Color, entityID);
 		}

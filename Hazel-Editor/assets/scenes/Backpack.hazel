@@ -1,1507 +1,1270 @@
 Scene: Untitled
 Entities:
-  - Entity: 15567588123630841666
+  - Entity: 16957401131227844384
     TagComponent:
       Tag: Cube.055__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.055__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 13880863236481459637
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 14002278993852617620
     TagComponent:
       Tag: Sphere.027__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.027__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 15120739461330366107
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 8220055634733022251
     TagComponent:
       Tag: Sphere.026__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.026__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 12185260045791387584
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 1618404388127733391
     TagComponent:
       Tag: Sphere.025__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.025__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 5377867927949717144
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 3560800299548790234
     TagComponent:
       Tag: Sphere.024__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.024__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 10930378894543211211
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 9833543659864637348
     TagComponent:
       Tag: Sphere.023__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.023__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 6378948512562653550
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 14293924417873061309
     TagComponent:
       Tag: Sphere.022__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.022__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 2188102673804776453
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 2851712479360173821
     TagComponent:
       Tag: Cube.054__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.054__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 5301929980617190361
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 17202990177380842491
     TagComponent:
       Tag: Cube.053__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.053__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 18414507961250654022
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 14891969095494101221
     TagComponent:
       Tag: Cube.052__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.052__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 7317828000335930341
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 16517225279243253052
     TagComponent:
       Tag: Sphere.021__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.021__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 13225622655138418597
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 5786607872068111964
     TagComponent:
       Tag: Sphere.020__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.020__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 12833951749838507942
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 12291106694907229950
     TagComponent:
       Tag: Sphere.019__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.019__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 8193057338380483275
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 16903531728882667250
     TagComponent:
       Tag: Sphere.018__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.018__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 3354448711891471680
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 13266801754473830102
     TagComponent:
       Tag: Cube.051__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.051__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 14022223754991144094
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 10980928566894450241
     TagComponent:
       Tag: Sphere.017__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.017__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 4671333717618077246
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 14399238222784261656
     TagComponent:
       Tag: Sphere.016__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.016__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 15290188366256908548
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 9748095353329635741
     TagComponent:
       Tag: Sphere.015__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.015__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 9963908090688125510
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 17649548881764914446
     TagComponent:
       Tag: Sphere.014__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Sphere.014__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 8106820392471219942
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 3397310281971981450
     TagComponent:
       Tag: Cube.050__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.050__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 11312878531283358997
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 3934374877117800287
     TagComponent:
       Tag: Cylinder.056__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.056__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 17955679307368453566
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 5776120014638528764
     TagComponent:
       Tag: Cylinder.055__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.055__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 3831375188250317628
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 17652376950394933147
     TagComponent:
       Tag: Cube.049__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.049__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 5497915391465232079
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 7024002523230145097
     TagComponent:
       Tag: BezierCurve.003__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\BezierCurve.003__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 3233466397198026547
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 57713649499711773
     TagComponent:
       Tag: Cylinder.054__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.054__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 669436613293088488
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 11376363646875885861
     TagComponent:
       Tag: Cylinder.053__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.053__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 9194678356206475272
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 2937059949626706658
     TagComponent:
       Tag: Cylinder.052__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.052__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 8020146143457754523
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 300685757997688484
     TagComponent:
       Tag: Cylinder.051__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.051__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 516196751465115434
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 6477040888597968722
     TagComponent:
       Tag: Cube.048__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.048__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 16534551923347554560
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 7916974188703120540
     TagComponent:
       Tag: Cylinder.050__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.050__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 11596806623860959480
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 11856110825308428931
     TagComponent:
       Tag: Cube.047__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.047__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 2145958248874243521
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 4360339135208028298
     TagComponent:
       Tag: Cube.046__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.046__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 672444248470378924
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 10355337107265765514
     TagComponent:
       Tag: Plane.015__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Plane.015__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 11771398918725293469
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 11408408469503763720
     TagComponent:
       Tag: Cube.045__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.045__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 7925977991279046769
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 11988633291532354029
     TagComponent:
       Tag: Cube.044__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.044__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 13084823785322173178
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 3906667367990800270
     TagComponent:
       Tag: Cube.043__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.043__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 17000102705886947654
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 17142300395259416736
     TagComponent:
       Tag: Cube.042__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.042__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 6155034994273510006
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 14303801120506615746
     TagComponent:
       Tag: Cube.041__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.041__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 4910553375988260518
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 16962856402943985737
     TagComponent:
       Tag: Cube.040__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.040__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 7809916152714065266
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 4929418371789559922
     TagComponent:
       Tag: Cylinder.049__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.049__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 9176675113785975184
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 7719110407721973034
     TagComponent:
       Tag: Cylinder.048__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.048__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 10561160687259118517
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 18387512609489056497
     TagComponent:
       Tag: Cylinder.047__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.047__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 12530023186959156748
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 3564951422937571980
     TagComponent:
       Tag: Cylinder.046__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.046__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 12995693520385774723
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 3605604869038180771
     TagComponent:
       Tag: Cylinder.045__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.045__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 14268819018204320112
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 6379463781518058960
     TagComponent:
       Tag: Cylinder.044__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.044__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 2301327470110311847
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 8009848977899285513
     TagComponent:
       Tag: Cylinder.043__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.043__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 1422018276128267347
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 12833976194377831902
     TagComponent:
       Tag: Cylinder.042__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.042__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 10185065362593582203
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 12193820467610934367
     TagComponent:
       Tag: Cylinder.041__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.041__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 17495299721219562673
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 6427944237130314141
     TagComponent:
       Tag: Cylinder.040__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.040__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 3668311294852703506
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 10455432531404029968
     TagComponent:
       Tag: Cylinder.039__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.039__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 588555380194202889
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 11380864149726280220
     TagComponent:
       Tag: Cylinder.038__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.038__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 5116649810629723569
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 4889452874370524151
     TagComponent:
       Tag: Cylinder.037__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.037__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 8566842849935475667
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 11172124969645273346
     TagComponent:
       Tag: Cylinder.036__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.036__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 14146958047348221439
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 5238240933275143519
     TagComponent:
       Tag: Cube.039__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.039__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 15641529024542885648
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 1569722932223084827
     TagComponent:
       Tag: Cube.038__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.038__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 2089858152392946470
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 13550607190765998677
     TagComponent:
       Tag: Cylinder.035__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.035__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 11172965918496022469
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 17567157365626479622
     TagComponent:
       Tag: Cylinder.034__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.034__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 14777384987113607027
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 12778964634870921259
     TagComponent:
       Tag: Cube.037__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.037__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 571089861544855932
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 2046277663324286752
     TagComponent:
       Tag: Cylinder.033__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.033__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 16377075443986459761
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 10065255952107614487
     TagComponent:
       Tag: Cube.036__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.036__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 2701149564550364723
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 9064955823440343041
     TagComponent:
       Tag: Cube.035__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.035__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 5730705198732600835
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 13976785732350084616
     TagComponent:
       Tag: Cube.034__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.034__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 14976039470615052781
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 13592279158597538417
     TagComponent:
       Tag: Cube.033__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.033__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 2130013821101786980
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 17328406437202051669
     TagComponent:
       Tag: Cylinder.032__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.032__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 12230764683408689010
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 12302991151601901268
     TagComponent:
       Tag: Cube.032__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.032__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 16026000001077589493
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 14198352157623447717
     TagComponent:
       Tag: Cylinder.031__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.031__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 2061480802331482839
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 11397398548806587959
     TagComponent:
       Tag: Cube.031__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.031__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 7351175959058512224
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 18194889809828128682
     TagComponent:
       Tag: Plane.014__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Plane.014__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 14693872369003418869
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 17760545810057139203
     TagComponent:
       Tag: Cylinder.030__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.030__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 11816615379103004631
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 4932749970306156322
     TagComponent:
       Tag: Plane.013__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Plane.013__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 1691882010117508342
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 5056288617873207932
     TagComponent:
       Tag: Plane.012__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Plane.012__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 8789912162875674854
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 2793526420235012291
     TagComponent:
       Tag: Cube.030__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.030__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 11445127572028049817
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 10475911884381228157
     TagComponent:
       Tag: Cylinder.029__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cylinder.029__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 16618720905196635969
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 2448600067644462573
     TagComponent:
       Tag: Plane.011__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Plane.011__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 12074313256761580608
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 13170035827198027753
     TagComponent:
       Tag: Plane.010__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Plane.010__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 7793491673027241495
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 13801325778261096401
     TagComponent:
       Tag: Plane.009__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Plane.009__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 16375921064435160190
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 15848585431268290509
     TagComponent:
       Tag: Cube.029__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.029__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 3858060399237996677
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 5633895749811724199
     TagComponent:
       Tag: Plane.008__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Plane.008__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 2336446022562489269
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 5268940229397425641
     TagComponent:
       Tag: Cube.028__0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, -0, 0]
       Scale: [1, 1, 1]
-      Parent: 1025677026347969694
+      Parent: 12807836691389426993
       Children:
         []
     MeshFilterComponent:
       GType: 2
       MType: 1
       MeshPath: assets\models\bag\backpack\Cube.028__0.mesh
-      TexPath:
-        - assets\models\bag\backpack\diffuse.cpt
     MeshRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1
-  - Entity: 1025677026347969694
+      Material: assets\models\bag\backpack\material_1.mat
+  - Entity: 12807836691389426993
     TagComponent:
       Tag: backpack.obj
     TransformComponent:
@@ -1510,82 +1273,82 @@ Entities:
       Scale: [1, 1, 1]
       Parent: 0
       Children:
-        - 2336446022562489269
-        - 3858060399237996677
-        - 16375921064435160190
-        - 7793491673027241495
-        - 12074313256761580608
-        - 16618720905196635969
-        - 11445127572028049817
-        - 8789912162875674854
-        - 1691882010117508342
-        - 11816615379103004631
-        - 14693872369003418869
-        - 7351175959058512224
-        - 2061480802331482839
-        - 16026000001077589493
-        - 12230764683408689010
-        - 2130013821101786980
-        - 14976039470615052781
-        - 5730705198732600835
-        - 2701149564550364723
-        - 16377075443986459761
-        - 571089861544855932
-        - 14777384987113607027
-        - 11172965918496022469
-        - 2089858152392946470
-        - 15641529024542885648
-        - 14146958047348221439
-        - 8566842849935475667
-        - 5116649810629723569
-        - 588555380194202889
-        - 3668311294852703506
-        - 17495299721219562673
-        - 10185065362593582203
-        - 1422018276128267347
-        - 2301327470110311847
-        - 14268819018204320112
-        - 12995693520385774723
-        - 12530023186959156748
-        - 10561160687259118517
-        - 9176675113785975184
-        - 7809916152714065266
-        - 4910553375988260518
-        - 6155034994273510006
-        - 17000102705886947654
-        - 13084823785322173178
-        - 7925977991279046769
-        - 11771398918725293469
-        - 672444248470378924
-        - 2145958248874243521
-        - 11596806623860959480
-        - 16534551923347554560
-        - 516196751465115434
-        - 8020146143457754523
-        - 9194678356206475272
-        - 669436613293088488
-        - 3233466397198026547
-        - 5497915391465232079
-        - 3831375188250317628
-        - 17955679307368453566
-        - 11312878531283358997
-        - 8106820392471219942
-        - 9963908090688125510
-        - 15290188366256908548
-        - 4671333717618077246
-        - 14022223754991144094
-        - 3354448711891471680
-        - 8193057338380483275
-        - 12833951749838507942
-        - 13225622655138418597
-        - 7317828000335930341
-        - 18414507961250654022
-        - 5301929980617190361
-        - 2188102673804776453
-        - 6378948512562653550
-        - 10930378894543211211
-        - 5377867927949717144
-        - 12185260045791387584
-        - 15120739461330366107
-        - 13880863236481459637
-        - 15567588123630841666
+        - 5268940229397425641
+        - 5633895749811724199
+        - 15848585431268290509
+        - 13801325778261096401
+        - 13170035827198027753
+        - 2448600067644462573
+        - 10475911884381228157
+        - 2793526420235012291
+        - 5056288617873207932
+        - 4932749970306156322
+        - 17760545810057139203
+        - 18194889809828128682
+        - 11397398548806587959
+        - 14198352157623447717
+        - 12302991151601901268
+        - 17328406437202051669
+        - 13592279158597538417
+        - 13976785732350084616
+        - 9064955823440343041
+        - 10065255952107614487
+        - 2046277663324286752
+        - 12778964634870921259
+        - 17567157365626479622
+        - 13550607190765998677
+        - 1569722932223084827
+        - 5238240933275143519
+        - 11172124969645273346
+        - 4889452874370524151
+        - 11380864149726280220
+        - 10455432531404029968
+        - 6427944237130314141
+        - 12193820467610934367
+        - 12833976194377831902
+        - 8009848977899285513
+        - 6379463781518058960
+        - 3605604869038180771
+        - 3564951422937571980
+        - 18387512609489056497
+        - 7719110407721973034
+        - 4929418371789559922
+        - 16962856402943985737
+        - 14303801120506615746
+        - 17142300395259416736
+        - 3906667367990800270
+        - 11988633291532354029
+        - 11408408469503763720
+        - 10355337107265765514
+        - 4360339135208028298
+        - 11856110825308428931
+        - 7916974188703120540
+        - 6477040888597968722
+        - 300685757997688484
+        - 2937059949626706658
+        - 11376363646875885861
+        - 57713649499711773
+        - 7024002523230145097
+        - 17652376950394933147
+        - 5776120014638528764
+        - 3934374877117800287
+        - 3397310281971981450
+        - 17649548881764914446
+        - 9748095353329635741
+        - 14399238222784261656
+        - 10980928566894450241
+        - 13266801754473830102
+        - 16903531728882667250
+        - 12291106694907229950
+        - 5786607872068111964
+        - 16517225279243253052
+        - 14891969095494101221
+        - 17202990177380842491
+        - 2851712479360173821
+        - 14293924417873061309
+        - 9833543659864637348
+        - 3560800299548790234
+        - 1618404388127733391
+        - 8220055634733022251
+        - 14002278993852617620
+        - 16957401131227844384

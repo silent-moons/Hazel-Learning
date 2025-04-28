@@ -224,11 +224,12 @@ namespace Hazel
 			out << YAML::BeginMap; // SpriteRendererComponent
 
 			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
-			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
-			if (spriteRendererComponent.Texture)
-				out << YAML::Key << "TexturePath" << YAML::Value << spriteRendererComponent.Texture->GetPath();
-			out << YAML::Key << "TilingFactor" << YAML::Value << spriteRendererComponent.TilingFactor;
+			//out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
+			//if (spriteRendererComponent.Texture)
+				//out << YAML::Key << "TexturePath" << YAML::Value << spriteRendererComponent.Texture->GetPath();
+			//out << YAML::Key << "TilingFactor" << YAML::Value << spriteRendererComponent.TilingFactor;
 
+			out << YAML::Key << "Material" << YAML::Value << spriteRendererComponent.Mat->GetPath();
 			out << YAML::EndMap; // SpriteRendererComponent
 		}
 
@@ -241,16 +242,7 @@ namespace Hazel
 			out << YAML::Key << "GType" << YAML::Value << (int)meshFilterComponent.GType;
 			out << YAML::Key << "MType" << YAML::Value << (int)meshFilterComponent.MeshObj->GetMeshType();
 			if (meshFilterComponent.GType == MeshFilterComponent::GeometryType::Custom)
-			{
 				out << YAML::Key << "MeshPath" << YAML::Value << meshFilterComponent.MeshObj->GetFilePath();
-				
-				// TODO: 材质系统完善后应该将纹理数据放在材质中，位于MeshRenderer组件
-				out << YAML::Key << "TexPath";
-				out << YAML::BeginSeq;
-				for (int i = 0; i < meshFilterComponent.MeshObj->GetTextures().size(); i++)
-					out << YAML::Value << meshFilterComponent.MeshObj->GetTextures()[i]->GetMetaDataFilePath();
-				out << YAML::EndSeq;
-			}
 			out << YAML::EndMap; // MeshFilterComponent
 		}
 
@@ -260,11 +252,12 @@ namespace Hazel
 			out << YAML::BeginMap; // MeshRendererComponent
 
 			auto& meshRendererComponent = entity.GetComponent<MeshRendererComponent>();
-			out << YAML::Key << "Color" << YAML::Value << meshRendererComponent.Color;
-			if (meshRendererComponent.Texture)
-				out << YAML::Key << "TexturePath" << YAML::Value << meshRendererComponent.Texture->GetPath();
-			out << YAML::Key << "TilingFactor" << YAML::Value << meshRendererComponent.TilingFactor;
-
+			//out << YAML::Key << "Color" << YAML::Value << meshRendererComponent.Color;
+			//if (meshRendererComponent.Texture)
+			//	out << YAML::Key << "TexturePath" << YAML::Value << meshRendererComponent.Texture->GetPath();
+			//out << YAML::Key << "TilingFactor" << YAML::Value << meshRendererComponent.TilingFactor;
+			
+			out << YAML::Key << "Material" << YAML::Value << meshRendererComponent.Mat->GetPath();
 			out << YAML::EndMap; // MeshRendererComponent
 		}
 
@@ -423,24 +416,7 @@ namespace Hazel
 						inputMeshStream.read((char*)indices.data(), meshFileHead.IndexNum * sizeof(uint32_t));
 						inputMeshStream.close();
 
-						// TODO: 材质系统完善后应该将纹理数据放在材质中，位于MeshRenderer组件
-						std::vector<std::string> texPath = meshFilterComponent["TexPath"].as<std::vector<std::string>>();
-						static std::unordered_map<std::string, Ref<Texture2D>> textureMap;
-						std::vector<Ref<Texture2D>> textures;
-						//读取纹理文件
-						Ref<Texture2D> texture;
-						for (auto& p : texPath)
-						{
-							if (textureMap.find(p) != textureMap.end())
-								texture = textureMap[p];
-							else
-							{
-								texture = Texture2D::LoadCompressedFile(p);
-								textureMap[p] = texture;
-							}
-							textures.push_back(texture);
-						}
-						mfc.MeshObj = CreateRef<UniqueMesh>(vertices, indices, textures);
+						mfc.MeshObj = CreateRef<UniqueMesh>(vertices, indices);
 						mfc.MeshObj->SetFilePath(meshPath);
 
 					}
@@ -451,28 +427,60 @@ namespace Hazel
 				if (meshRendererComponent)
 				{
 					auto& mrc = deserializedEntity.AddComponent<MeshRendererComponent>();
-					mrc.Color = meshRendererComponent["Color"].as<glm::vec4>();
-					if (meshRendererComponent["TexturePath"])
+					//mrc.Color = meshRendererComponent["Color"].as<glm::vec4>();
+					//if (meshRendererComponent["TexturePath"])
+					//{
+					//	std::string path = meshRendererComponent["TexturePath"].as<std::string>();
+					//	mrc.Texture = Texture2D::LoadCompressedFile(path);
+					//}
+					//if (meshRendererComponent["TilingFactor"])
+					//	mrc.TilingFactor = meshRendererComponent["TilingFactor"].as<float>();
+					if (meshRendererComponent["Material"])
 					{
-						std::string path = meshRendererComponent["TexturePath"].as<std::string>();
-						mrc.Texture = Texture2D::LoadCompressedFile(path);
+						std::string path = meshRendererComponent["Material"].as<std::string>();
+						YAML::Node node;
+						try
+						{
+							node = YAML::LoadFile(path);
+						}
+						catch (YAML::ParserException e)
+						{
+							HZ_CORE_ERROR("Failed to load .mat file '{0}'\n{1}", filepath, e.what());
+							return false;
+						}
+						mrc.Mat = node.as<Ref<Material>>();
+						mrc.Mat->SetPath(path);
 					}
-					if (meshRendererComponent["TilingFactor"])
-						mrc.TilingFactor = meshRendererComponent["TilingFactor"].as<float>();
 				}
 
 				auto spriteRendererComponent = entity["SpriteRendererComponent"];
 				if (spriteRendererComponent)
 				{
 					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
-					src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
-					if (spriteRendererComponent["TexturePath"])
+					//src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
+					//if (spriteRendererComponent["TexturePath"])
+					//{
+					//	std::string path = spriteRendererComponent["TexturePath"].as<std::string>();
+					//	src.Texture = Texture2D::LoadCompressedFile(path);
+					//}
+					//if (spriteRendererComponent["TilingFactor"])
+					//	src.TilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
+					if (spriteRendererComponent["Material"])
 					{
-						std::string path = spriteRendererComponent["TexturePath"].as<std::string>();
-						src.Texture = Texture2D::LoadCompressedFile(path);
+						std::string path = spriteRendererComponent["Material"].as<std::string>();
+						YAML::Node node;
+						try
+						{
+							node = YAML::LoadFile(path);
+						}
+						catch (YAML::ParserException e)
+						{
+							HZ_CORE_ERROR("Failed to load .mat file '{0}'\n{1}", filepath, e.what());
+							return false;
+						}
+						src.Mat = node.as<Ref<Material>>();
+						src.Mat->SetPath(path);
 					}
-					if (spriteRendererComponent["TilingFactor"])
-						src.TilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
 				}
 
 				auto rigidbody2DComponent = entity["Rigidbody2DComponent"];
