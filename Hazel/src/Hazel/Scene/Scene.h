@@ -4,6 +4,7 @@
 
 #include "Hazel/Core/Timestep.h"
 #include "Hazel/Core/UUID.h"
+#include "Hazel/Core/AssetCache.h"
 #include "Hazel/Renderer/EditorCamera.h"
 #include "Hazel/Scene/Components.h"
 
@@ -70,6 +71,9 @@ namespace Hazel
 		std::unordered_map<Mesh*, std::vector<RenderRequiredInfos>> m_BatchGroups;
 		std::vector<RenderRequiredInfos> m_UniqueMeshInfos;
 		std::string m_Name = "Untitled";
+
+		AssetCache<Material> m_MaterialCache;
+		AssetCache<Texture2D> m_Texture2DCache;
 
 		friend class Entity;
 		friend class SceneSerializer;

@@ -12,7 +12,7 @@
 namespace Hazel
 {
 	std::unordered_map<std::string, Ref<Texture2D>> Model::s_TextureCache;
-	static const std::filesystem::path g_AssetPath = "assets";
+	extern const std::filesystem::path g_AssetPath;
 
 	void Model::Read(const std::string& path, const Ref<Scene>& context)
 	{

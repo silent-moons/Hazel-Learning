@@ -1,3 +1,10 @@
 shader: UnlitBatch
 textures:
   - assets/textures/Checkerboard.cpt
+properties:
+  - name: Color
+    type: color4
+    value: [1, 0, 0, 1]
+  - name: Tiling Factor
+    type: float
+    value: [1, 0, 0, 0]

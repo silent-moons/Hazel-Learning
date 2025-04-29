@@ -87,7 +87,6 @@ namespace Hazel
 		s_Data.TextureShader->Bind();
 		//上传所有采样器到对应纹理单元
 		s_Data.TextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
-
 		// Texture
 		s_Data.WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
@@ -121,6 +120,7 @@ namespace Hazel
 	void Renderer2D::EndBatch()
 	{
 		Flush();
+		s_Data.TextureShader->Unbind();
 	}
 
 	void Renderer2D::StartBatch()
@@ -282,16 +282,16 @@ namespace Hazel
 	{
 		if (!src.Mat)
 			return;
-		std::unordered_map<std::string, glm::vec4>& attribAndValue = src.Mat->AttribAndValue;
+		std::unordered_map<std::string, std::pair<ShaderPropertyType, glm::vec4>>& attribInfo = src.Mat->AttribInfo;
 
 		if (src.Mat->GetTextures().size() > 0)
 			DrawQuad(transform, 
 				src.Mat->GetTextures()[0], 
-				attribAndValue.at("Tiling Factor").x,
-				attribAndValue.at("Color"),
+				attribInfo.at("Tiling Factor").second.x,
+				attribInfo.at("Color").second,
 				entityID);
 		else
-			DrawQuad(transform, attribAndValue.at("Color"), entityID);
+			DrawQuad(transform, attribInfo.at("Color").second, entityID);
 	}
 
 	void Renderer2D::ResetStats()

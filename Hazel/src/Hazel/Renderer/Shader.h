@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
-
 #include <glm/glm.hpp>
+
+#include "Hazel/Core/AssetCache.h"
 
 namespace Hazel 
 {
@@ -24,6 +25,19 @@ namespace Hazel
 		return ShaderPropertyType::Float;
 	}
 
+	static std::string ShaderPropertyTypeToString(ShaderPropertyType type)
+	{
+		switch (type)
+		{
+		case ShaderPropertyType::Color4:
+			return "color4";
+		case ShaderPropertyType::Float:
+			return "float";
+		}
+		HZ_CORE_ASSERT(false, "Unknown shader property type");
+		return {};
+	}
+
 	class Shader
 	{
 	public:
@@ -41,8 +55,7 @@ namespace Hazel
 		virtual void SetMat4(const std::string& name, const glm::mat4& value) = 0;
 
 		virtual const std::string& GetName() const = 0;
-		virtual const std::unordered_map<std::string, ShaderPropertyType>& GetAttribAndType() const = 0;
-		virtual std::unordered_map<std::string, glm::vec4>& GetAttribAndValue() = 0;
+		virtual std::unordered_map<std::string, std::pair<ShaderPropertyType, glm::vec4>>& GetAttribInfo() = 0;
 
 		static Ref<Shader> Create(const std::string& filepath);
 		static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);

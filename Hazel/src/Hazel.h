@@ -8,6 +8,7 @@
 #include "Hazel/Core/Input.h"
 #include "Hazel/Core/KeyCodes.h"
 #include "Hazel/Core/MouseCodes.h"
+#include "Hazel/Core/AssetCache.h"
 
 #include "Hazel/ImGui/ImGuiLayer.h"
 #include "Hazel/Utils/PlatformUtils.h"
@@ -31,8 +32,6 @@
 #include "Hazel/Renderer/VertexArray.h"
 #include "Hazel/Renderer/EditorCamera.h"
 #include "Hazel/Renderer/Model.h"
-//#include "Hazel/Renderer/OrthoGraphicCamera.h"
-//#include "Hazel/Renderer/OrthoGraphicCameraController.h"
 
 // Èë¿Úµã
 //#include "Hazel/Core/EntryPoint.h"

@@ -105,11 +105,34 @@ namespace Hazel
 					std::string key = line.substr(1, delimiterPos - 1);
 					std::string typeStr = line.substr(delimiterPos + 1);
 					ShaderPropertyType type = ShaderPropertyTypeFromString(typeStr);
-					m_AttribAndType[key] = type;
-					if (type == ShaderPropertyType::Float4 || type == ShaderPropertyType::Color4)
-						m_AttribAndValue[key] = { 1.0f, 1.0f, 1.0f, 1.0f };
-					else if (type == ShaderPropertyType::Float)
-						m_AttribAndValue[key] = { 1.0f, 0.0f, 0.0f, 0.0f };
+					switch (type)
+					{
+					case ShaderPropertyType::Float:
+						m_AttribInfo[key] = { type, { 1.0f, 0.0f, 0.0f, 0.0f } };
+						break;
+					case ShaderPropertyType::Float2:
+						break;
+					case ShaderPropertyType::Float3:
+						break;
+					case ShaderPropertyType::Float4:
+						m_AttribInfo[key] = { type, { 1.0f, 1.0f, 1.0f, 1.0f } };
+						break;
+					case ShaderPropertyType::Color3:
+						break;
+					case ShaderPropertyType::Color4:
+						m_AttribInfo[key] = { type, { 1.0f, 1.0f, 1.0f, 1.0f } };
+						break;
+					case ShaderPropertyType::Int:
+						break;
+					case ShaderPropertyType::Int2:
+						break;
+					case ShaderPropertyType::Int3:
+						break;
+					case ShaderPropertyType::Int4:
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}

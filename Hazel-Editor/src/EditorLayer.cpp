@@ -13,8 +13,8 @@ namespace Hazel
 
 	void EditorLayer::OnAttach()
 	{
-		m_IconPlay = Texture2D::LoadCompressedFile("Resources/Icons/PlayButton.cpt");
-		m_IconStop = Texture2D::LoadCompressedFile("Resources/Icons/StopButton.cpt");
+		m_IconPlay = Application::s_GlobalTextureCache.Load("Resources/Icons/PlayButton.cpt");
+		m_IconStop = Application::s_GlobalTextureCache.Load("Resources/Icons/StopButton.cpt");
 
 		FramebufferSpecification fbSpec;
 		// 两个颜色纹理缓冲，分别存放场景（用于渲染）和实体ID（用于点击选择）

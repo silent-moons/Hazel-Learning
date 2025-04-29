@@ -19,8 +19,8 @@ namespace Hazel
 		void Unbind() const override;
 
 		const std::string& GetName() const override { return m_Name; }
-		const std::unordered_map<std::string, ShaderPropertyType>& GetAttribAndType() const { return m_AttribAndType; }
-		std::unordered_map<std::string, glm::vec4>& GetAttribAndValue() { return m_AttribAndValue; }
+		std::unordered_map<std::string, std::pair<ShaderPropertyType, glm::vec4>>& 
+			GetAttribInfo() override { return m_AttribInfo; }
 
 		void UploadUniformInt(const std::string& name, const int& value);
 		void UploadUniformIntArray(const std::string& name, int* values, uint32_t count);
@@ -45,10 +45,9 @@ namespace Hazel
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSource);
 
-	private:
+	public:
 		uint32_t m_RendererID;
 		std::string m_Name;
-		std::unordered_map<std::string, ShaderPropertyType> m_AttribAndType;
-		std::unordered_map<std::string, glm::vec4> m_AttribAndValue;
+		std::unordered_map<std::string, std::pair<ShaderPropertyType, glm::vec4>> m_AttribInfo;
 	};
 }

@@ -1,16 +1,17 @@
 #include "hzpch.h"
 #include "ContentBrowserPanel.h"
 
+#include "Hazel/Core/Application.h"
 #include <imgui/imgui.h>
 
 namespace Hazel 
 {
 	// Once we have projects, change this
-	extern const std::filesystem::path g_AssetPath = "assets";
+	extern const std::filesystem::path g_AssetPath;
 	ContentBrowserPanel::ContentBrowserPanel() : m_CurrentDirectory(g_AssetPath)
 	{
-		m_DirectoryIcon = Texture2D::LoadCompressedFile("Resources/Icons/ContentBrowser/DirectoryIcon.cpt");
-		m_FileIcon = Texture2D::LoadCompressedFile("Resources/Icons/ContentBrowser/FileIcon.cpt");
+		m_DirectoryIcon = Application::s_GlobalTextureCache.Load("Resources/Icons/ContentBrowser/DirectoryIcon.cpt");
+		m_FileIcon = Application::s_GlobalTextureCache.Load("Resources/Icons/ContentBrowser/FileIcon.cpt");
 	}
 
 	void ContentBrowserPanel::OnImGuiRender()

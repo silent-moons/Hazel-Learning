@@ -85,7 +85,6 @@ namespace Hazel
 
 	Ref<BatchMesh> BatchMeshLibrary::s_CubeMesh = nullptr;
 	Ref<BatchMesh> BatchMeshLibrary::s_SphereMesh = nullptr;
-	//Ref<Mesh> BatchMeshLibrary::s_TempMesh = nullptr;
 
 	Ref<BatchMesh> BatchMeshLibrary::GetCubeMesh()
 	{
@@ -114,25 +113,4 @@ namespace Hazel
 		}
 		return s_SphereMesh;
 	}
-
-	//Ref<Mesh> BatchMeshLibrary::GetTempMesh()
-	//{
-	//	if (!s_TempMesh)
-	//	{
-	//		std::vector<Vertex> vertices
-	//		{
-	//			{ {-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} },
-	//			{ { 0.5f, -0.5f, 0.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} },
-	//			{ { 0.5f,  0.5f, 0.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} },
-	//			{ {-0.5f,  0.5f, 0.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} }
-	//		};
-	//		std::vector<uint32_t> indices{ 0, 1, 2, 2, 3, 0 };
-	//		std::vector<Ref<Texture2D>> textures{ Texture2D::Create(1, 1) };
-	//		uint32_t whiteTextureData = 0xffffffff;
-	//		for (size_t i = 0; i < textures.size(); i++)
-	//			textures[i]->SetData(&whiteTextureData, sizeof(uint32_t));
-	//		s_TempMesh = CreateRef<UniqueMesh>(vertices, indices, textures);
-	//	}
-	//	return s_TempMesh;
-	//}
 }

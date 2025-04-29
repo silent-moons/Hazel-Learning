@@ -427,7 +427,7 @@ namespace Hazel
 					ImGui::PopStyleColor();
 			});
 
-		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
+		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [this](auto& component)
 			{
 				std::string matPath;
 				if (component.Mat)
@@ -443,7 +443,13 @@ namespace Hazel
 						Ref<Material> mat = nullptr;
 						if (matPath.filename().extension().string() == ".mat")
 						{
-							mat = CreateRef<Material>(matPath.string());
+							if (m_Context->m_MaterialCache.Exists(matPath.string()))
+								mat = m_Context->m_MaterialCache.Get(matPath.string());
+							else
+							{
+								mat = m_Context->m_MaterialCache.Load(matPath.string());
+								mat->ProcessCache(m_Context->m_Texture2DCache);
+							}
 							component.Mat = mat;
 						}
 						else
@@ -457,13 +463,20 @@ namespace Hazel
 					shaderName = component.Mat->GetShader()->GetName();
 					ImGui::Text("Shader: %s", shaderName.c_str());
 					ImGui::Text("Material Properties:");
-					for (const auto& [attrib, type] : component.Mat->AttribAndType)
+					for (auto& [attrib, typeAndValue] : component.Mat->AttribInfo)
 					{
-						float* addr = glm::value_ptr(component.Mat->AttribAndValue[attrib]);
-						if (type == ShaderPropertyType::Color4)
+						float* addr = glm::value_ptr(typeAndValue.second);
+						switch (typeAndValue.first)
+						{
+						case ShaderPropertyType::Color4:
 							ImGui::ColorEdit4("Color", addr);
-						else if (type == ShaderPropertyType::Float)
+							break;
+						case ShaderPropertyType::Float:
 							ImGui::DragFloat("Tiling Factor", addr, 0.1f, 0.0f, 100.0f);
+							break;
+						default: 
+							break;
+						}
 					}
 					std::string textureName;
 					if (!component.Mat->GetTextures().empty())
@@ -533,7 +546,7 @@ namespace Hazel
 					ImGui::EndCombo();
 				}
 			});
-		DrawComponent<MeshRendererComponent>("Mesh Renderer", entity, [](auto& component)
+		DrawComponent<MeshRendererComponent>("Mesh Renderer", entity, [this](auto& component)
 			{
 				std::string matPath;
 				if (component.Mat)
@@ -549,7 +562,13 @@ namespace Hazel
 						Ref<Material> mat = nullptr;
 						if (matPath.filename().extension().string() == ".mat")
 						{
-							mat = CreateRef<Material>(matPath.string());
+							if (m_Context->m_MaterialCache.Exists(matPath.string()))
+								mat = m_Context->m_MaterialCache.Get(matPath.string());
+							else
+							{
+								mat = m_Context->m_MaterialCache.Load(matPath.string());
+								mat->ProcessCache(m_Context->m_Texture2DCache);
+							}
 							component.Mat = mat;
 						}
 						else
@@ -563,13 +582,20 @@ namespace Hazel
 					shaderName = component.Mat->GetShader()->GetName();
 					ImGui::Text("Shader: %s", shaderName.c_str());
 					ImGui::Text("Material Properties:");
-					for (const auto& [attrib, type] : component.Mat->AttribAndType)
+					for (auto& [attrib, typeAndValue] : component.Mat->AttribInfo)
 					{
-						float* addr = glm::value_ptr(component.Mat->AttribAndValue[attrib]);
-						if (type == ShaderPropertyType::Color4)
+						float* addr = glm::value_ptr(typeAndValue.second);
+						switch (typeAndValue.first)
+						{
+						case ShaderPropertyType::Color4:
 							ImGui::ColorEdit4("Color", addr);
-						else if (type == ShaderPropertyType::Float)
+							break;
+						case ShaderPropertyType::Float:
 							ImGui::DragFloat("Tiling Factor", addr, 0.1f, 0.0f, 100.0f);
+							break;
+						default:
+							break;
+						}
 					}
 					std::string textureName;
 					if (!component.Mat->GetTextures().empty())

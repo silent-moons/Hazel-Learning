@@ -45,8 +45,6 @@ namespace Hazel
 		uint32_t TextureSlotIndex = 1;
 
 		RenderStats Stats;
-
-		//Ref<Shader> TempShader; // temp
 	};
 	static Renderer3DData s_Data;
 
@@ -105,7 +103,7 @@ namespace Hazel
 		sphereData.VAO = VertexArray::Create();
 		sphereData.VAO->SetIndexBuffer(sphereData.IBO);
 		sphereData.VAO->AddVertexBuffer(sphereData.VBO);
-		//sphereData.VAO->Unbind();
+		sphereData.VAO->Unbind();
 		sphereData.VertexBufferBase = new BatchVertex[s_Data.MaxSphereVertices]; //保存指针初始位置
 		s_BatchDataMap[MeshFilterComponent::GeometryType::Sphere] = sphereData;
 
@@ -115,22 +113,19 @@ namespace Hazel
 			samplers[i] = i;
 
 		// Shader，
-		// TODO: Shader初始化后没有立即使用，后续的状态改变会导致Program/shader state performance warning 
 		if (ShaderLibrary::Exists("UnlitBatch"))
 			s_Data.TextureShader = ShaderLibrary::Get("UnlitBatch");
 		else
 			s_Data.TextureShader = ShaderLibrary::Load("assets/shaders/UnlitBatch.glsl");
-		s_Data.TextureShader->Bind();
 		//上传所有采样器到对应纹理单元
 		s_Data.TextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
+		s_Data.TextureShader->Unbind();
 
 		// Texture
 		s_Data.WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
 		s_Data.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 		s_Data.TextureSlots[0] = s_Data.WhiteTexture;
-
-		//s_Data.TempShader = ShaderLibrary::Load("assets/shaders/Unlit.glsl");
 	}
 
 	void Renderer3D::Shutdown()
@@ -155,25 +150,10 @@ namespace Hazel
 		StartBatch();
 	}
 
-	//void Renderer3D::BeginUnique(const Camera& camera, const glm::mat4& modelMat, const glm::mat4& cameraTrans)
-	//{
-	//	glm::mat4 viewProj = camera.GetProjection() * glm::inverse(cameraTrans);
-	//	s_Data.TempShader->Bind();
-	//	s_Data.TempShader->SetMat4("u_ViewProjection", viewProj);
-	//	s_Data.TempShader->SetMat4("u_Model", modelMat);
-	//}
-
-	//void Renderer3D::BeginUnique(const EditorCamera& camera, const glm::mat4& modelMat)
-	//{
-	//	glm::mat4 viewProj = camera.GetViewProjection();
-	//	s_Data.TempShader->Bind();
-	//	s_Data.TempShader->SetMat4("u_ViewProjection", viewProj);
-	//	s_Data.TempShader->SetMat4("u_Model", modelMat);
-	//}
-
 	void Renderer3D::EndBatch()
 	{
 		Flush();
+		s_Data.TextureShader->Unbind();
 	}
 
 	void Renderer3D::StartBatch()
@@ -196,7 +176,6 @@ namespace Hazel
 			uint32_t dataSize = uint32_t((uint8_t*)data.VertexBufferPtr - (uint8_t*)data.VertexBufferBase);
 			// 将数据送往GPU
 			data.VBO->SetData(data.VertexBufferBase, dataSize);
-			// TODO: 全局纹理缓存，目前即使是同一张图片也会看成不同的纹理
 			for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
 				s_Data.TextureSlots[i]->Bind(i);
 			RenderCommand::DrawIndexed(data.VAO, data.IndexCount);
@@ -311,14 +290,14 @@ namespace Hazel
 	{
 		if (!mrc.Mat)
 			return;
-		std::unordered_map<std::string, glm::vec4>& attribAndValue = mrc.Mat->AttribAndValue;
+		std::unordered_map<std::string, std::pair<ShaderPropertyType, glm::vec4>>& attribInfo = mrc.Mat->AttribInfo;
 		if (mfc.GType == MeshFilterComponent::GeometryType::Custom)
 		{
 			glm::mat4 viewProj = camera.GetViewProjection() * glm::inverse(cameraTrans);
 			mrc.Mat->GetShader()->Bind();
 			mrc.Mat->GetShader()->SetMat4("u_ViewProjection", viewProj);
 			mrc.Mat->GetShader()->SetMat4("u_Model", transform);
-			mrc.Mat->GetShader()->SetFloat4("u_Color", attribAndValue.at("Color"));
+			mrc.Mat->GetShader()->SetFloat4("u_Color", attribInfo.at("Color").second);
 			DrawUnique(transform, mfc.MeshObj, mrc.Mat, entityID);
 		}
 		else
@@ -327,11 +306,11 @@ namespace Hazel
 			if (mrc.Mat->GetTextures().size() > 0)
 				DrawBatch(transform, mfc.GType, mfc.MeshObj, 
 					mrc.Mat->GetTextures()[0],
-					attribAndValue.at("Tiling Factor").x,
-					attribAndValue.at("Color"),
+					attribInfo.at("Tiling Factor").second.x,
+					attribInfo.at("Color").second,
 					entityID);
 			else
-				DrawBatch(transform, mfc.GType, mfc.MeshObj, attribAndValue.at("Color"), entityID);
+				DrawBatch(transform, mfc.GType, mfc.MeshObj, attribInfo.at("Color").second, entityID);
 		}
 	}
 

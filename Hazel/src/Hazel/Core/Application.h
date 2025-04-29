@@ -2,6 +2,7 @@
 
 #include "Hazel/Core/Window.h"
 #include "Hazel/Core/LayerStack.h"
+#include "Hazel/Core/AssetCache.h"
 
 #include "Hazel/ImGui/ImGuiLayer.h"
 #include "Hazel/Events/ApplicationEvent.h"
@@ -10,6 +11,7 @@ int main(int argc, char** argv);
 
 namespace Hazel
 {
+	class Texture2D;
 	class Application
 	{
 	public:
@@ -26,7 +28,7 @@ namespace Hazel
 		void Close();
 
 		static Application& Get() { return *s_Instance; }
-
+		static inline AssetCache<Texture2D> s_GlobalTextureCache;
 	private:
 		void Run();
 

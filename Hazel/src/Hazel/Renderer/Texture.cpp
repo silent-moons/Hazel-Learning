@@ -28,6 +28,9 @@ namespace Hazel
 
 	Ref<Texture2D> Texture2D::Create(const std::string& path)
 	{
+		if (path.substr(path.find_last_of('.') + 1) == "cpt")
+			return Texture2D::LoadCompressedFile(path);
+
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None: 

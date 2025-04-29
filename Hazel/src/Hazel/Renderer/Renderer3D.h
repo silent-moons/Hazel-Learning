@@ -11,16 +11,12 @@ namespace Hazel
 	class Renderer3D
 	{
 	private:
-		//static void Init();
 		static void Init();
 		static void Shutdown();
 
 		// 可合批物体Runtime和Editor
 		static void BeginBatch(const Camera& camera, const glm::mat4& transform);
 		static void BeginBatch(const EditorCamera& camera);
-		// 不可合批物体Runtime和Editor
-		//static void BeginUnique(const Camera& camera, const glm::mat4& modelMat, const glm::mat4& cameraTrans);
-		//static void BeginUnique(const EditorCamera& camera, const glm::mat4& modelMat);
 		static void EndBatch();
 		static void Flush();
 		static void DrawBatch(

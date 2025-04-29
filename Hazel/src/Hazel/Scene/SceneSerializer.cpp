@@ -101,6 +101,31 @@ namespace YAML
 			return true;
 		}
 	};
+
+	template<>
+	struct convert<Hazel::Ref<Hazel::Material>>
+	{
+		static Node encode(const Hazel::Material& mat)
+		{
+			Node node;
+			node["shader"] = mat.GetShader()->GetName();
+			Node texturePaths;
+			for (const auto& texture : mat.GetTextures())
+				texturePaths.push_back(texture->GetPath());
+			node["textures"] = texturePaths;
+			Node properties;
+			for (const auto& [attrib, typeAndValue] : mat.AttribInfo)
+			{
+				Node nameTypeValue;
+				nameTypeValue["name"] = attrib;
+				nameTypeValue["type"] = Hazel::ShaderPropertyTypeToString(typeAndValue.first);
+				nameTypeValue["value"] = typeAndValue.second;
+				properties.push_back(nameTypeValue);
+			}
+			node["Properties"] = properties;
+			return node;
+		}
+	};
 }
 
 namespace Hazel 
@@ -224,8 +249,11 @@ namespace Hazel
 			out << YAML::BeginMap; // SpriteRendererComponent
 
 			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
-
-			out << YAML::Key << "Material" << YAML::Value << spriteRendererComponent.Mat->GetPath();
+			if (spriteRendererComponent.Mat)
+			{
+				out << YAML::Key << "Material" << YAML::Value << spriteRendererComponent.Mat->GetPath();
+				spriteRendererComponent.Mat->Export(spriteRendererComponent.Mat->GetPath());
+			}
 			out << YAML::EndMap; // SpriteRendererComponent
 		}
 
@@ -252,7 +280,7 @@ namespace Hazel
 			if (meshRendererComponent.Mat)
 			{
 				out << YAML::Key << "Material" << YAML::Value << meshRendererComponent.Mat->GetPath();
-				//meshRendererComponent.Mat->Export(meshRendererComponent.Mat->GetPath());
+				meshRendererComponent.Mat->Export(meshRendererComponent.Mat->GetPath());
 			}
 			out << YAML::EndMap; // MeshRendererComponent
 		}
@@ -426,18 +454,13 @@ namespace Hazel
 					if (meshRendererComponent["Material"])
 					{
 						std::string path = meshRendererComponent["Material"].as<std::string>();
-						YAML::Node node;
-						try
+						if (m_Scene->m_MaterialCache.Exists(path))
+							mrc.Mat = m_Scene->m_MaterialCache.Get(path);
+						else
 						{
-							node = YAML::LoadFile(path);
+							mrc.Mat = m_Scene->m_MaterialCache.Load(path);
+							mrc.Mat->ProcessCache(m_Scene->m_Texture2DCache);
 						}
-						catch (YAML::ParserException e)
-						{
-							HZ_CORE_ERROR("Failed to load .mat file '{0}'\n{1}", filepath, e.what());
-							return false;
-						}
-						mrc.Mat = node.as<Ref<Material>>();
-						mrc.Mat->SetPath(path);
 					}
 				}
 
@@ -448,18 +471,13 @@ namespace Hazel
 					if (spriteRendererComponent["Material"])
 					{
 						std::string path = spriteRendererComponent["Material"].as<std::string>();
-						YAML::Node node;
-						try
+						if (m_Scene->m_MaterialCache.Exists(path))
+							src.Mat = m_Scene->m_MaterialCache.Get(path);
+						else
 						{
-							node = YAML::LoadFile(path);
+							src.Mat = m_Scene->m_MaterialCache.Load(path);
+							src.Mat->ProcessCache(m_Scene->m_Texture2DCache);
 						}
-						catch (YAML::ParserException e)
-						{
-							HZ_CORE_ERROR("Failed to load .mat file '{0}'\n{1}", filepath, e.what());
-							return false;
-						}
-						src.Mat = node.as<Ref<Material>>();
-						src.Mat->SetPath(path);
 					}
 				}
 

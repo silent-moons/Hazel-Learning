@@ -2,13 +2,13 @@
 
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/Texture.h"
+#include "Hazel/Core/AssetCache.h"
 
 #include <filesystem>
-#include <yaml-cpp/yaml.h>
 
 namespace Hazel
 {
-	static const std::filesystem::path AssetPath = "assets";
+	extern const std::filesystem::path g_AssetPath;
 
 	class Material
 	{
@@ -25,49 +25,12 @@ namespace Hazel
 		std::vector<Ref<Texture2D>>& GetTextures() { return m_Textures; }
 
 		void Export(const std::string& path);
-		std::unordered_map<std::string, ShaderPropertyType> AttribAndType;
-		std::unordered_map<std::string, glm::vec4> AttribAndValue;
+		void ProcessCache(AssetCache<Texture2D>& texture2DCache);
+		std::unordered_map<std::string, std::pair<ShaderPropertyType, glm::vec4>> AttribInfo;
+		static Ref<Material> Create(const std::string& path);
 	private:
 		std::string m_Path;
 		Ref<Shader> m_Shader;
 		std::vector<Ref<Texture2D>> m_Textures;
-	};
-}
-
-namespace YAML
-{
-	template<>
-	struct convert<Hazel::Ref<Hazel::Material>>
-	{
-		static Node encode(const Hazel::Material& mat)
-		{
-			Node node;
-			node["shader"] = mat.GetShader()->GetName();
-			Node texturePaths;
-			for (const auto& texture : mat.GetTextures())
-				texturePaths.push_back(texture->GetPath());
-			node["textures"] = texturePaths;
-			return node;
-		}
-
-		static bool decode(const Node& node, Hazel::Ref<Hazel::Material>& mat)
-		{
-			if (!node["shader"])
-				return false;
-
-			mat = Hazel::CreateRef<Hazel::Material>();
-			std::string shaderName = node["shader"].as<std::string>();
-			if (Hazel::ShaderLibrary::Exists(shaderName))
-				mat->SetShader(Hazel::ShaderLibrary::Get(shaderName));
-			else
-			{
-				std::string shaderPath = Hazel::AssetPath.string() + "/shaders/" + shaderName + ".glsl";
-				mat->SetShader(Hazel::ShaderLibrary::Load(shaderPath));
-			}
-			mat->RegisterShaderProperty();
-			for (const auto& texturePath : node["textures"])
-				mat->AddTexture(Hazel::Texture2D::LoadCompressedFile(texturePath.as<std::string>()));
-			return true;
-		}
 	};
 }
