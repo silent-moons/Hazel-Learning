@@ -31,10 +31,24 @@
 
 ### 部分功能演示
 2D场景和编辑器的一些操作。
-![2D场景，编辑器的操作](https://github.com/silent-moons/Hazel-Learning/blob/main/Examples/2D-Scene-And-Editor-Operation.gif)
-
+<p align="center">
+  <img src="Examples/Scene2D.png" alt="">
+</p>
+<p align="center">
+  <img src="Examples/Scene2D.gif" alt="">
+</p>
 2D物理，脚本控制相机移动。
-![2D物理和脚本](https://github.com/silent-moons/Hazel-Learning/blob/main/Examples/2D-Physics-And-Script.gif)
+<p align="center">
+  <img src="Examples/Physics2D.png" alt="">
+</p>
+<p align="center">
+  <img src="Examples/Physics2D.gif" alt="">
+</p>
 
 模型导入和场景序列化。
-![模型导入](https://github.com/silent-moons/Hazel-Learning/blob/main/Examples/Import-Model.gif)
+<p align="center">
+  <img src="Examples/Backpack.png" alt="">
+</p>
+<p align="center">
+  <img src="Examples/ImportModel.gif" alt="">
+</p>
