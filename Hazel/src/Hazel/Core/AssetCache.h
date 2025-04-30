@@ -25,6 +25,11 @@ namespace Hazel
             return m_Cache.find(path) != m_Cache.end();
         }
 
+		void Set(const std::string& path, const Ref<T>& asset)
+		{
+			m_Cache[path] = asset;
+		}
+
         Ref<T> Get(const std::string& path)
         {
             if (!Exists(path))

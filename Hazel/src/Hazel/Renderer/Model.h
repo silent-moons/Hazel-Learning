@@ -28,15 +28,15 @@ namespace Hazel
 			Entity entity,
 			aiMesh* aimesh, 
 			const aiScene* scene, 
+			const Ref<Scene>& context,
 			const std::filesystem::path& dataRelativeDir);
 		static Ref<Texture2D> ProcessTexture(
 			Entity entity,
 			const aiMaterial* material, 
 			const aiTextureType& type, 
 			const aiScene* scene, 
+			const Ref<Scene>& context,
 			const std::filesystem::path& dataRelativeDir);
 		static glm::mat4 GetMat4f(aiMatrix4x4 value);
-
-		static std::unordered_map<std::string, Ref<Texture2D>> s_TextureCache;
 	};
 }

@@ -4,4 +4,4 @@ textures:
 properties:
   - name: Color
     type: color4
-    value: [1, 1, 1, 1]
+    value: [1, 0.999989986, 0.999989986, 1]

@@ -498,15 +498,16 @@ namespace Hazel
 										std::filesystem::path texturePathCpy = texturePath;
 										std::filesystem::path cptFile = texturePath.replace_extension(".cpt");
 										if (std::filesystem::exists(cptFile) && std::filesystem::is_regular_file(cptFile))
-											tex = Texture2D::LoadCompressedFile(cptFile.string());
+											tex = m_Context->m_Texture2DCache.Load(cptFile.string());
 										else
 										{
 											tex = Texture2D::Create(texturePathCpy.string());
 											tex->Export(cptFile.string());
+											m_Context->m_Texture2DCache.Set(cptFile.string(), tex);
 										}
 									}
 									else
-										tex = Texture2D::LoadCompressedFile(texturePath.string());
+										tex = m_Context->m_Texture2DCache.Load(texturePath.string());
 
 									if (tex->IsLoaded())
 										texture = tex;
@@ -617,15 +618,16 @@ namespace Hazel
 										std::filesystem::path texturePathCpy = texturePath;
 										std::filesystem::path cptFile = texturePath.replace_extension(".cpt");
 										if (std::filesystem::exists(cptFile) && std::filesystem::is_regular_file(cptFile))
-											tex = Texture2D::LoadCompressedFile(cptFile.string());
+											tex = m_Context->m_Texture2DCache.Load(cptFile.string());
 										else
 										{
 											tex = Texture2D::Create(texturePathCpy.string());
 											tex->Export(cptFile.string());
+											m_Context->m_Texture2DCache.Set(cptFile.string(), tex);
 										}
 									}
 									else
-										tex = Texture2D::LoadCompressedFile(texturePath.string());
+										tex = m_Context->m_Texture2DCache.Load(texturePath.string());
 
 									if (tex->IsLoaded())
 										texture = tex;

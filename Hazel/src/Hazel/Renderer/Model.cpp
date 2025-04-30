@@ -11,7 +11,6 @@
 
 namespace Hazel
 {
-	std::unordered_map<std::string, Ref<Texture2D>> Model::s_TextureCache;
 	extern const std::filesystem::path g_AssetPath;
 
 	void Model::Read(const std::string& path, const Ref<Scene>& context)
@@ -74,7 +73,7 @@ namespace Hazel
 		if (ainode->mNumMeshes == 1)
 		{
 			aiMesh* aimesh = scene->mMeshes[ainode->mMeshes[0]];
-			auto [mesh, textures] = ProcessMesh(node, aimesh, scene, dataRelativeDir);
+			auto [mesh, textures] = ProcessMesh(node, aimesh, scene, context, dataRelativeDir);
 			std::filesystem::path meshName = aimesh->mName.C_Str();
 			std::string meshFilePath = (g_AssetPath / dataRelativeDir / (meshName.string() + ".mesh")).string();
 			mesh->Export(meshFilePath);
@@ -104,7 +103,7 @@ namespace Hazel
 			{
 				aiMesh* aimesh = scene->mMeshes[ainode->mMeshes[i]];
 				Entity subMesh = context->CreateEntity(aimesh->mName.C_Str());
-				auto [mesh, textures] = ProcessMesh(node, aimesh, scene, dataRelativeDir);
+				auto [mesh, textures] = ProcessMesh(node, aimesh, scene, context, dataRelativeDir);
 				std::filesystem::path meshName = aimesh->mName.C_Str();
 				std::string meshFilePath = (g_AssetPath / dataRelativeDir / (meshName.string() + ".mesh")).string();
 				mesh->Export(meshFilePath);
@@ -116,17 +115,22 @@ namespace Hazel
 				subMesh.GetComponent<TransformComponent>().Parent = node.GetUUID();
 
 				auto& mrc = subMesh.AddComponent<MeshRendererComponent>();
-				mrc.Mat = CreateRef<Material>();
-				for (auto& texture : textures)
-					mrc.Mat->AddTexture(texture);
-				if (ShaderLibrary::Exists("Unlit"))
-					mrc.Mat->SetShader(ShaderLibrary::Get("Unlit"));
-				else
-					mrc.Mat->SetShader(ShaderLibrary::Load("assets/shaders/Unlit.glsl"));
-				mrc.Mat->RegisterShaderProperty();
 				std::string matFilePath = (g_AssetPath / dataRelativeDir / (std::string("material_") + std::to_string(aimesh->mMaterialIndex) + ".mat")).string();
-				mrc.Mat->SetPath(matFilePath);
-				mrc.Mat->Export(matFilePath);
+				if (context->m_MaterialCache.Exists(matFilePath))
+					mrc.Mat = context->m_MaterialCache.Get(matFilePath);
+				else
+				{
+					mrc.Mat = CreateRef<Material>();
+					for (auto& texture : textures)
+						mrc.Mat->AddTexture(texture);
+					if (ShaderLibrary::Exists("Unlit"))
+						mrc.Mat->SetShader(ShaderLibrary::Get("Unlit"));
+					else
+						mrc.Mat->SetShader(ShaderLibrary::Load("assets/shaders/Unlit.glsl"));
+					mrc.Mat->RegisterShaderProperty();
+					mrc.Mat->SetPath(matFilePath);
+					mrc.Mat->Export(matFilePath);
+				}
 			}
 		}
 
@@ -135,8 +139,12 @@ namespace Hazel
 			ProcessNode(node, ainode->mChildren[i], scene, context, dataRelativeDir);
 	}
 
-	std::pair<Ref<Mesh>, std::vector<Ref<Texture2D>>> Model::ProcessMesh(Entity entity, 
-		aiMesh* aimesh, const aiScene* scene, const std::filesystem::path& dataRelativeDir)
+	std::pair<Ref<Mesh>, std::vector<Ref<Texture2D>>> Model::ProcessMesh(
+		Entity entity, 
+		aiMesh* aimesh, 
+		const aiScene* scene, 
+		const Ref<Scene>& context,
+		const std::filesystem::path& dataRelativeDir)
 	{
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
@@ -192,7 +200,7 @@ namespace Hazel
 			//取出材质
 			aiMaterial* material = scene->mMaterials[aimesh->mMaterialIndex];
 			textures.emplace_back(ProcessTexture(entity, material, 
-				aiTextureType_DIFFUSE, scene, dataRelativeDir));
+				aiTextureType_DIFFUSE, scene, context, dataRelativeDir));
 		}
 
 		return { CreateRef<UniqueMesh>(vertices, indices), textures };
@@ -203,6 +211,7 @@ namespace Hazel
 		const aiMaterial* material,
 		const aiTextureType& type,
 		const aiScene* scene,
+		const Ref<Scene>& context,
 		const std::filesystem::path& dataRelativeDir)
 	{
 		aiString aiPath;
@@ -211,9 +220,8 @@ namespace Hazel
 			return 0;
 
 		//先检查缓存是否有纹理
-		auto iter = s_TextureCache.find(std::string(aiPath.C_Str()));
-		if (iter != s_TextureCache.end())
-			return iter->second;
+		if (context->m_Texture2DCache.Exists(aiPath.C_Str()))
+			return context->m_Texture2DCache.Get(aiPath.C_Str());
 
 		//部分模型在导出的时候，会把纹理图片打包到比如fbx格式当中，被打包到模型里面的图片，称为embeddedTexture 
 		const aiTexture* assimpTexture = scene->GetEmbeddedTexture(aiPath.C_Str());
@@ -247,8 +255,7 @@ namespace Hazel
 			std::string texFilePath = (g_AssetPath / dataRelativeDir / texPath.replace_extension("cpt")).string();
 			tex->Export(texFilePath);
 		}
-		s_TextureCache.emplace(aiPath.C_Str(), tex);
-
+		context->m_Texture2DCache.Set(aiPath.C_Str(), tex);
 		return tex;
 	}
 

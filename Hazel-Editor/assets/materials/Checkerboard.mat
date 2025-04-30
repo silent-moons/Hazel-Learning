@@ -1,6 +1,6 @@
 shader: UnlitBatch
 textures:
-  - assets/textures/Checkerboard.cpt
+  - assets\textures\Checkerboard.cpt
 properties:
   - name: Color
     type: color4

@@ -26,3 +26,15 @@
 3. 编辑器相机的简单修改，根据当前渲染模式是2D还是3D切换正交和透视模式。
 4. 不可合批物体与模型读取，模型网格和纹理的序列化。
 5. 纹理的压缩。
+6. 简单的材质系统。
+7. 简单的资产管理器。
+
+### 部分功能演示
+2D场景和编辑器的一些操作。
+![2D场景，编辑器的操作](https://github.com/silent-moons/Hazel-Learning/blob/main/Examples/2D-Scene-And-Editor-Operation.gif)
+
+2D物理，脚本控制相机移动。
+![2D物理和脚本](https://github.com/silent-moons/Hazel-Learning/blob/main/Examples/2D-Physics-And-Script.gif)
+
+模型导入和场景序列化。
+![模型导入](https://github.com/silent-moons/Hazel-Learning/blob/main/Examples/Import-Model.gif)
